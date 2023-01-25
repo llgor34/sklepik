@@ -33,7 +33,7 @@ app.post('/login', async (req, res) => {
 	});
 });
 
-app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
+// app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
 
 app.listen(port, () => {
 	console.log(`⚡ Server running at: http://localhost:${port}`);

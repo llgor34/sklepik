@@ -13,10 +13,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('login', { password }).pipe(
+    return this.http.post<LoginResponse>('api/login', { password }).pipe(
       tap((res) => {
-        this.user = res.user;
+        if (!res.user || !res.token) {
+          return;
+        }
 
+        this.user = res.user;
         localStorage.setItem('user', JSON.stringify(res.user));
         localStorage.setItem('token', res.token);
       })
