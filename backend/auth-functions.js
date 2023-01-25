@@ -20,7 +20,7 @@ function verifyAccessToken(req, res, next) {
 
 	jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
 		if (err) {
-			showNotAuthorizedError(res);
+			return showNotAuthorizedError(res);
 		}
 
 		req.user = decoded;
