@@ -1,24 +1,38 @@
 const express = require('express');
-const dbFunctions = require('./db-functions');
-const authFunctions = require('./auth-functions');
+const { findOne } = require('./db-functions');
+const { generateAccessToken, verifyAccessToken } = require('./auth-functions');
 
 const port = 3000;
 const app = express();
 
-app.get('/login', async (req, res) => {
-	const password = '123';
+app.use(express.json());
 
-	const user = await dbFunctions.findOne('pracownicy', { haslo: password });
+app.post('/login', async (req, res) => {
+	const password = req.body?.password;
 
-	if (!user) {
-		return res.status(401).send({ errorCode: 'USER_NOT_FOUND' });
+	if (!password) {
+		return res
+			.status(422)
+			.send({ ok: false, message: 'NO_PASSWORD_PROVIDED' });
 	}
 
-	const token = authFunctions.generateAccessToken(user._id);
+	const user = await findOne('pracownicy', { haslo: password });
 
-	return res.send(token);
+	if (!user) {
+		return res.status(401).send({ ok: false, message: 'USER_NOT_FOUND' });
+	}
+
+	const token = generateAccessToken(user);
+
+	return res.send({
+		ok: true,
+		token,
+		user: { name: user.imie, surname: user.nazwisko, role: user.role },
+	});
 });
 
-app.listen(port, () =>
-	console.log(`⚡ Server running at: http://localhost:${port}`)
-);
+app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
+
+app.listen(port, () => {
+	console.log(`⚡ Server running at: http://localhost:${port}`);
+});
