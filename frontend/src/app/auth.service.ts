@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { LoginResponse } from './interfaces/loginResponse.interface';
 import { User } from './interfaces/user.interface';
 
@@ -14,6 +14,7 @@ export class AuthService {
 
   login(password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('api/login', { password }).pipe(
+      catchError((res) => of(res.error)),
       tap((res) => {
         if (!res.user || !res.token) {
           return;

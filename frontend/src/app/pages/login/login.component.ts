@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 
 @Component({
@@ -7,21 +8,21 @@ import { AuthService } from 'src/app/auth.service';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  form!: FormGroup;
+  isPasswordInvalid = false;
 
-  constructor(fb: FormBuilder, private authService: AuthService) {
-    this.form = fb.group({
-      password: ['', Validators.required],
-    });
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  get passwordControl() {
-    return this.form.controls['password'];
-  }
+  formSubmit(form: NgForm) {
+    this.authService.login(form.value.password).subscribe((res) => {
+      this.isPasswordInvalid = false;
 
-  formSubmit() {
-    this.authService.login(this.passwordControl.value).subscribe((res) => {
-      console.log(res);
+      if (!res.ok) {
+        form.reset();
+        this.isPasswordInvalid = true;
+        return;
+      }
+
+      this.router.navigate(['/main']);
     });
   }
 }

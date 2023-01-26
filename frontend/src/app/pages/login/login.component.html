@@ -2,19 +2,22 @@
   <div class="col d-flex flex-column align-items-center">
     <h1 class="mb-5">Witamy na stronie "Zegowskiej Szamy"</h1>
     <form
-      [formGroup]="form"
-      (ngSubmit)="formSubmit()"
+      #form="ngForm"
+      (ngSubmit)="formSubmit(form)"
       class="w-50 d-flex flex-column"
     >
       <div class="form-group">
         <label for="password">Hasło:</label>
         <input
           class="form-control"
-          formControlName="password"
+          name="password"
           type="password"
+          ngModel
+          required
+          #password="ngModel"
         />
       </div>
-      <button [disabled]="passwordControl.invalid" class="btn btn-primary mt-4">
+      <button [disabled]="password.invalid" class="btn btn-primary mt-4">
         Zaloguj się
       </button>
     </form>
