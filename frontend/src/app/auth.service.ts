@@ -34,6 +34,14 @@ export class AuthService {
     this.user = null;
   }
 
+  restoreSession() {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      this.user = JSON.parse(user);
+    }
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
