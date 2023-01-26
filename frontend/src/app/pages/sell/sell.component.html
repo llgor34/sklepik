@@ -12,3 +12,31 @@
     </div>
   </div>
 </form>
+<div class="overflow-auto mt-5">
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Lp.</td>
+        <td>Kod</td>
+        <td>Nazwa</td>
+        <td>Cena/szt</td>
+        <td>Ilosć</td>
+        <td>Suma</td>
+        <td>Opcje</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="5">Zapłata</td>
+        <td class="position-relative">
+          <input class="form-control" type="number" id="amountPayed" />
+          <span class="currency-field-addon">PLN</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">Reszta</td>
+        <td class="currency-addon" id="change">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,10 @@
+.currency-field-addon {
+  /* use position-relative on parent element */
+  position: absolute;
+  right: 10%;
+  top: 25%;
+}
+
+.currency-addon::after {
+  content: " PLN";
+}

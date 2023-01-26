@@ -18,7 +18,17 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { RolesPipe } from './pipes/roles.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent, SellComponent, RaportComponent, ArchiveComponent, OrdersComponent, RolesPipe],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    MainComponent,
+    SidebarComponent,
+    SellComponent,
+    RaportComponent,
+    ArchiveComponent,
+    OrdersComponent,
+    RolesPipe,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
