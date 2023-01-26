@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SidebarComponent } from './component/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainComponent],
+  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
