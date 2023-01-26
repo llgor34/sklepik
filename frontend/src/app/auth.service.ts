@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { LoginResponse } from './interfaces/loginResponse.interface';
 import { User } from './interfaces/user.interface';
@@ -10,7 +11,7 @@ import { User } from './interfaces/user.interface';
 export class AuthService {
   user: User | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('api/login', { password }).pipe(
@@ -32,6 +33,7 @@ export class AuthService {
     localStorage.removeItem('token');
 
     this.user = null;
+    this.router.navigate(['/login']);
   }
 
   restoreSession() {
