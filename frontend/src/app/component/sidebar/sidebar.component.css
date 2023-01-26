@@ -8,6 +8,10 @@ ul li {
   transition: 0.1s linear;
 }
 
+li.active {
+  color: #ff960c;
+}
+
 ul li:hover {
   cursor: pointer;
   background-color: #101418;
