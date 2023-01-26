@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+</head>
+<body>
+    <h1>User list</h1>
+    <ul>
+        {{#each users}}
+        <li>Name: {{this.name}}</li>
+        <li>Age: {{this.age}}</li>
+        {{/each}}
+    </ul>
+</body>
+</html>
