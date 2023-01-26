@@ -16,7 +16,10 @@
         #password="ngModel"
       />
     </div>
-    <button [disabled]="password.invalid" class="btn btn-primary mt-4">
+    <span *ngIf="isPasswordInvalid" class="text-danger"
+      >Niepoprawne hasło!</span
+    >
+    <button [disabled]="password.invalid" class="btn btn-primary mt-3">
       Zaloguj się
     </button>
   </form>
