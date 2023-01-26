@@ -1,0 +1,50 @@
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 10px;
+  transition: 0.1s linear;
+}
+
+ul li:hover {
+  cursor: pointer;
+  background-color: #101418;
+}
+
+button {
+  rotate: 180deg;
+}
+
+button.open {
+  rotate: 360deg;
+}
+
+nav.open {
+  width: 10rem;
+}
+
+nav.open span {
+  display: inline;
+}
+
+nav {
+  width: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+nav span {
+  display: none;
+  margin-left: 0;
+}
+
+nav.open ul li span {
+  margin-left: 5px;
+}
+
+nav ul {
+  flex-grow: 1;
+}
