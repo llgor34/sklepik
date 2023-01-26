@@ -15,9 +15,10 @@ import { SellComponent } from './pages/sell/sell.component';
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { RolesPipe } from './pipes/roles.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent, SellComponent, RaportComponent, ArchiveComponent, OrdersComponent],
+  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent, SellComponent, RaportComponent, ArchiveComponent, OrdersComponent, RolesPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,
