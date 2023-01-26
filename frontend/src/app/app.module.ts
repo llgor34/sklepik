@@ -11,9 +11,13 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { initializeApp } from './app.initializer';
 import { AuthService } from './auth.service';
+import { SellComponent } from './pages/sell/sell.component';
+import { RaportComponent } from './pages/raport/raport.component';
+import { ArchiveComponent } from './pages/archive/archive.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent],
+  declarations: [AppComponent, LoginComponent, MainComponent, SidebarComponent, SellComponent, RaportComponent, ArchiveComponent, OrdersComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
