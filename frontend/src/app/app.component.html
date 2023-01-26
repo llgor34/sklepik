@@ -1,5 +1,5 @@
 <div class="container-fluid d-flex p-0">
-  <app-sidebar></app-sidebar>
+  <app-sidebar *ngIf="authService.user"></app-sidebar>
   <div class="mx-auto">
     <router-outlet></router-outlet>
   </div>
