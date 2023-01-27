@@ -20,6 +20,7 @@ ul li:hover {
 
 button {
   rotate: 180deg;
+  transition: 0.2s;
 }
 
 button.open {
