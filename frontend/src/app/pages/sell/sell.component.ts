@@ -30,8 +30,18 @@ export class SellComponent implements DoCheck {
     this.calculateProductsSum();
   }
 
-  insertSell() {
-    this.sellService.insertSell(this.products).subscribe(console.log);
+  submitSell() {
+    this.sellService.insertSell(this.products).subscribe({
+      next: () => {
+        this.resetProductCodeControl();
+        this.resetProducts();
+        this.sum = 0;
+        this.amountPayed = 0;
+        this.exchange = 0;
+
+        this.focusProductCodeControl();
+      },
+    });
   }
 
   calculateProductsSum() {
@@ -50,26 +60,46 @@ export class SellComponent implements DoCheck {
     this.productsService
       .getProductByCode(this.productCode)
       .subscribe((product) => {
-        this.productCodeControl.nativeElement.focus();
+        this.focusProductCodeControl();
         if (!product) return;
 
-        const existingProduct = this.products.filter(
-          (productInArray) => productInArray.kod == product.kod
-        )[0];
+        const existingProduct = this.getExistingProduct(product);
 
         if (existingProduct) {
           this.products[this.products.indexOf(existingProduct)].ilosc++;
-          this.productCode = null;
+          this.resetProductCodeControl();
           return;
         }
 
-        this.products.push(product);
-        this.productCode = null;
+        this.addProduct(product);
+        this.resetProductCodeControl();
       });
+  }
+
+  addProduct(product: Product) {
+    this.products.push(product);
   }
 
   removeProduct(idx: number) {
     this.products.splice(idx, 1);
+  }
+
+  getExistingProduct(product: Product) {
+    return this.products.filter(
+      (productInArray) => productInArray.kod == product.kod
+    )[0];
+  }
+
+  focusProductCodeControl() {
+    this.productCodeControl.nativeElement.focus();
+  }
+
+  resetProductCodeControl() {
+    this.productCode = null;
+  }
+
+  resetProducts() {
+    this.products = [];
   }
 
   get userFullname() {
