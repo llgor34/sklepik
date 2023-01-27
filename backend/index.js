@@ -40,7 +40,12 @@ app.get('/product/:id', verifyAccessToken, async (req, res) => {
 
 app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 	const { products } = req.body;
-	const sell = {
+
+	if (products.length > 1) {
+		return res.status(422).send({ ok: false, message: 'PRODUCTS_NOT_PROVIDED' });
+	}
+
+	const sellObj = {
 		id_pracownika: req.user._id,
 		lista_zakupow: products.map(product => ({
 			id_artykulu: product._id,
@@ -49,8 +54,9 @@ app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 		})),
 	};
 
-	// console.log(await await getLastElementInCollection('zamkniecie_sprzedazy'));
-	// console.log(await updateOne('zamkniecie_sprzedazy', { _id: '63d3e0e646fba04baacc1058' }));
+	const lastSellDocument = await getLastElementInCollection('zamkniecie_sprzedazy');
+	await updateOne('zamkniecie_sprzedazy', { _id: lastSellDocument._id }, { $push: { sprzedane_towary: sellObj } });
+
 	res.send({ ok: true, message: 'SELL_CREATED' });
 });
 

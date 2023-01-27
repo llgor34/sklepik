@@ -16,21 +16,19 @@ async function findOne(collectionName, condition) {
 async function updateOne(collectionName, condition, data) {
 	await dbClient.connect();
 
-	const collection = dbClient.db('sklepik').collection(collectionName);
-	// await collection.updateOne(condition, data);
-	const res = await collection.findOne(condition);
+	await dbClient.db('sklepik').collection(collectionName).updateOne(condition, data);
 
 	await dbClient.close();
-
-	return res;
 }
 
 async function getLastElementInCollection(collectionName) {
 	await dbClient.connect();
-	const lastElement = dbClient.db('sklepik').collection(collectionName).find().limit(1).sort({ $natural: -1 });
+
+	const lastElement = await dbClient.db('sklepik').collection(collectionName).find().sort({ _id: -1 }).limit(1).toArray();
+
 	await dbClient.close();
 
-	return lastElement;
+	return lastElement[0];
 }
 
 module.exports = { findOne, updateOne, getLastElementInCollection };
