@@ -57,18 +57,30 @@
       </tr>
       <tr>
         <td colspan="5">SUMA</td>
-        <td class="currency-addon">0</td>
+        <td class="currency-addon">{{ sum }}</td>
       </tr>
       <tr>
         <td colspan="5">Zapłata</td>
         <td class="position-relative">
-          <input class="form-control" type="number" id="amountPayed" />
+          <input
+            class="form-control"
+            type="number"
+            name="amountPayed"
+            [(ngModel)]="amountPayed"
+            min="0"
+          />
           <span class="currency-field-addon">PLN</span>
         </td>
       </tr>
       <tr>
         <td colspan="5">Reszta</td>
-        <td class="currency-addon" id="change">0</td>
+        <td
+          class="currency-addon"
+          id="change"
+          [ngClass]="{ 'text-danger': amountPayed - sum > 0 }"
+        >
+          {{ amountPayed - sum < 0 ? 0 : amountPayed - sum }}
+        </td>
       </tr>
     </tbody>
   </table>

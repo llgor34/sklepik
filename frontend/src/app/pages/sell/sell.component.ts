@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/products.service';
@@ -8,9 +8,13 @@ import { ProductsService } from 'src/app/products.service';
   templateUrl: './sell.component.html',
   styleUrls: ['./sell.component.css'],
 })
-export class SellComponent {
+export class SellComponent implements DoCheck {
   products: Product[] = [];
   productCode: number | null = null;
+
+  sum = 0;
+  amountPayed = 0;
+  exchange = 0;
 
   @ViewChild('productCodeControl', { static: true })
   productCodeControl!: ElementRef;
@@ -20,12 +24,18 @@ export class SellComponent {
     private productsService: ProductsService
   ) {}
 
-  get userFullname() {
-    return `${this.authService.user!.name} ${this.authService.user!.surname}`;
+  ngDoCheck(): void {
+    this.calculateProductsSum();
   }
 
-  get roles() {
-    return this.authService.user!.role;
+  calculateProductsSum() {
+    let newProductsSum = 0;
+
+    for (const product of this.products) {
+      newProductsSum += product.cena * product.ilosc;
+    }
+
+    this.sum = newProductsSum;
   }
 
   getProuduct() {
@@ -54,5 +64,13 @@ export class SellComponent {
 
   removeProduct(idx: number) {
     this.products.splice(idx, 1);
+  }
+
+  get userFullname() {
+    return `${this.authService.user!.name} ${this.authService.user!.surname}`;
+  }
+
+  get roles() {
+    return this.authService.user!.role;
   }
 }
