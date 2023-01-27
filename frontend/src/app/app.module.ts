@@ -17,6 +17,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { RolesPipe } from './pipes/roles.pipe';
 import { RoleDirective } from './directives/role.directive';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { RoleDirective } from './directives/role.directive';
     HttpClientModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: APP_INITIALIZER,

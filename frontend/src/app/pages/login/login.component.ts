@@ -13,16 +13,16 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   formSubmit(form: NgForm) {
-    this.authService.login(form.value.password).subscribe((res) => {
-      this.isPasswordInvalid = false;
-
-      if (!res.ok) {
+    this.authService.login(form.value.password).subscribe({
+      next: () => {
+        this.isPasswordInvalid = false;
+        this.router.navigate(['/main']);
+      },
+      error: () => {
         form.reset();
         this.isPasswordInvalid = true;
         return;
-      }
-
-      this.router.navigate(['/main']);
+      },
     });
   }
 }

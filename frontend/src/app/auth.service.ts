@@ -16,7 +16,6 @@ export class AuthService {
 
   login(password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('api/login', { password }).pipe(
-      catchError((res) => of(res.error)),
       tap((res) => {
         if (!res.user || !res.token) {
           return;
