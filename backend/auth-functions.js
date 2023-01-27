@@ -3,7 +3,7 @@ require('dotenv').config();
 
 function generateAccessToken(user) {
 	return jwt.sign({ _id: user._id, roles: user.role }, process.env.TOKEN_SECRET, {
-		expiresIn: '1800s',
+		expiresIn: '1800000s',
 	});
 }
 

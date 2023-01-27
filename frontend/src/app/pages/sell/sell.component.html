@@ -2,10 +2,18 @@
 <form class="mt-5">
   <div class="row">
     <div class="col">
-      <input class="form-control" type="number" name="produkt_id" />
+      <input
+        class="form-control"
+        type="number"
+        name="productCode"
+        #productCodeControl
+        [(ngModel)]="productCode"
+      />
     </div>
     <div class="col">
-      <button class="btn btn-primary" type="submit">Wyszukaj</button>
+      <button (click)="getProuduct()" class="btn btn-primary" type="submit">
+        Wyszukaj
+      </button>
     </div>
     <div class="col">
       <button class="btn btn-warning w-100">Zakończ sprzedaż</button>
@@ -26,15 +34,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>5254</td>
-        <td>kefir</td>
-        <td class="currency-addon">3.5</td>
-        <td>5</td>
-        <td class="currency-addon">17.5</td>
+      <tr *ngFor="let product of products; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ product.kod }}</td>
+        <td>{{ product.nazwa_krotka }}</td>
+        <td class="currency-addon">{{ product.cena }}</td>
         <td>
-          <button class="btn btn-danger">usuń</button>
+          <input
+            class="form-control"
+            [name]="product._id"
+            [(ngModel)]="product.ilosc"
+            min="1"
+            type="number"
+          />
+        </td>
+        <td class="currency-addon">{{ product.cena * product.ilosc }}</td>
+        <td>
+          <button (click)="removeProduct(i)" class="btn btn-danger">
+            usuń
+          </button>
         </td>
       </tr>
       <tr>

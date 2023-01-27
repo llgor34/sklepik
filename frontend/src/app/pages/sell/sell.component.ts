@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
+import { Product } from 'src/app/interfaces/product.interface';
+import { ProductsService } from 'src/app/products.service';
 
 @Component({
   selector: 'app-sell',
@@ -7,7 +9,16 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./sell.component.css'],
 })
 export class SellComponent {
-  constructor(private authService: AuthService) {}
+  products: Product[] = [];
+  productCode: number | null = null;
+
+  @ViewChild('productCodeControl', { static: true })
+  productCodeControl!: ElementRef;
+
+  constructor(
+    private authService: AuthService,
+    private productsService: ProductsService
+  ) {}
 
   get userFullname() {
     return `${this.authService.user!.name} ${this.authService.user!.surname}`;
@@ -15,5 +26,33 @@ export class SellComponent {
 
   get roles() {
     return this.authService.user!.role;
+  }
+
+  getProuduct() {
+    if (!this.productCode) return;
+
+    this.productsService
+      .getProductByCode(this.productCode)
+      .subscribe((product) => {
+        this.productCodeControl.nativeElement.focus();
+        if (!product) return;
+
+        const existingProduct = this.products.filter(
+          (productInArray) => productInArray.kod == product.kod
+        )[0];
+
+        if (existingProduct) {
+          this.products[this.products.indexOf(existingProduct)].ilosc++;
+          this.productCode = null;
+          return;
+        }
+
+        this.products.push(product);
+        this.productCode = null;
+      });
+  }
+
+  removeProduct(idx: number) {
+    this.products.splice(idx, 1);
   }
 }
