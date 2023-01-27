@@ -2,6 +2,7 @@ import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/products.service';
+import { SellService } from 'src/app/sell.service';
 
 @Component({
   selector: 'app-sell',
@@ -21,11 +22,16 @@ export class SellComponent implements DoCheck {
 
   constructor(
     private authService: AuthService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private sellService: SellService
   ) {}
 
   ngDoCheck(): void {
     this.calculateProductsSum();
+  }
+
+  insertSell() {
+    this.sellService.insertSell(this.products).subscribe(console.log);
   }
 
   calculateProductsSum() {
@@ -38,7 +44,7 @@ export class SellComponent implements DoCheck {
     this.sum = newProductsSum;
   }
 
-  getProuduct() {
+  getProduct() {
     if (!this.productCode) return;
 
     this.productsService

@@ -11,12 +11,14 @@
       />
     </div>
     <div class="col">
-      <button (click)="getProuduct()" class="btn btn-primary" type="submit">
+      <button (click)="getProduct()" class="btn btn-primary" type="submit">
         Wyszukaj
       </button>
     </div>
     <div class="col">
-      <button class="btn btn-warning w-100">Zakończ sprzedaż</button>
+      <button (click)="insertSell()" class="btn btn-warning w-100">
+        Zakończ sprzedaż
+      </button>
     </div>
   </div>
 </form>
