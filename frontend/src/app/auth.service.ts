@@ -10,6 +10,7 @@ import { User } from './interfaces/user.interface';
 })
 export class AuthService {
   user: User | null = null;
+  token: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -22,15 +23,14 @@ export class AuthService {
         }
 
         this.user = res.user;
-        localStorage.setItem('user', JSON.stringify(res.user));
-        localStorage.setItem('token', res.token);
+        this.token = res.token;
+        this.saveAuthDataInLocalStorage();
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.deleteAuthDataFromLocalStorage();
 
     this.user = null;
     this.router.navigate(['/login']);
@@ -38,13 +38,25 @@ export class AuthService {
 
   restoreSession() {
     const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
-    if (user) {
+    if (user && token) {
       this.user = JSON.parse(user);
+      this.token = token;
     }
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  saveAuthDataInLocalStorage() {
+    localStorage.setItem('user', JSON.stringify(this.user!));
+    localStorage.setItem('token', this.token!);
+  }
+
+  deleteAuthDataFromLocalStorage() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }
+
+  getRoles() {
+    return this.user!.role;
   }
 }

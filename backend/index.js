@@ -11,25 +11,21 @@ app.use(express.json());
 
 app.post('/login', async (req, res) => {
 	const password = req.body?.password;
-
 	if (!password) {
-		return res
-			.status(422)
-			.send({ ok: false, message: 'NO_PASSWORD_PROVIDED' });
+		return res.status(422).send({ ok: false, message: 'PASSWORD_NOT_PROVIDED' });
 	}
 
 	const user = await findOne('pracownicy', { haslo: password });
-
 	if (!user) {
 		return res.status(401).send({ ok: false, message: 'USER_NOT_FOUND' });
 	}
 
 	const token = generateAccessToken(user);
-
 	return res.send({
 		ok: true,
-		token,
+		message: 'USER_LOGGED_IN',
 		user: { name: user.imie, surname: user.nazwisko, role: user.role },
+		token,
 	});
 });
 

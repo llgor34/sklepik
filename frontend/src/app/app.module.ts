@@ -16,6 +16,7 @@ import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { RolesPipe } from './pipes/roles.pipe';
+import { RoleDirective } from './directives/role.directive';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { RolesPipe } from './pipes/roles.pipe';
     ArchiveComponent,
     OrdersComponent,
     RolesPipe,
+    RoleDirective,
   ],
   imports: [
     BrowserModule,
