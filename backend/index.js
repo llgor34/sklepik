@@ -31,6 +31,13 @@ app.post('/login', async (req, res) => {
 
 // app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
 
+app.get('/product/:id', verifyAccessToken, async (req, res) => {
+	const productCode = req.params.id;
+	const product = await findOne('artykuly', { kod: productCode });
+
+	return res.send({ ok: true, message: 'SUCCESS', product: product });
+});
+
 app.listen(port, () => {
 	console.log(`⚡ Server running at: http://localhost:${port}`);
 });

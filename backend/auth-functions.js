@@ -11,12 +11,12 @@ function verifyAccessToken(req, res, next) {
 	const token = req.headers.authorization?.split(' ')[1];
 
 	if (!token) {
-		return res.status(401).send({ ok: false, message: 'TOKEN_NOT_PROVIDED' });
+		return res.status(401).send({ ok: false, message: 'AUTH_TOKEN_NOT_PROVIDED' });
 	}
 
 	jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
 		if (err) {
-			return res.status(401).send({ ok: false, message: 'TOKEN_INVALID' });
+			return res.status(401).send({ ok: false, message: 'AUTH_TOKEN_INVALID' });
 		}
 
 		req.user = decoded;
