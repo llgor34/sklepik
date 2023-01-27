@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { findOne } = require('./db-functions');
+const { findOne, updateOne, getLastElementInCollection } = require('./db-functions');
 const { generateAccessToken, verifyAccessToken } = require('./auth-functions');
 
 const port = 3000;
@@ -36,6 +36,22 @@ app.get('/product/:id', verifyAccessToken, async (req, res) => {
 	const product = await findOne('artykuly', { kod: productCode });
 
 	return res.send({ ok: true, message: 'SUCCESS', product: product });
+});
+
+app.post('/sell/insert', verifyAccessToken, async (req, res) => {
+	const { products } = req.body;
+	const sell = {
+		id_pracownika: req.user._id,
+		lista_zakupow: products.map(product => ({
+			id_artykulu: product._id,
+			cena: product.cena,
+			ilosc: product.ilosc,
+		})),
+	};
+
+	// console.log(await await getLastElementInCollection('zamkniecie_sprzedazy'));
+	// console.log(await updateOne('zamkniecie_sprzedazy', { _id: '63d3e0e646fba04baacc1058' }));
+	res.send({ ok: true, message: 'SELL_CREATED' });
 });
 
 app.listen(port, () => {
