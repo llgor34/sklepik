@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <table style="border: 1px solid black;">
+        <tr>
+            <td style="text-align: center; font-size: 80%;">
+                Spółdzielnia Uczniowska<br>
+                ZEG<br>
+                w Zespole Szkół nr 4<br>
+                43-100 Tychy, al. Bielska 100
+            </td>
+            <td>
+                <b>Dowód wpłaty<br>
+                Pokwitowanie<br></b>
+                {{this.data}}
+            </td>
+            <td>
+                <b>KP</b> nr {{this.numer}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <i>Od kogo</i><br>
+                {{this.od_kogo}}
+            </td>
+            <td style="text-align: center;">
+                <b>Winien</b><br>
+                Kasa
+            </td>
+        </tr>
+        {{#each pozycje}}
+        <tr>
+            <td colspan="2">
+                {{this.opis - this.numer_dokumentu}}
+            </td>
+            <td>
+                {{this.kwota | currency: ""}} zł
+            </td>
+        </tr>
+        {{/each}}
+        <tr>
+            <td colspan="2" style="text-align: right;">
+                <b>RAZEM</b>
+            </td>
+            <td>
+                {{this.kwota | currency: ""}} zł
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <i>Wystawił</i>
+            </td>
+            <td>
+                <i>Raport kasowy</i><br>
+                Nr {{'numer RK'}} <br>
+                poz. {{'id w tablicy poz. + 1'}}
+            </td>
+            <td style="vertical-align: top; text-align: center;">
+                <i>Kwotę powyższą otrzymałem</i>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
