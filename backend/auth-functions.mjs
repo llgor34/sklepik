@@ -1,13 +1,15 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-function generateAccessToken(user) {
+dotenv.config();
+
+export function generateAccessToken(user) {
 	return jwt.sign({ _id: user._id, roles: user.role }, process.env.TOKEN_SECRET, {
 		expiresIn: '1800000s',
 	});
 }
 
-function verifyAccessToken(req, res, next) {
+export function verifyAccessToken(req, res, next) {
 	const token = req.headers.authorization?.split(' ')[1];
 
 	if (!token) {
@@ -23,5 +25,3 @@ function verifyAccessToken(req, res, next) {
 		next();
 	});
 }
-
-module.exports = { generateAccessToken, verifyAccessToken };

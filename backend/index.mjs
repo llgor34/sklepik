@@ -1,7 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const { findOne, updateOne, getLastElementInCollection } = require('./db-functions');
-const { generateAccessToken, verifyAccessToken } = require('./auth-functions');
+import express from 'express';
+import cors from 'cors';
+
+import { generateAccessToken, verifyAccessToken } from './auth-functions.mjs';
+import { pracownicy } from './mongoose/pracownicy.mjs';
+import { artykuly } from './mongoose/artykuly.mjs';
+import { zamkniecie_sprzedazy } from './mongoose/zamkniecie-sprzedazy.mjs';
 
 const port = 3000;
 const app = express();
@@ -15,7 +18,7 @@ app.post('/login', async (req, res) => {
 		return res.status(422).send({ ok: false, message: 'PASSWORD_NOT_PROVIDED' });
 	}
 
-	const user = await findOne('pracownicy', { haslo: password });
+	const user = await pracownicy.findOne({ haslo: password });
 	if (!user) {
 		return res.status(401).send({ ok: false, message: 'USER_NOT_FOUND' });
 	}
@@ -33,7 +36,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/product/:id', verifyAccessToken, async (req, res) => {
 	const productCode = req.params.id;
-	const product = await findOne('artykuly', { kod: productCode });
+	const product = await artykuly.findOne({ kod: productCode });
 
 	return res.send({ ok: true, message: 'SUCCESS', product: product });
 });
@@ -41,7 +44,7 @@ app.get('/product/:id', verifyAccessToken, async (req, res) => {
 app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 	const { products } = req.body;
 
-	if (products.length > 1) {
+	if (products.length < 1) {
 		return res.status(422).send({ ok: false, message: 'PRODUCTS_NOT_PROVIDED' });
 	}
 
@@ -54,8 +57,7 @@ app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 		})),
 	};
 
-	const lastSellDocument = await getLastElementInCollection('zamkniecie_sprzedazy');
-	await updateOne('zamkniecie_sprzedazy', { _id: lastSellDocument._id }, { $push: { sprzedane_towary: sellObj } });
+	await zamkniecie_sprzedazy.findOneAndUpdate({}, { $push: { sprzedane_towary: sellObj } }).sort({ _id: -1 });
 
 	res.send({ ok: true, message: 'SELL_CREATED' });
 });
