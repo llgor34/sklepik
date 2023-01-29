@@ -17,12 +17,12 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    canMatch: [NotAuthenticatedGuard],
+    canActivate: [NotAuthenticatedGuard],
     component: LoginComponent,
   },
   {
     path: '',
-    canMatch: [AuthenticatedGuard],
+    canActivateChild: [AuthenticatedGuard],
     children: [
       {
         path: 'main',

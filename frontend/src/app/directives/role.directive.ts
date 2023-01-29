@@ -25,7 +25,6 @@ export class RoleDirective implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.userRoles);
     if (this.hasPermission()) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       return;

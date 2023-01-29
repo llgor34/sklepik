@@ -1,14 +1,31 @@
 import { Injectable } from '@angular/core';
-import { CanMatch, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticatedGuard implements CanMatch {
+export class AuthenticatedGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canMatch() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.canUserActivate();
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ) {
+    return this.canUserActivate();
+  }
+
+  canUserActivate() {
     if (!this.authService.user) {
       return this.router.createUrlTree(['/login']);
     }

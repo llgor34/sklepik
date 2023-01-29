@@ -4,15 +4,25 @@ import {
   HttpHandler,
   HttpInterceptor,
 } from '@angular/common/http';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
-    return next
-      .handle(request)
-      .pipe(catchError((res) => throwError(() => res.error)));
+    return next.handle(request).pipe(
+      catchError(({ error }) => {
+        switch (error.message) {
+          case 'AUTH_TOKEN_NOT_PROVIDED':
+          case 'AUTH_TOKEN_EXPIRED':
+            this.authService.logout();
+            break;
+        }
+
+        return throwError(() => error);
+      })
+    );
   }
 }

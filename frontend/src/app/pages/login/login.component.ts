@@ -21,7 +21,6 @@ export class LoginComponent {
       error: () => {
         form.reset();
         this.isPasswordInvalid = true;
-        return;
       },
     });
   }

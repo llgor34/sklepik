@@ -1,16 +1,20 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
-import { generateAccessToken, verifyAccessToken } from './auth-functions.mjs';
+import { generateAccessToken, verifyAccessToken, signJWTCookie } from './auth-functions.mjs';
 import { pracownicy } from './mongoose/pracownicy.mjs';
 import { artykuly } from './mongoose/artykuly.mjs';
 import { zamkniecie_sprzedazy } from './mongoose/zamkniecie-sprzedazy.mjs';
 
+dotenv.config();
 const port = 3000;
 const app = express();
 
 app.use(cors({ origin: ['localhost:4200', '127.0.0.1:4200'] }));
 app.use(express.json());
+app.use(cookieParser(process.env.SECRET));
 
 app.post('/login', async (req, res) => {
 	const password = req.body?.password;
@@ -24,11 +28,12 @@ app.post('/login', async (req, res) => {
 	}
 
 	const token = generateAccessToken(user);
+	signJWTCookie(res, token);
+
 	return res.send({
 		ok: true,
 		message: 'USER_LOGGED_IN',
 		user: { name: user.imie, surname: user.nazwisko, role: user.role },
-		token,
 	});
 });
 
@@ -58,7 +63,6 @@ app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 	};
 
 	await zamkniecie_sprzedazy.findOneAndUpdate({}, { $push: { sprzedane_towary: sellObj } }).sort({ _id: -1 });
-
 	res.send({ ok: true, message: 'SELL_CREATED' });
 });
 

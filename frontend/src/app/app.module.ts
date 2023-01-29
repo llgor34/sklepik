@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { initializeApp } from './app.initializer';
 import { AuthService } from './auth.service';
@@ -41,7 +40,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
