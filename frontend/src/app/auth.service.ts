@@ -13,17 +13,19 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('api/login', { password }).pipe(
-      tap((res) => {
-        if (!res.user) {
-          return;
-        }
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>('api/login', { username, password })
+      .pipe(
+        tap((res) => {
+          if (!res.user) {
+            return;
+          }
 
-        this.user = res.user;
-        localStorage.setItem('user', JSON.stringify(this.user!));
-      })
-    );
+          this.user = res.user;
+          localStorage.setItem('user', JSON.stringify(this.user!));
+        })
+      );
   }
 
   logout() {

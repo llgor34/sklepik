@@ -3,6 +3,7 @@ import { db } from './index.mjs';
 const workerSchema = new db.Schema({
 	imie: String,
 	nazwisko: String,
+	nazwa_uzytkownika: String,
 	haslo: String,
 	role: [String],
 	udzialy: {
