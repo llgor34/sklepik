@@ -1,0 +1,21 @@
+.card img {
+  height: 150px;
+}
+
+.card {
+  width: 18rem;
+  transition: 0.2s all ease;
+}
+
+.card:hover * {
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #eee;
+  scale: 105%;
+}
+
+.card:active {
+  scale: 95%;
+}
