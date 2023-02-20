@@ -12,7 +12,7 @@ export class RaportComponent {
       imageUrl: 'assets/img1.png',
       title: 'Protokół zamknięcia',
       description: 'Wygeneruj dzienny raport zamknięcia sklepiku.',
-      url: '/closement-protocol',
+      url: 'closement-protocol',
     },
   ];
 }

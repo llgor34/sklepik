@@ -1,0 +1,29 @@
+table {
+  border: 1px black solid;
+}
+
+table tr td {
+  border: 1px black solid;
+  padding: 5px;
+}
+
+table tr th {
+  border: 1px black solid;
+  padding: 5px;
+}
+
+table {
+  text-align: center;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signature {
+  height: 75px;
+}
+
+.signature td {
+  vertical-align: top;
+  font-size: 0.7em;
+}

@@ -6,6 +6,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { RaportComponent } from './pages/raport/raport.component';
 import { SellComponent } from './pages/sell/sell.component';
 
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'raport',
         component: RaportComponent,
+      },
+      {
+        path: 'raport/closement-protocol',
+        component: ClosementProtocolComponent,
       },
       {
         path: 'archive',

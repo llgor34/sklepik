@@ -17,6 +17,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { RolesPipe } from './pipes/roles.pipe';
 import { RoleDirective } from './directives/role.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     OrdersComponent,
     RolesPipe,
     RoleDirective,
+    ClosementProtocolComponent,
   ],
   imports: [
     BrowserModule,
