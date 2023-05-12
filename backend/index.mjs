@@ -8,6 +8,7 @@ import { sendErrorMessage } from './messages.mjs';
 import { pracownicy } from './mongoose/pracownicy.mjs';
 import { artykuly } from './mongoose/artykuly.mjs';
 import { zamkniecie_sprzedazy } from './mongoose/zamkniecie-sprzedazy.mjs';
+import { abonament_kawowy } from './mongoose/abonament-kawowy.mjs';
 import { ObjectId } from 'mongodb';
 
 dotenv.config();
@@ -55,6 +56,15 @@ app.get('/product/:id', verifyAccessToken, async (req, res) => {
 	const product = await artykuly.findOne({ kod: productCode });
 
 	return res.send({ ok: true, message: 'SUCCESS', product: product });
+});
+
+app.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
+	if (!req.user.roles.includes('admin')) {
+		return sendErrorMessage(res, 401, 'INSUFFICIENT_PERMISSIONS');
+	}
+
+	const coffeeSubscribers = await abonament_kawowy.find();
+	res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
 });
 
 app.post('/sell/insert', verifyAccessToken, async (req, res) => {
