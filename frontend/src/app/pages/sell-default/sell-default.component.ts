@@ -18,7 +18,7 @@ export class SellDefaultComponent {
       imageUrl: 'assets/coffee.png',
       title: 'Kawonament',
       description: 'Sprzedaż i obsługa abonamentów na kawe.',
-      url: 'coffee',
+      url: 'coffee-subscribers',
     },
   ];
 

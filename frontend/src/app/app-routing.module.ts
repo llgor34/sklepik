@@ -10,6 +10,7 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
+import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
           {
             path: 'products',
             component: SellProductsComponent,
+          },
+          {
+            path: 'coffee-subscribers',
+            component: SellCoffeeSubscribersComponent,
           },
         ],
       },

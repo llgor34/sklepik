@@ -20,6 +20,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
+import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CardTableComponent } from './component/card-table/card-table.component'
     ClosementProtocolComponent,
     SellDefaultComponent,
     CardTableComponent,
+    SellCoffeeSubscribersComponent,
   ],
   imports: [
     BrowserModule,
