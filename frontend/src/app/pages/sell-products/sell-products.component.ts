@@ -5,11 +5,11 @@ import { ProductsService } from 'src/app/products.service';
 import { SellService } from 'src/app/sell.service';
 
 @Component({
-  selector: 'app-sell',
-  templateUrl: './sell.component.html',
-  styleUrls: ['./sell.component.css'],
+  selector: 'app-sell-products',
+  templateUrl: './sell-products.component.html',
+  styleUrls: ['./sell-products.component.css'],
 })
-export class SellComponent implements DoCheck {
+export class SellProductsComponent implements DoCheck {
   products: Product[] = [];
   productCode: number | null = null;
 

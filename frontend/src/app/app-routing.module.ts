@@ -8,7 +8,8 @@ import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { RaportComponent } from './pages/raport/raport.component';
-import { SellComponent } from './pages/sell/sell.component';
+import { SellProductsComponent } from './pages/sell-products/sell-products.component';
+import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,16 @@ const routes: Routes = [
       },
       {
         path: 'sell',
-        component: SellComponent,
+        children: [
+          {
+            path: '',
+            component: SellDefaultComponent,
+          },
+          {
+            path: 'products',
+            component: SellProductsComponent,
+          },
+        ],
       },
       {
         path: 'orders',

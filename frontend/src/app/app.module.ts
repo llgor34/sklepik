@@ -10,7 +10,7 @@ import { MainComponent } from './pages/main/main.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { initializeApp } from './app.initializer';
 import { AuthService } from './auth.service';
-import { SellComponent } from './pages/sell/sell.component';
+import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
@@ -18,6 +18,7 @@ import { RolesPipe } from './pipes/roles.pipe';
 import { RoleDirective } from './directives/role.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
+import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +26,14 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
     LoginComponent,
     MainComponent,
     SidebarComponent,
-    SellComponent,
+    SellProductsComponent,
     RaportComponent,
     ArchiveComponent,
     OrdersComponent,
     RolesPipe,
     RoleDirective,
     ClosementProtocolComponent,
+    SellDefaultComponent,
   ],
   imports: [
     BrowserModule,
