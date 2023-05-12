@@ -1,14 +1,12 @@
 <h1>Kawonament</h1>
-<form>
-  <div class="row">
-    <div class="col">
-      <input class="form-control" type="text" />
-    </div>
-    <div class="col">
-      <button class="btn btn-primary" type="submit">Wyszukaj</button>
-    </div>
+<div class="row">
+  <div class="col">
+    <input class="form-control" type="text" />
   </div>
-</form>
+  <div class="col">
+    <button class="btn btn-primary" type="submit">Wyszukaj</button>
+  </div>
+</div>
 <div class="overflow-auto mt-5">
   <table class="table">
     <thead>
@@ -27,13 +25,20 @@
         <td>{{ subscriber.imie }}</td>
         <td>{{ subscriber.nazwisko }}</td>
         <td>{{ subscriber.liczba_pozostalych_kaw }}</td>
-        <td>{{ subscriber.daty_odebranych_kaw | lastElementOfArray }}</td>
+        <td [ngClass]="{ 'text-danger': isSubscriptionUsedToday(subscriber) }">
+          {{ subscriber.daty_odebranych_kaw | lastElementOfArray }}
+        </td>
         <td class="d-flex justify-content-between">
           <div class="d-flex">
             <button class="btn btn-success me-2">Zmodyfikuj o</button>
             <input style="width: 70px" class="form-control" type="number" />
           </div>
-          <button class="btn btn-warning">Użyj abonamentu</button>
+          <button
+            [disabled]="isSubscriptionUsedToday(subscriber)"
+            class="btn btn-warning"
+          >
+            Użyj abonamentu
+          </button>
         </td>
       </tr>
     </tbody>

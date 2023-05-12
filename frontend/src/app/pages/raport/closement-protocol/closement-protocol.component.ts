@@ -10,6 +10,6 @@ export class ClosementProtocolComponent {
   todayDate = '';
 
   constructor(dateService: DateService) {
-    this.todayDate = dateService.getShortTodayDate();
+    this.todayDate = dateService.getShortDate();
   }
 }

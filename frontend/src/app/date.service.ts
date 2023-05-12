@@ -5,7 +5,11 @@ import * as moment from 'moment';
   providedIn: 'root',
 })
 export class DateService {
-  getShortTodayDate() {
-    return moment().format('DD.MM.YY');
+  getShortDate() {
+    return moment().format('DD-MM-YY');
+  }
+
+  getFullDate() {
+    return moment().format('DD-MM-YYYY');
   }
 }
