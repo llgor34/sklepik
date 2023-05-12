@@ -66,11 +66,16 @@ app.post('/sell/insert', verifyAccessToken, async (req, res) => {
 
 	const sellObj = {
 		id_pracownika: new ObjectId(req.user._id),
-		lista_zakupow: products.map(product => ({
-			id_artykulu: new ObjectId(product._id),
-			cena: product.cena,
-			ilosc: product.ilosc,
-		})),
+		lista_zakupow: await Promise.all(
+			products.map(async product => {
+				const productFromDB = await artykuly.findOne({ _id: product._id });
+				return {
+					id_artykulu: new ObjectId(product._id),
+					cena: productFromDB.cena,
+					ilosc: product.ilosc,
+				};
+			})
+		),
 	};
 
 	await zamkniecie_sprzedazy.findOneAndUpdate({}, { $push: { sprzedane_towary: sellObj } }).sort({ _id: -1 });
