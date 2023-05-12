@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Raport } from 'src/app/interfaces/raport.interface';
+import { Card } from 'src/app/interfaces/raport.interface';
 
 @Component({
   selector: 'app-raport',
   templateUrl: './raport.component.html',
-  styleUrls: ['./raport.component.css'],
+  styleUrls: ['../card.css'],
 })
 export class RaportComponent {
-  raports: Raport[] = [
+  raports: Card[] = [
     {
       imageUrl: 'assets/img1.png',
       title: 'Protokół zamknięcia',

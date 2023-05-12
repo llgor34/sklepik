@@ -1,8 +1,6 @@
+<h1>Raporty</h1>
 <div class="row gy-4">
-  <div
-    class="col col-lg-3 d-flex justify-content-center"
-    *ngFor="let raport of raports"
-  >
+  <div class="col col-lg-3" *ngFor="let raport of raports">
     <div class="card" [routerLink]="raport.url">
       <img [src]="raport.imageUrl" class="card-img-top" alt="image" />
       <div class="card-body">
