@@ -21,7 +21,7 @@ export class SellProductsComponent implements DoCheck {
   productCodeControl!: ElementRef;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private productsService: ProductsService,
     private sellService: SellService
   ) {}
@@ -100,13 +100,5 @@ export class SellProductsComponent implements DoCheck {
 
   resetProducts() {
     this.products = [];
-  }
-
-  get userFullname() {
-    return `${this.authService.user!.name} ${this.authService.user!.surname}`;
-  }
-
-  get roles() {
-    return this.authService.user!.role;
   }
 }

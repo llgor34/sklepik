@@ -46,4 +46,13 @@ export class AuthService {
   getRoles() {
     return this.user!.role;
   }
+
+  getUsername() {
+    if (!this.user) {
+      return '';
+    }
+    return `${this.user.name} ${this.user.surname} - ${this.getRoles().join(
+      ','
+    )}`;
+  }
 }
