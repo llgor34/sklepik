@@ -8,5 +8,6 @@ export interface ErrorResponse extends Response {
     | 'PASSWORD_INVALID'
     | 'PRODUCTS_NOT_PROVIDED'
     | 'AUTH_TOKEN_NOT_PROVIDED'
-    | 'AUTH_TOKEN_EXPIRED';
+    | 'AUTH_TOKEN_EXPIRED'
+    | 'INSUFFICIENT_PERMISSIONS';
 }

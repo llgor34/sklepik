@@ -11,6 +11,7 @@ import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
+import { SellCoffeeSubscribersResolver } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.resolver';
 
 const routes: Routes = [
   {
@@ -45,6 +46,9 @@ const routes: Routes = [
           {
             path: 'coffee-subscribers',
             component: SellCoffeeSubscribersComponent,
+            resolve: {
+              coffeeSubscribers: SellCoffeeSubscribersResolver,
+            },
           },
         ],
       },
