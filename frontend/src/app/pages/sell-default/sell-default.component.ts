@@ -9,13 +9,13 @@ import { Card } from 'src/app/interfaces/raport.interface';
 export class SellDefaultComponent {
   cards: Card[] = [
     {
-      imageUrl: 'assets/img1.png',
+      imageUrl: 'assets/goods-and-services.png',
       title: 'Towary i produkty',
       description: 'Sprzedaż towarów, produktów, usług.',
       url: 'products',
     },
     {
-      imageUrl: 'assets/img1.png',
+      imageUrl: 'assets/coffee.png',
       title: 'Kawonament',
       description: 'Sprzedaż i obsługa abonamentów na kawe.',
       url: 'coffee',
