@@ -19,6 +19,7 @@ import { RoleDirective } from './directives/role.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
+import { CardTableComponent } from './component/card-table/card-table.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SellDefaultComponent } from './pages/sell-default/sell-default.componen
     RoleDirective,
     ClosementProtocolComponent,
     SellDefaultComponent,
+    CardTableComponent,
   ],
   imports: [
     BrowserModule,

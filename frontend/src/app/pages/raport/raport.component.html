@@ -1,12 +1,2 @@
 <h1>Raporty</h1>
-<div class="row gy-4">
-  <div class="col col-lg-3" *ngFor="let raport of raports">
-    <div class="card" [routerLink]="raport.url">
-      <img [src]="raport.imageUrl" class="card-img-top" alt="image" />
-      <div class="card-body">
-        <label class="card-title h3">{{ raport.title }}</label>
-        <p class="card-text">{{ raport.description }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+<app-card-table [cards]="cards"></app-card-table>

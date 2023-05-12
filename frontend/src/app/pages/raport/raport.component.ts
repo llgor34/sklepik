@@ -4,10 +4,9 @@ import { Card } from 'src/app/interfaces/raport.interface';
 @Component({
   selector: 'app-raport',
   templateUrl: './raport.component.html',
-  styleUrls: ['../card.css'],
 })
 export class RaportComponent {
-  raports: Card[] = [
+  cards: Card[] = [
     {
       imageUrl: 'assets/img1.png',
       title: 'Protokół zamknięcia',

@@ -1,12 +1,2 @@
 <h1>Sprzedaż</h1>
-<div class="row gy-4">
-  <div *ngFor="let sellPage of sellPages" class="col col-lg-3">
-    <div class="card" [routerLink]="sellPage.url">
-      <img [src]="sellPage.imageUrl" class="card-img-top" alt="image" />
-      <div class="card-body">
-        <label class="card-title h3">{{ sellPage.title }}</label>
-        <p class="card-text">{{ sellPage.description }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+<app-card-table [cards]="cards"></app-card-table>

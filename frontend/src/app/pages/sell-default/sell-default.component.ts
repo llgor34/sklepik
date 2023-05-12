@@ -5,10 +5,9 @@ import { Card } from 'src/app/interfaces/raport.interface';
 @Component({
   selector: 'app-sell-default',
   templateUrl: './sell-default.component.html',
-  styleUrls: ['../card.css'],
 })
 export class SellDefaultComponent {
-  sellPages: Card[] = [
+  cards: Card[] = [
     {
       imageUrl: 'assets/img1.png',
       title: 'Towary i produkty',
