@@ -1,1 +1,41 @@
-<p>sell-coffee-subscribers works!</p>
+<h1>Kawonament</h1>
+<form>
+  <div class="row">
+    <div class="col">
+      <input class="form-control" type="text" />
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" type="submit">Wyszukaj</button>
+    </div>
+  </div>
+</form>
+<div class="overflow-auto mt-5">
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Lp.</td>
+        <td>Imię</td>
+        <td>Nazwisko</td>
+        <td>Liczba pozostałych kaw</td>
+        <td>Ostatnie użycie</td>
+        <td>Opcje</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subscriber of subscribers; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ subscriber.imie }}</td>
+        <td>{{ subscriber.nazwisko }}</td>
+        <td>{{ subscriber.liczba_pozostalych_kaw }}</td>
+        <td>{{ subscriber.daty_odebranych_kaw | lastElementOfArray }}</td>
+        <td class="d-flex justify-content-between">
+          <div class="d-flex">
+            <button class="btn btn-success me-2">Zmodyfikuj o</button>
+            <input style="width: 70px" class="form-control" type="number" />
+          </div>
+          <button class="btn btn-warning">Użyj abonamentu</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

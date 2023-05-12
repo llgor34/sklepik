@@ -14,13 +14,13 @@ import { SellProductsComponent } from './pages/sell-products/sell-products.compo
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { RolesPipe } from './pipes/roles.pipe';
 import { RoleDirective } from './directives/role.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
+import { lastElementOfArray } from './pipes/last-use-of-subscription.pipe';
 
 @NgModule({
   declarations: [
@@ -32,12 +32,12 @@ import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/
     RaportComponent,
     ArchiveComponent,
     OrdersComponent,
-    RolesPipe,
     RoleDirective,
     ClosementProtocolComponent,
     SellDefaultComponent,
     CardTableComponent,
     SellCoffeeSubscribersComponent,
+    lastElementOfArray,
   ],
   imports: [
     BrowserModule,
