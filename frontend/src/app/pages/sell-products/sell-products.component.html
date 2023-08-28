@@ -16,7 +16,11 @@
       </button>
     </div>
     <div class="col">
-      <button (click)="submitSell()" class="btn btn-warning w-100">
+      <button
+        (click)="submitSell()"
+        [disabled]="products.length === 0 || !this.paymentMethod"
+        class="btn btn-warning w-100"
+      >
         Zakończ sprzedaż
       </button>
     </div>
@@ -38,19 +42,21 @@
     <tbody>
       <tr *ngFor="let product of products; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ product.kod }}</td>
-        <td>{{ product.nazwa_krotka }}</td>
-        <td class="currency-addon">{{ product.cena }}</td>
+        <td>{{ product.code }}</td>
+        <td>{{ product.short_name }}</td>
+        <td class="currency-addon">{{ product.price }}</td>
         <td>
           <input
             class="form-control"
-            [name]="product._id"
-            [(ngModel)]="product.ilosc"
+            name="productAmount"
+            [(ngModel)]="product.amount"
             min="1"
             type="number"
           />
         </td>
-        <td class="currency-addon">{{ product.cena * product.ilosc }}</td>
+        <td class="currency-addon">
+          {{ (product.price * product.amount).toFixed(1) }}
+        </td>
         <td>
           <button (click)="removeProduct(i)" class="btn btn-danger">
             usuń
@@ -59,7 +65,7 @@
       </tr>
       <tr>
         <td colspan="5">SUMA</td>
-        <td class="currency-addon">{{ sum }}</td>
+        <td class="currency-addon">{{ sum.toFixed(1) }}</td>
       </tr>
       <tr>
         <td colspan="5">Zapłata</td>
@@ -81,7 +87,50 @@
           id="change"
           [ngClass]="{ 'text-danger': amountPayed - sum > 0 }"
         >
-          {{ amountPayed - sum < 0 ? 0 : amountPayed - sum }}
+          {{ amountPayed - sum < 0 ? 0 : (amountPayed - sum).toFixed(1) }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">Metoda płatności</td>
+        <td>
+          <div class="form-check d-flex align-items-center">
+            <input
+              [(ngModel)]="paymentMethod"
+              value="CASH"
+              class="form-check-input"
+              type="radio"
+              name="paymentMethod"
+              id="cash"
+            />
+            <label class="form-check-label" for="cash">
+              <img
+                src="assets/money.png"
+                width="50px"
+                height="50px"
+                alt="obrazek z pieniędzmi"
+              />
+              Gotówka
+            </label>
+          </div>
+          <div class="form-check d-flex align-items-center">
+            <input
+              [(ngModel)]="paymentMethod"
+              value="BLIK"
+              class="form-check-input"
+              type="radio"
+              name="paymentMethod"
+              id="blik"
+            />
+            <label class="form-check-label" for="blik">
+              <img
+                src="assets/blik.svg"
+                width="50px"
+                height="50px"
+                alt="obrazek z pieniędzmi"
+              />
+              BLIK
+            </label>
+          </div>
         </td>
       </tr>
     </tbody>

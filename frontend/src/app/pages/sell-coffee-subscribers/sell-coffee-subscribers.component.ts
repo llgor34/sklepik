@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { CoffeeSubscribersService } from 'src/app/coffee-subscribers.service';
 import { DateService } from 'src/app/date.service';
 import { CoffeeSubscriber } from 'src/app/interfaces/coffee-subscribers.interface';
 
@@ -11,18 +11,46 @@ import { CoffeeSubscriber } from 'src/app/interfaces/coffee-subscribers.interfac
 export class SellCoffeeSubscribersComponent implements OnInit {
   subscribers: CoffeeSubscriber[] = [];
   currentDate = '';
+  searchValue = '';
 
   constructor(
-    private route: ActivatedRoute,
-    private dateService: DateService
+    private dateService: DateService,
+    private coffeeSubscribersService: CoffeeSubscribersService
   ) {}
 
   ngOnInit(): void {
-    this.subscribers = this.route.snapshot.data['coffeeSubscribers'];
-    this.currentDate = this.dateService.getFullDate();
+    this.getSubscribers();
+    this.currentDate = this.dateService.getDate();
+  }
+
+  getSubscribers() {
+    this.coffeeSubscribersService
+      .getSubscribers$()
+      .subscribe((subscribers) => (this.subscribers = subscribers));
   }
 
   isSubscriptionUsedToday(subscriber: CoffeeSubscriber) {
-    return subscriber.daty_odebranych_kaw.at(-1) === this.currentDate;
+    const date = subscriber.coffees_receive_datetimes[0]?.split(' ')[0];
+    return date == this.currentDate;
+  }
+
+  updateCoffeesLeftBy(subscriberIdx: number, updateByAmount: number) {
+    const subscriber = this.getSubscriberByIdx(subscriberIdx);
+
+    this.coffeeSubscribersService
+      .updateCoffeeSubscriber(subscriber.client_id, updateByAmount)
+      .subscribe(this.getSubscribers.bind(this));
+  }
+
+  useCoffeeSubscription(subscriberIdx: number) {
+    const subscriber = this.getSubscriberByIdx(subscriberIdx);
+
+    this.coffeeSubscribersService
+      .useCoffeeSubscription(subscriber.client_id)
+      .subscribe(this.getSubscribers.bind(this));
+  }
+
+  getSubscriberByIdx(idx: number) {
+    return this.subscribers[idx];
   }
 }

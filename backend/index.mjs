@@ -4,12 +4,11 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
 import { generateAccessToken, verifyAccessToken, signJWTCookie, verifyPassword } from './auth-functions.mjs';
+import { getUserByUsername } from './db/auth.mjs';
+import { getArticleById } from './db/articles.mjs';
 import { sendErrorMessage } from './messages.mjs';
-import { pracownicy } from './mongoose/pracownicy.mjs';
-import { artykuly } from './mongoose/artykuly.mjs';
-import { zamkniecie_sprzedazy } from './mongoose/zamkniecie-sprzedazy.mjs';
-import { abonament_kawowy } from './mongoose/abonament-kawowy.mjs';
-import { ObjectId } from 'mongodb';
+import { getAllCoffeeSubscriptions, updateCoffeeSubscriptionByAmount, updateCoffeeSubscriptionByReceiveCoffee } from './db/coffee-subscription.mjs';
+import { createOrder } from './db/order.mjs';
 
 dotenv.config();
 const port = 3000;
@@ -29,12 +28,12 @@ app.post('/login', async (req, res) => {
 		return sendErrorMessage(res, 422, 'USERNAME_NOT_PROVIDED');
 	}
 
-	const user = await pracownicy.findOne({ nazwa_uzytkownika: username });
+	const user = await getUserByUsername(username);
 	if (!user) {
 		return sendErrorMessage(res, 401, 'USER_NOT_FOUND');
 	}
 
-	const isPasswordValid = await verifyPassword(password, user.haslo);
+	const isPasswordValid = await verifyPassword(password, user.password);
 	if (!isPasswordValid) {
 		return sendErrorMessage(res, 401, 'PASSWORD_INVALID');
 	}
@@ -42,10 +41,12 @@ app.post('/login', async (req, res) => {
 	const token = generateAccessToken(user);
 	signJWTCookie(res, token);
 
+	const { name, surname, roles } = user;
+
 	return res.send({
 		ok: true,
 		message: 'USER_LOGGED_IN',
-		user: { name: user.imie, surname: user.nazwisko, role: user.role },
+		user: { name, surname, roles },
 	});
 });
 
@@ -53,42 +54,39 @@ app.post('/login', async (req, res) => {
 
 app.get('/product/:id', verifyAccessToken, async (req, res) => {
 	const productCode = req.params.id;
-	const product = await artykuly.findOne({ kod: productCode });
+	const product = await getArticleById(productCode);
 
 	return res.send({ ok: true, message: 'SUCCESS', product: product });
 });
 
 app.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
-	if (!req.user.roles.includes('admin')) {
-		return sendErrorMessage(res, 401, 'INSUFFICIENT_PERMISSIONS');
-	}
-
-	const coffeeSubscribers = await abonament_kawowy.find();
+	const coffeeSubscribers = await getAllCoffeeSubscriptions();
 	res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
 });
 
+app.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async (req, res) => {
+	const clientId = +req.params.clientId;
+	const amount = +req.params.amount;
+
+	await updateCoffeeSubscriptionByAmount(clientId, req.user.id, amount);
+	res.send({ ok: true, message: 'SUCCESS' });
+});
+
+app.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async (req, res) => {
+	const clientId = +req.params.clientId;
+
+	await updateCoffeeSubscriptionByReceiveCoffee(clientId, req.user.id);
+	res.send({ ok: true, message: 'SUCCESS' });
+});
+
 app.post('/sell/insert', verifyAccessToken, async (req, res) => {
-	const { products } = req.body;
+	const { products, paymentMethod } = req.body;
 
 	if (products.length < 1) {
 		return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
 	}
 
-	const sellObj = {
-		id_pracownika: new ObjectId(req.user._id),
-		lista_zakupow: await Promise.all(
-			products.map(async product => {
-				const productFromDB = await artykuly.findOne({ _id: product._id });
-				return {
-					id_artykulu: new ObjectId(product._id),
-					cena: productFromDB.cena,
-					ilosc: product.ilosc,
-				};
-			})
-		),
-	};
-
-	await zamkniecie_sprzedazy.findOneAndUpdate({}, { $push: { sprzedane_towary: sellObj } }).sort({ _id: -1 });
+	await createOrder(products, paymentMethod, req.user.id);
 	res.send({ ok: true, message: 'SELL_CREATED' });
 });
 

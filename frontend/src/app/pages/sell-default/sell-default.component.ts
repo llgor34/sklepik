@@ -7,6 +7,8 @@ import { Card } from 'src/app/interfaces/raport.interface';
   templateUrl: './sell-default.component.html',
 })
 export class SellDefaultComponent {
+  constructor(public authService: AuthService) {}
+
   cards: Card[] = [
     {
       imageUrl: 'assets/goods-and-services.png',
@@ -21,6 +23,4 @@ export class SellDefaultComponent {
       url: 'coffee-subscribers',
     },
   ];
-
-  constructor(public authService: AuthService) {}
 }

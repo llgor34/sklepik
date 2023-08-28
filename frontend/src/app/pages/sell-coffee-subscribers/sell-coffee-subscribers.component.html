@@ -1,10 +1,13 @@
 <h1>Kawonament</h1>
 <div class="row">
   <div class="col">
-    <input class="form-control" type="text" />
-  </div>
-  <div class="col">
-    <button class="btn btn-primary" type="submit">Wyszukaj</button>
+    <input
+      [(ngModel)]="searchValue"
+      name="searchValue"
+      class="form-control"
+      type="text"
+      placeholder="Wyszukiwanie"
+    />
   </div>
 </div>
 <div class="overflow-auto mt-5">
@@ -20,20 +23,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let subscriber of subscribers; let i = index">
+      <tr
+        *ngFor="
+          let subscriber of subscribers | filter : searchValue;
+          let i = index
+        "
+      >
         <td>{{ i + 1 }}</td>
-        <td>{{ subscriber.imie }}</td>
-        <td>{{ subscriber.nazwisko }}</td>
-        <td>{{ subscriber.liczba_pozostalych_kaw }}</td>
+        <td>{{ subscriber.name }}</td>
+        <td>{{ subscriber.surname }}</td>
+        <td>{{ subscriber.coffees_left }}</td>
         <td [ngClass]="{ 'text-danger': isSubscriptionUsedToday(subscriber) }">
-          {{ subscriber.daty_odebranych_kaw | lastElementOfArray }}
+          {{ subscriber.coffees_receive_datetimes | lastElementOfArray }}
         </td>
         <td class="d-flex justify-content-between">
-          <div class="d-flex">
-            <button class="btn btn-success me-2">Zmodyfikuj o</button>
-            <input style="width: 70px" class="form-control" type="number" />
-          </div>
+          <app-edit-by-value-field
+            btnText="Zmodyfikuj o"
+            btnClass="btn-success me-2"
+            (btnClick)="updateCoffeesLeftBy(i, $event)"
+          ></app-edit-by-value-field>
           <button
+            (click)="useCoffeeSubscription(i)"
             [disabled]="isSubscriptionUsedToday(subscriber)"
             class="btn btn-warning"
           >

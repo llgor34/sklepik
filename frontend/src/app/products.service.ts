@@ -14,7 +14,7 @@ export class ProductsService {
       .get<ProductResponse>(`api/product/${code}`)
       .pipe(
         map((res) =>
-          res.product ? ({ ...res.product, ilosc: 1 } as Product) : res.product
+          res.product ? ({ ...res.product, amount: 1 } as Product) : res.product
         )
       );
   }

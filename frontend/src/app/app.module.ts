@@ -21,6 +21,8 @@ import { SellDefaultComponent } from './pages/sell-default/sell-default.componen
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 import { lastElementOfArray } from './pipes/last-use-of-subscription.pipe';
+import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { lastElementOfArray } from './pipes/last-use-of-subscription.pipe';
     CardTableComponent,
     SellCoffeeSubscribersComponent,
     lastElementOfArray,
+    EditByValueFieldComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

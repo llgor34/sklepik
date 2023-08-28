@@ -7,7 +7,7 @@ import { sendErrorMessage } from './messages.mjs';
 dotenv.config();
 
 export function generateAccessToken(user) {
-	return jwt.sign({ _id: user._id, roles: user.role }, process.env.SECRET, {
+	return jwt.sign({ id: user.id, roles: user.roles }, process.env.SECRET, {
 		expiresIn: `${process.env.EXPIRATION_TIME_IN_SECONDS}s`,
 	});
 }
@@ -40,4 +40,11 @@ export async function hashPassword(password) {
 
 export function signJWTCookie(res, token) {
 	res.cookie('jwt', token, { signed: true, httpOnly: true, expires: new Date(Date.now() + process.env.EXPIRATION_TIME_IN_SECONDS * 1000) });
+}
+
+export function hasRole(req, res, next, role) {
+	if (!req.user.roles.includes(role)) {
+		return sendErrorMessage(res, 401, 'INSUFFICIENT_PERMISSIONS');
+	}
+	next();
 }

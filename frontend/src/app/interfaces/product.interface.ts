@@ -1,18 +1,18 @@
 import { Response } from './response.interface';
+import { Company } from './company.interferface';
 
 export interface ProductRaw {
-  _id: string;
-  cena: number;
-  id_firmy: string;
-  kod: string;
-  typ: 'towar' | 'produkt';
-  nazwa_krotka: string;
-  nazwa_pelna: string;
-  ewidencja: any[];
+  id: number;
+  type: string;
+  short_name: string;
+  full_name: string;
+  price: number;
+  code: string;
+  company: Company;
 }
 
 export interface Product extends ProductRaw {
-  ilosc: number;
+  amount: number;
 }
 
 export interface ProductResponse extends Response {

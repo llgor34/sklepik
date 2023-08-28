@@ -1,0 +1,11 @@
+<div class="d-flex">
+  <button
+    [disabled]="control.value === 0"
+    (click)="onButtonClick()"
+    [ngClass]="btnClass"
+    class="btn"
+  >
+    {{ btnText }}
+  </button>
+  <input [formControl]="control" class="form-control" type="number" />
+</div>

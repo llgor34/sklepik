@@ -9,7 +9,11 @@ export class DateService {
     return moment().format('DD-MM-YY');
   }
 
-  getFullDate() {
-    return moment().format('DD-MM-YYYY');
+  getDate() {
+    return moment().format('YYYY-MM-DD');
+  }
+
+  getDatetime() {
+    return moment().format('YYYY-MM-DD HH:mm');
   }
 }

@@ -8,3 +8,8 @@
 .currency-addon::after {
   content: " PLN";
 }
+
+.form-check > *,
+.form-check-label > * {
+  margin: 0 5px;
+}

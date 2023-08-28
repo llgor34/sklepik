@@ -2,7 +2,8 @@ import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/products.service';
-import { SellService } from 'src/app/sell.service';
+import { OrderService } from 'src/app/order.service';
+import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 
 @Component({
   selector: 'app-sell-products',
@@ -12,6 +13,7 @@ import { SellService } from 'src/app/sell.service';
 export class SellProductsComponent implements DoCheck {
   products: Product[] = [];
   productCode: number | null = null;
+  paymentMethod: PaymentMethod | null = null;
 
   sum = 0;
   amountPayed = 0;
@@ -23,7 +25,7 @@ export class SellProductsComponent implements DoCheck {
   constructor(
     public authService: AuthService,
     private productsService: ProductsService,
-    private sellService: SellService
+    private orderService: OrderService
   ) {}
 
   ngDoCheck(): void {
@@ -31,7 +33,9 @@ export class SellProductsComponent implements DoCheck {
   }
 
   submitSell() {
-    this.sellService.insertSell(this.products).subscribe({
+    if (!this.paymentMethod) return;
+
+    this.orderService.createOrder(this.products, this.paymentMethod).subscribe({
       next: () => {
         this.resetProductCodeControl();
         this.resetProducts();
@@ -48,7 +52,7 @@ export class SellProductsComponent implements DoCheck {
     let newProductsSum = 0;
 
     for (const product of this.products) {
-      newProductsSum += product.cena * product.ilosc;
+      newProductsSum += product.price * product.amount;
     }
 
     this.sum = newProductsSum;
@@ -66,7 +70,7 @@ export class SellProductsComponent implements DoCheck {
         const existingProduct = this.getExistingProduct(product);
 
         if (existingProduct) {
-          this.products[this.products.indexOf(existingProduct)].ilosc++;
+          this.products[this.products.indexOf(existingProduct)].amount++;
           this.resetProductCodeControl();
           return;
         }
@@ -86,7 +90,7 @@ export class SellProductsComponent implements DoCheck {
 
   getExistingProduct(product: Product) {
     return this.products.filter(
-      (productInArray) => productInArray.kod == product.kod
+      (productInArray) => productInArray.code == product.code
     )[0];
   }
 

@@ -1,6 +1,8 @@
 export interface CoffeeSubscriber {
-  imie: String;
-  nazwisko: String;
-  liczba_pozostalych_kaw: Number;
-  daty_odebranych_kaw: String[];
+  client_id: number;
+  name: string;
+  surname: string;
+  mail: string;
+  coffees_left: number;
+  coffees_receive_datetimes: string[];
 }
