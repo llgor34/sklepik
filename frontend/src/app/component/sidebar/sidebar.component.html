@@ -4,6 +4,16 @@
   style="height: 100vh"
 >
   <ul>
+    <li
+      title="Strona główna"
+      routerLink="/main"
+      routerLinkActive="active"
+      class="text-capitalize fw-bold"
+    >
+      {{
+        isOpen ? authService.getUsername() : authService.getUsernameInitials()
+      }}
+    </li>
     <li (click)="authService.logout()" title="Wyloguj się">
       <i class="bi bi-box-arrow-right"></i>
       <span>Wyloguj się</span>

@@ -13,26 +13,63 @@
     <th>Ilość</th>
     <th>Suma</th>
   </tr>
+  <ng-container *ngFor="let raportProduct of raport.products | keyvalue">
+    <tr *ngFor="let product of raportProduct.value.products; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ product.code }}</td>
+      <td>{{ product.short_name }}</td>
+      <td class="currency">{{ product.price | currency : " " }}</td>
+      <td>{{ product.amount }}</td>
+      <td class="currency">{{ product.totalPrice | currency : " " }}</td>
+    </tr>
+    <tr>
+      <th colspan="5">{{ raportProduct.value.totalPriceLabel }}</th>
+      <th class="currency">
+        {{ raportProduct.value.totalPrice | currency : " " }}
+      </th>
+    </tr>
+  </ng-container>
   <tr>
-    <td>$i</td>
-    <td>$kod</td>
-    <td>$nazwa</td>
-    <td>$cena PLN</td>
-    <td>$ilosc</td>
-    <td>$suma_p PLN</td>
+    <th colspan="5">Łącznie na kasie</th>
+    <th class="currency">
+      {{ raport.totalPriceWithDiscounts | currency : " " }}
+    </th>
   </tr>
   <tr>
-    <th colspan="5">Łącznie</th>
-    <th>$suma PLN</th>
+    <th colspan="5">Suma obrotu</th>
+    <th class="currency">{{ raport.totalPrice | currency : " " }}</th>
   </tr>
   <tr class="signature">
-    <td colspan="3"><i>Saldo kasowe (pomniejszone o wkład 30zł)</i></td>
-    <td colspan="3"><i>Saldo terminala (wypełniane następnego dnia)</i></td>
+    <td colspan="3">
+      <h2>Saldo kasowe (pomniejszone o wkład 30zł)</h2>
+      <p class="currency">{{ raport.totalCashPrice | currency : " " }}</p>
+    </td>
+    <td colspan="3">
+      <h2>Saldo terminala (wypełniane następnego dnia)</h2>
+      <p class="currency">{{ raport.totalNonCashPrice | currency : " " }}</p>
+    </td>
   </tr>
   <tr class="signature">
-    <td colspan="3"><i>Podpisy załogi</i></td>
-    <td colspan="3"><i>Podpis kierownika/zastępcy</i></td>
+    <td colspan="3"><h2>Podpisy załogi</h2></td>
+    <td colspan="3"><h2>Podpis kierownika/zastępcy</h2></td>
   </tr>
 </table>
 
-<button class="d-block m-auto btn btn-primary">Pobierz jako PDF</button>
+<div class="d-flex flex-wrap justify-content-center mi">
+  <button
+    *allowedRoles="['admin']"
+    [disabled]="isLoading || raportGenerated || !raport.totalPrice"
+    (click)="generateRaport()"
+    class="btn btn-danger"
+  >
+    Generuj
+  </button>
+  <button
+    *allowedRoles="['admin']"
+    [disabled]="!raportGenerated"
+    (click)="downloadRaport()"
+    class="btn btn-success"
+  >
+    Pobierz jako PDF
+  </button>
+</div>

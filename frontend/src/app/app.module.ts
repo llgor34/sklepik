@@ -9,7 +9,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { initializeApp } from './app.initializer';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';

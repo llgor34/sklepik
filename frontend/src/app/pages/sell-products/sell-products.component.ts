@@ -1,8 +1,8 @@
 import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Product } from 'src/app/interfaces/product.interface';
-import { ProductsService } from 'src/app/products.service';
-import { OrderService } from 'src/app/order.service';
+import { ProductsService } from 'src/app/services/products.service';
+import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 
 @Component({
@@ -58,40 +58,39 @@ export class SellProductsComponent implements DoCheck {
     this.sum = newProductsSum;
   }
 
-  getProduct() {
+  resetProducts() {
+    this.products = [];
+  }
+
+  onProductCodePaste(event: ClipboardEvent) {
+    const productCode = +event.clipboardData!.getData('text');
+    if (!productCode) return;
+
+    this.getProduct(productCode);
+  }
+
+  onGetProduct() {
     if (!this.productCode) return;
 
-    this.productsService
-      .getProductByCode(this.productCode)
-      .subscribe((product) => {
-        this.focusProductCodeControl();
-        if (!product) return;
+    this.getProduct(this.productCode);
+  }
 
-        const existingProduct = this.getExistingProduct(product);
+  getProduct(productCode: number) {
+    this.productsService.getProductByCode(productCode).subscribe((product) => {
+      this.focusProductCodeControl();
+      if (!product) return;
 
-        if (existingProduct) {
-          this.products[this.products.indexOf(existingProduct)].amount++;
-          this.resetProductCodeControl();
-          return;
-        }
+      const existingProduct = this.getExistingProduct(product);
 
-        this.addProduct(product);
+      if (existingProduct) {
+        this.products[this.products.indexOf(existingProduct)].amount++;
         this.resetProductCodeControl();
-      });
-  }
+        return;
+      }
 
-  addProduct(product: Product) {
-    this.products.push(product);
-  }
-
-  removeProduct(idx: number) {
-    this.products.splice(idx, 1);
-  }
-
-  getExistingProduct(product: Product) {
-    return this.products.filter(
-      (productInArray) => productInArray.code == product.code
-    )[0];
+      this.addProduct(product);
+      this.resetProductCodeControl();
+    });
   }
 
   focusProductCodeControl() {
@@ -102,7 +101,17 @@ export class SellProductsComponent implements DoCheck {
     this.productCode = null;
   }
 
-  resetProducts() {
-    this.products = [];
+  getExistingProduct(product: Product) {
+    return this.products.filter(
+      (productInArray) => productInArray.code == product.code
+    )[0];
+  }
+
+  addProduct(product: Product) {
+    this.products.push(product);
+  }
+
+  removeProduct(idx: number) {
+    this.products.splice(idx, 1);
   }
 }

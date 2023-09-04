@@ -11,6 +11,7 @@ import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
+import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
 
 const routes: Routes = [
   {
@@ -54,11 +55,19 @@ const routes: Routes = [
       },
       {
         path: 'raport',
-        component: RaportComponent,
-      },
-      {
-        path: 'raport/closement-protocol',
-        component: ClosementProtocolComponent,
+        children: [
+          {
+            path: '',
+            component: RaportComponent,
+          },
+          {
+            path: 'closement-protocol',
+            component: ClosementProtocolComponent,
+            resolve: {
+              products: ClosementProtocolResolver,
+            },
+          },
+        ],
       },
       {
         path: 'archive',

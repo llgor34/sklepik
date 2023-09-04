@@ -8,3 +8,7 @@ html {
 h1 {
   margin-bottom: 40px !important;
 }
+
+.currency::after {
+  content: " PLN";
+}

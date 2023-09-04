@@ -34,7 +34,7 @@ export async function getArticleById(id) {
 		type,
 		short_name,
 		full_name,
-		price: price.toFixed(1),
+		price: price,
 		code,
 		company: {
 			id: company_id,

@@ -6,7 +6,7 @@ export async function createOrder(products, paymentMethod, workerId, clientId = 
 
 	const orderId = await getLatestOrderId();
 	for (const product of products) {
-		await query(`INSERT INTO articles_sellment VALUES(?, ?, ?, ?)`, [product.id, orderId, product.price, product.amount]);
+		await query(`INSERT INTO articles_sellment VALUES(null, ?, ?, ?, ?)`, [product.id, orderId, product.price, product.amount]);
 	}
 }
 
@@ -21,6 +21,7 @@ async function getPaymentMethodIdByName(name) {
 }
 
 async function getLatestOrderId() {
-	const [{ id }] = await query('SELECT id FROM orders ORDER BY id DESC LIMIT 1');
-	return id;
+	const result = await query('SELECT id FROM orders ORDER BY id DESC LIMIT 1');
+	const record = result[0];
+	return record.id;
 }

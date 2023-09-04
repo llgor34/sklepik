@@ -7,8 +7,8 @@ import { sendErrorMessage } from './messages.mjs';
 dotenv.config();
 
 export function generateAccessToken(user) {
-	return jwt.sign({ id: user.id, roles: user.roles }, process.env.SECRET, {
-		expiresIn: `${process.env.EXPIRATION_TIME_IN_SECONDS}s`,
+	return jwt.sign({ id: user.id, roles: user.roles }, process.env.TOKEN_SECRET, {
+		expiresIn: `${process.env.TOKEN_EXPIRATION_TIME_IN_SECONDS}s`,
 	});
 }
 
@@ -19,7 +19,7 @@ export function verifyAccessToken(req, res, next) {
 		return sendErrorMessage(res, 401, 'AUTH_TOKEN_NOT_PROVIDED');
 	}
 
-	jwt.verify(token, process.env.SECRET, (err, decoded) => {
+	jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
 		if (err) {
 			res.clearCookie('jwt');
 			return sendErrorMessage(res, 401, 'AUTH_TOKEN_EXPIRED');
@@ -39,7 +39,7 @@ export async function hashPassword(password) {
 }
 
 export function signJWTCookie(res, token) {
-	res.cookie('jwt', token, { signed: true, httpOnly: true, expires: new Date(Date.now() + process.env.EXPIRATION_TIME_IN_SECONDS * 1000) });
+	res.cookie('jwt', token, { signed: true, httpOnly: true, expires: new Date(Date.now() + process.env.TOKEN_EXPIRATION_TIME_IN_SECONDS * 1000) });
 }
 
 export function hasRole(req, res, next, role) {

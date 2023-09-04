@@ -1,6 +1,7 @@
 import { query } from './db-functions.mjs';
+import { verifyPassword } from '../general/auth-functions.mjs';
 
-export async function getUserByUsername(username) {
+export async function getUserByPassword(password) {
 	const users = await query(
 		`
 	SELECT
@@ -11,17 +12,20 @@ export async function getUserByUsername(username) {
 		permissions ON workers.id = permissions.worker_id
 	JOIN 
 		roles ON permissions.role_id = roles.id
-	WHERE
-		workers.name = ?
 	GROUP BY 
-		workers.id;`,
-		[username]
+		workers.id;`
 	);
 
-	const user = users[0];
-	if (!user) {
+	if (users.length === 0) {
 		return null;
 	}
-	user.roles = user.roles.split(',');
-	return user;
+
+	for (const user of users) {
+		if (verifyPassword(password, user.password)) {
+			user.roles = user.roles.split(',');
+			return user;
+		}
+	}
+
+	return null;
 }

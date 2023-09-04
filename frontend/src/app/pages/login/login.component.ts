@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
 
 @Component({
@@ -9,36 +9,41 @@ import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  isPasswordInvalid = false;
-  isUsernameInvalid = false;
+  userNotExists = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   formSubmit(form: NgForm) {
-    const { username, password } = form.value;
-    if (username.trim().length === 0 || password.trim().length === 0) return;
+    const { password } = form.value;
+    if (this.isEmpty(password)) return;
 
-    this.isPasswordInvalid = false;
-    this.isUsernameInvalid = false;
+    this.login(password);
+  }
 
-    this.authService.login(username, password).subscribe({
+  onPaste(event: ClipboardEvent) {
+    const password = event.clipboardData?.getData('text') ?? '';
+    if (this.isEmpty(password)) return;
+
+    this.login(password);
+  }
+
+  login(password: string) {
+    this.userNotExists = false;
+    this.authService.login(password).subscribe({
       next: () => {
         this.router.navigate(['/main']);
       },
       error: (error: ErrorResponse) => {
-        form.reset();
-
         switch (error.message) {
-          case 'PASSWORD_INVALID':
-            this.isPasswordInvalid = true;
-            break;
-
-          case 'USERNAME_NOT_PROVIDED':
           case 'USER_NOT_FOUND':
-            this.isUsernameInvalid = true;
+            this.userNotExists = true;
             break;
         }
       },
     });
+  }
+
+  isEmpty(text: string) {
+    return text?.trim().length === 0;
   }
 }

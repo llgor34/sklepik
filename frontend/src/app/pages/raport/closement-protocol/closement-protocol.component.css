@@ -21,9 +21,14 @@ table {
 
 .signature {
   height: 75px;
+  vertical-align: top;
 }
 
-.signature td {
-  vertical-align: top;
+.signature h2 {
   font-size: 0.7em;
+  font-style: italic;
+}
+
+.mi > * {
+  margin: 5px;
 }

@@ -6,21 +6,7 @@
     class="w-50 d-flex flex-column"
   >
     <div class="form-group">
-      <label for="password">Nazwa użytkownika:</label>
-      <input
-        class="form-control"
-        name="username"
-        type="text"
-        ngModel
-        required
-        #username="ngModel"
-      />
-      <span *ngIf="isUsernameInvalid" class="text-danger"
-        >Niepoprawna nazwa użytkownika!</span
-      >
-    </div>
-    <div class="form-group">
-      <label for="password">Hasło:</label>
+      <label for="password">Identyfikator:</label>
       <input
         class="form-control"
         name="password"
@@ -28,10 +14,11 @@
         ngModel
         required
         #password="ngModel"
+        (paste)="onPaste($event)"
       />
     </div>
-    <span *ngIf="isPasswordInvalid" class="text-danger"
-      >Niepoprawne hasło!</span
+    <span *ngIf="userNotExists" class="text-danger"
+      >Użytkownik o takim identyfikatorze, nie istnieje!</span
     >
     <button [disabled]="password.invalid" class="btn btn-primary mt-3">
       Zaloguj się

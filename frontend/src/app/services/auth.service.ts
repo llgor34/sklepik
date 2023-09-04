@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { LoginResponse } from './interfaces/loginResponse.interface';
-import { User } from './interfaces/user.interface';
+import { LoginResponse } from '../interfaces/loginResponse.interface';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,19 +13,17 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(username: string, password: string): Observable<LoginResponse> {
-    return this.http
-      .post<LoginResponse>('api/login', { username, password })
-      .pipe(
-        tap((res) => {
-          if (!res.user) {
-            return;
-          }
+  login(password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('api/login', { password }).pipe(
+      tap((res) => {
+        if (!res.user) {
+          return;
+        }
 
-          this.user = res.user;
-          localStorage.setItem('user', JSON.stringify(this.user!));
-        })
-      );
+        this.user = res.user;
+        localStorage.setItem('user', JSON.stringify(this.user!));
+      })
+    );
   }
 
   logout() {
@@ -51,8 +49,13 @@ export class AuthService {
     if (!this.user) {
       return '';
     }
-    return `${this.user.name} ${this.user.surname} - ${this.getRoles().join(
-      ','
-    )}`;
+    return `${this.user.name} ${this.user.surname}`;
+  }
+
+  getUsernameInitials() {
+    if (!this.user) {
+      return '';
+    }
+    return `${this.user.name[0].toUpperCase()} ${this.user.surname[0].toUpperCase()}`;
   }
 }

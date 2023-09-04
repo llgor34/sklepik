@@ -6,14 +6,10 @@ import * as moment from 'moment';
 })
 export class DateService {
   getShortDate() {
-    return moment().format('DD-MM-YY');
+    return moment().format('YY-MM-DD');
   }
 
   getDate() {
-    return moment().format('YYYY-MM-DD');
-  }
-
-  getDatetime() {
-    return moment().format('YYYY-MM-DD HH:mm');
+    return moment().format('DD.MM.YY');
   }
 }

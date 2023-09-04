@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoffeeSubscribersService } from 'src/app/coffee-subscribers.service';
-import { DateService } from 'src/app/date.service';
+import { CoffeeSubscribersService } from 'src/app/services/coffee-subscribers.service';
+import { DateService } from 'src/app/services/date.service';
 import { CoffeeSubscriber } from 'src/app/interfaces/coffee-subscribers.interface';
 
 @Component({
@@ -25,7 +25,7 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
   getSubscribers() {
     this.coffeeSubscribersService
-      .getSubscribers$()
+      .getSubscribers()
       .subscribe((subscribers) => (this.subscribers = subscribers));
   }
 
