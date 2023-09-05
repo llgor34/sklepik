@@ -2,6 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,9 +21,10 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
-import { lastElementOfArray } from './pipes/last-use-of-subscription.pipe';
+import { firstElementOfArray } from './pipes/first-use-of-subscription.pipe';
 import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     SellDefaultComponent,
     CardTableComponent,
     SellCoffeeSubscribersComponent,
-    lastElementOfArray,
+    firstElementOfArray,
     EditByValueFieldComponent,
     FilterPipe,
   ],
@@ -49,6 +51,11 @@ import { FilterPipe } from './pipes/filter.pipe';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      autoDismiss: true,
+      positionClass: 'toast-bottom-right',
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

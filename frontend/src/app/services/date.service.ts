@@ -5,11 +5,11 @@ import * as moment from 'moment';
   providedIn: 'root',
 })
 export class DateService {
-  getShortDate() {
-    return moment().format('YY-MM-DD');
-  }
-
   getDate() {
     return moment().format('DD.MM.YY');
+  }
+
+  getLongDate() {
+    return moment().format('YYYY-MM-DD');
   }
 }

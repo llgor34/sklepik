@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CoffeeSubscribersService } from 'src/app/services/coffee-subscribers.service';
 import { DateService } from 'src/app/services/date.service';
 import { CoffeeSubscriber } from 'src/app/interfaces/coffee-subscribers.interface';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-sell-coffee-subscribers',
@@ -15,12 +16,13 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
   constructor(
     private dateService: DateService,
-    private coffeeSubscribersService: CoffeeSubscribersService
+    private coffeeSubscribersService: CoffeeSubscribersService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
     this.getSubscribers();
-    this.currentDate = this.dateService.getDate();
+    this.currentDate = this.dateService.getLongDate();
   }
 
   getSubscribers() {
@@ -31,6 +33,7 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
   isSubscriptionUsedToday(subscriber: CoffeeSubscriber) {
     const date = subscriber.coffees_receive_datetimes[0]?.split(' ')[0];
+    console.log(date, this.currentDate);
     return date == this.currentDate;
   }
 
@@ -39,7 +42,15 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
     this.coffeeSubscribersService
       .updateCoffeeSubscriber(subscriber.client_id, updateByAmount)
-      .subscribe(this.getSubscribers.bind(this));
+      .subscribe({
+        next: () => {
+          this.toastService.showSuccess('Zmodyfikowano liczbę kaw');
+          this.getSubscribers();
+        },
+        error: () => {
+          this.toastService.showError('Nie udało się zmodyfikować liczby kaw');
+        },
+      });
   }
 
   useCoffeeSubscription(subscriberIdx: number) {
@@ -47,7 +58,15 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
     this.coffeeSubscribersService
       .useCoffeeSubscription(subscriber.client_id)
-      .subscribe(this.getSubscribers.bind(this));
+      .subscribe({
+        next: () => {
+          this.toastService.showSuccess('Użyto kawonamentu');
+          this.getSubscribers();
+        },
+        error: () => {
+          this.toastService.showError('Nie udało się użyć kawonamentu');
+        },
+      });
   }
 
   getSubscriberByIdx(idx: number) {

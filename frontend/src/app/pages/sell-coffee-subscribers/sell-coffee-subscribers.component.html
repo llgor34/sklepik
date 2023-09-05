@@ -34,7 +34,7 @@
         <td>{{ subscriber.surname }}</td>
         <td>{{ subscriber.coffees_left }}</td>
         <td [ngClass]="{ 'text-danger': isSubscriptionUsedToday(subscriber) }">
-          {{ subscriber.coffees_receive_datetimes | lastElementOfArray }}
+          {{ subscriber.coffees_receive_datetimes | firstElementOfArray }}
         </td>
         <td class="d-flex justify-content-between">
           <app-edit-by-value-field
@@ -42,11 +42,7 @@
             btnClass="btn-success me-2"
             (btnClick)="updateCoffeesLeftBy(i, $event)"
           ></app-edit-by-value-field>
-          <button
-            (click)="useCoffeeSubscription(i)"
-            [disabled]="isSubscriptionUsedToday(subscriber)"
-            class="btn btn-warning"
-          >
+          <button (click)="useCoffeeSubscription(i)" class="btn btn-warning">
             Użyj abonamentu
           </button>
         </td>

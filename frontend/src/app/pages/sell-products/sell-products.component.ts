@@ -4,6 +4,7 @@ import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-sell-products',
@@ -25,7 +26,8 @@ export class SellProductsComponent implements DoCheck {
   constructor(
     public authService: AuthService,
     private productsService: ProductsService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private toastService: ToastService
   ) {}
 
   ngDoCheck(): void {
@@ -38,12 +40,16 @@ export class SellProductsComponent implements DoCheck {
     this.orderService.createOrder(this.products, this.paymentMethod).subscribe({
       next: () => {
         this.resetProductCodeControl();
+        this.focusProductCodeControl();
         this.resetProducts();
         this.sum = 0;
         this.amountPayed = 0;
         this.exchange = 0;
 
-        this.focusProductCodeControl();
+        this.toastService.showSuccess('Utworzono zamówienie');
+      },
+      error: () => {
+        this.toastService.showError('Wystąpił nieoczekiwany błąd');
       },
     });
   }
