@@ -21,8 +21,11 @@ export async function getUserByPassword(password) {
 	}
 
 	for (const user of users) {
+		console.log(user, password);
+		if (!user.password) continue;
 		if (verifyPassword(password, user.password)) {
-			user.roles = user.roles.split(',');
+			console.log('USER MATCH - ', user);
+			user.roles = user.roles?.split(',') ?? [];
 			return user;
 		}
 	}

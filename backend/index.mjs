@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import moment from 'moment';
 
-import { generateAccessToken, verifyAccessToken, signJWTCookie, verifyPassword, hasRole } from './general/auth-functions.mjs';
+import { generateAccessToken, verifyAccessToken, signJWTCookie, verifyPassword, hasRole, hashPassword } from './general/auth-functions.mjs';
 import { getUserByPassword } from './db/auth.mjs';
 import { getArticleById } from './db/articles.mjs';
 import { sendErrorMessage } from './general/messages.mjs';
@@ -22,6 +22,12 @@ const app = express();
 app.use(cors({ origin: ['localhost:4200', '127.0.0.1:4200'] }));
 app.use(express.json());
 app.use(cookieParser(process.env.TOKEN_SECRET));
+
+app.get('/generate-password/:password', async (req, res) => {
+	const { password } = req.params;
+	const hash = await hashPassword(password);
+	return res.send(hash);
+});
 
 app.post('/login', async (req, res) => {
 	const { password } = req.body;
