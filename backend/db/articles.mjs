@@ -14,7 +14,7 @@ export async function getArticleById(id) {
         companies.name as company_name
     FROM 
         articles
-    JOIN 
+    LEFT JOIN 
         companies ON articles.company_id = companies.id
     WHERE 
         articles.code = ?
