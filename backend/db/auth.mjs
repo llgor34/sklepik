@@ -1,34 +1,24 @@
 import { query } from './db-functions.mjs';
-import { verifyPassword } from '../general/auth-functions.mjs';
+import { hashPassword } from '../general/auth-functions.mjs';
 
 export async function getUserByPassword(password) {
-	const users = await query(
+	const hash = hashPassword(password);
+	const res = await query(
 		`
 	SELECT
 		workers.id, workers.name, workers.surname, workers.password, GROUP_CONCAT(roles.name) AS roles
 	FROM
 		workers
-	JOIN
+	LEFT JOIN
 		permissions ON workers.id = permissions.worker_id
-	JOIN 
+	LEFT JOIN 
 		roles ON permissions.role_id = roles.id
+	WHERE
+		workers.password = ?
 	GROUP BY 
-		workers.id;`
+		workers.id;`,
+		[hash]
 	);
 
-	if (users.length === 0) {
-		return null;
-	}
-
-	for (const user of users) {
-		console.log(user, password);
-		if (!user.password) continue;
-		if (verifyPassword(password, user.password)) {
-			console.log('USER MATCH - ', user);
-			user.roles = user.roles?.split(',') ?? [];
-			return user;
-		}
-	}
-
-	return null;
+	return res[0];
 }

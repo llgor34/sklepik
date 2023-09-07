@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import { createHash } from 'node:crypto';
 
 import { sendErrorMessage } from './messages.mjs';
 
@@ -30,12 +30,13 @@ export function verifyAccessToken(req, res, next) {
 	});
 }
 
-export async function verifyPassword(password, hash) {
-	return await bcrypt.compare(password, hash);
+export function verifyPassword(password, hash) {
+	return hashPassword(password) === hash;
 }
 
-export async function hashPassword(password) {
-	return await bcrypt.hash(password, 10);
+export function hashPassword(password) {
+	const hash = createHash('sha256').update(password).digest('hex');
+	return hash;
 }
 
 export function signJWTCookie(res, token) {
