@@ -33,7 +33,6 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
   isSubscriptionUsedToday(subscriber: CoffeeSubscriber) {
     const date = subscriber.coffees_receive_datetimes[0]?.split(' ')[0];
-    console.log(date, this.currentDate);
     return date == this.currentDate;
   }
 
