@@ -1,5 +1,3 @@
-// import { readFileSync } from 'fs';
-// import { create } from 'pdf-creator-node';
 import { jsPDF } from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
 import * as robotoNormalFont from '../../../public/Roboto/Roboto-Regular-normal.mjs';
@@ -49,31 +47,5 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
         ],
     });
     doc.save('test.pdf');
-
-    // const html = readFileSync('templates/sellment-close-template.html', 'utf8');
-    // const options = {
-    // 	format: 'A4',
-    // 	orientation: 'portrait',
-    // 	border: '10mm',
-    // 	footer: {
-    // 		height: '28mm',
-    // 		contents: {
-    // 			default: '<span style="color: #444">{{page}}</span> z <span>{{pages}}</span>',
-    // 		},
-    // 	},
-    // };
-
-    // var document = {
-    // 	html: html,
-    // 	data: {
-    // 		date,
-    // 		number,
-    // 		yearNumber,
-    // 		raport,
-    // 	},
-    // 	path: RAPORT_PATH,
-    // };
-
-    // await create(document, options);
     return RAPORT_PATH;
 }
