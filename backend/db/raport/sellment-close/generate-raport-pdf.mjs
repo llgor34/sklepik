@@ -6,6 +6,7 @@ import * as robotoNormalFont from '../../../public/Roboto/Roboto-Regular-normal.
 
 export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
     const RAPORT_PATH = 'test.pdf';
+    const CURRENCY = 'PLN';
 
     const raport = JSON.parse(JSON.stringify(raportRaw));
     raport.products = [];
@@ -14,13 +15,12 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
         raport.products.push({ ...raportRaw.products[key], products: raportRaw.products[key].products.map((product, i) => ({ i: i + 1, ...product })) });
     }
 
-    const currency = 'PLN';
     const articleArr = [];
     for (const article of raport.products) {
         for (const product of article.products) {
-            articleArr.push([product.i, product.code, product.short_name, `${product.price} ${currency}`, product.amount, `${product.totalPrice} ${currency}`]);
+            articleArr.push([product.i, product.code, product.short_name, `${product.price} ${CURRENCY}`, product.amount, `${product.totalPrice} ${CURRENCY}`]);
         }
-        articleArr.push([{ content: article.totalPriceLabel, colSpan: 5, styles: { halign: 'center' } }, `${article.totalPrice} ${currency}`]);
+        articleArr.push([{ content: article.totalPriceLabel, colSpan: 5, styles: { halign: 'center' } }, `${article.totalPrice} ${CURRENCY}`]);
     }
 
     const doc = new jsPDF({
