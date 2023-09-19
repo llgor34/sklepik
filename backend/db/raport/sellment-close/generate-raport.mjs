@@ -9,8 +9,8 @@ export async function generateRaport(workerId) {
 	let raportNumber = 1;
 
 	if (previousRaport) {
-		startingOrderId = previousRaport.ending_order_id + 1;
-		raportNumber = previousRaport.number + 1;
+		startingOrderId = +previousRaport.ending_order_id + 1;
+		raportNumber = +previousRaport.number + 1;
 	}
 
 	if (previousRaport?.year_number != yearNumber) {

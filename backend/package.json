@@ -11,12 +11,15 @@
 	"license": "ISC",
 	"dependencies": {
 		"@types/decimal.js": "^7.4.0",
+		"@types/jspdf": "^2.0.0",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"decimal.js": "^10.4.3",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"jsonwebtoken": "^9.0.0",
+		"jspdf": "^2.5.1",
+		"jspdf-autotable": "^3.6.0",
 		"moment": "^2.29.4",
 		"mysql2": "^3.6.0",
 		"pdf-creator-node": "^2.3.5"

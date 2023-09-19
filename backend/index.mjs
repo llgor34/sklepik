@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import moment from 'moment';
+import fs from 'fs';
 
 import { generateAccessToken, verifyAccessToken, signJWTCookie, hasRole, hashPassword } from './general/auth-functions.mjs';
 import { getUserByPassword } from './db/auth.mjs';
@@ -13,7 +14,6 @@ import { createOrder } from './db/order.mjs';
 import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
-import { rmSync, readFileSync } from 'fs';
 
 dotenv.config();
 const port = 3000;
@@ -111,8 +111,8 @@ app.get(
 		const date = moment(raportInfo.date).format('DD.MM.YY');
 
 		const raportPath = await generateRaportPDF(raport, date, raportInfo.number, raportInfo.year_number);
-		const pdfFile = readFileSync(raportPath);
-		rmSync(raportPath);
+		const pdfFile = fs.readFileSync(raportPath);
+		fs.rmSync(raportPath);
 
 		res.contentType('application/pdf');
 		res.send(pdfFile);
