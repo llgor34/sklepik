@@ -12,7 +12,8 @@ import { SellProductsComponent } from './pages/sell-products/sell-products.compo
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
-import { WorkedHoursComponent } from './pages/worked-hours/worked-hours.component';
+import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
+import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 
 const routes: Routes = [
   {
@@ -75,8 +76,17 @@ const routes: Routes = [
         component: ArchiveComponent,
       },
       {
-        path: 'worked-hours',
-        component: WorkedHoursComponent,
+        path: 'hours-settlement',
+        children: [
+          {
+            path: '',
+            component: HoursSettlementComponent,
+          },
+          {
+            path: 'add',
+            component: AddHoursComponent,
+          },
+        ],
       },
     ],
   },

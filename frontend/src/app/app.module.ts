@@ -25,7 +25,8 @@ import { firstElementOfArray } from './pipes/first-use-of-subscription.pipe';
 import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
-import { WorkedHoursComponent } from './pages/worked-hours/worked-hours.component';
+import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
+import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { WorkedHoursComponent } from './pages/worked-hours/worked-hours.componen
     firstElementOfArray,
     EditByValueFieldComponent,
     FilterPipe,
-    WorkedHoursComponent,
+    HoursSettlementComponent,
+    AddHoursComponent,
   ],
   imports: [
     BrowserModule,
