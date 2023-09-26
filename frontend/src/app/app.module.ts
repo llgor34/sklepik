@@ -25,6 +25,7 @@ import { firstElementOfArray } from './pipes/first-use-of-subscription.pipe';
 import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
+import { WorkedHoursComponent } from './pages/worked-hours/worked-hours.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
     firstElementOfArray,
     EditByValueFieldComponent,
     FilterPipe,
+    WorkedHoursComponent,
   ],
   imports: [
     BrowserModule,
