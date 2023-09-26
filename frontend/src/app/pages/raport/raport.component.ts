@@ -8,7 +8,7 @@ import { Card } from 'src/app/interfaces/raport.interface';
 export class RaportComponent {
   cards: Card[] = [
     {
-      imageUrl: 'assets/img1.png',
+      imageUrl: 'assets/daily-raport.png',
       title: 'Protokół zamknięcia',
       description: 'Wygeneruj dzienny raport zamknięcia sklepiku.',
       url: 'closement-protocol',
