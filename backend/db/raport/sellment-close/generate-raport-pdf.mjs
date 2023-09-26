@@ -47,6 +47,14 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
             [{ content: 'Dzienny Przychód Sklepiku', colSpan: 3 }, { content: date, colSpan: 2 }, { content: `ZS/${yearNumber}/${number}` }].map(element => ({ ...element, styles: H1_CLASS })),
             ['Lp', 'Kod', 'Nazwa', 'Cena', 'Ilość', 'Suma'].map(content => ({ content, styles: H1_CLASS })),
             ...articleArr,
+            [
+                { content: 'Łącznie na kasie', colSpan: 5, styles: H2_CLASS },
+                { content: `${raport.totalPriceWithDiscounts} ${CURRENCY}`, styles: H2_CLASS },
+            ],
+            [
+                { content: 'Suma obrotu', colSpan: 5, styles: H2_CLASS },
+                { content: `${raport.totalPrice} ${CURRENCY}`, styles: H2_CLASS },
+            ],
             ['Saldo kasowe', 'Saldo terminala'].map(content => ({ content, colSpan: 3, styles: SIGNATURE_CLASS })),
             ['Podpisy załogi', 'Podpis kierownika/zastępcy'].map(content => ({ content, colSpan: 3, styles: SIGNATURE_CLASS })),
         ],
