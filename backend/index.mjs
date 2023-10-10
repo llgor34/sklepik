@@ -15,6 +15,7 @@ import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
 import { getWorkers } from './db/workers.mjs';
+import { getActivities } from './db/activities.mjs';
 
 dotenv.config();
 const port = 3000;
@@ -127,6 +128,16 @@ app.get(
     async (req, res) => {
         const workers = await getWorkers();
         res.send({ ok: true, message: 'SUCCESS', workers });
+    }
+);
+
+app.get(
+    '/get-activities',
+    verifyAccessToken,
+    (...args) => hasRole(...args, 'admin'),
+    async (req, res) => {
+        const activities = await getActivities();
+        res.send({ ok: true, message: 'SUCCESS', activities });
     }
 );
 
