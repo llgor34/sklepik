@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/interfaces/activity.interface';
 import { Worker } from 'src/app/interfaces/worker.interface';
+import { ActivitiesService } from 'src/app/services/activities.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-add-hours',
@@ -17,7 +19,11 @@ export class AddHoursComponent implements OnInit {
   activityId = '1';
   isOtherActivity = true;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private activitiesService: ActivitiesService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     const data = this.route.snapshot.data;
@@ -30,6 +36,16 @@ export class AddHoursComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    const { workerId, activityId } = this.form.value;
+    const formValue = {
+      ...this.form.value,
+      workerId: +workerId,
+      activityId: +activityId,
+    };
+
+    this.activitiesService.createActivity(formValue).subscribe(() => {
+      this.form.reset();
+      this.toastService.showSuccess('Dodano godziny robocze');
+    });
   }
 }

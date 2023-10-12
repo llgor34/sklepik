@@ -15,7 +15,7 @@ import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
 import { getWorkers } from './db/workers.mjs';
-import { getActivities } from './db/activities.mjs';
+import { getActivities, createActivity } from './db/activities.mjs';
 
 dotenv.config();
 const port = 3000;
@@ -26,121 +26,132 @@ app.use(express.json());
 app.use(cookieParser(process.env.TOKEN_SECRET));
 
 app.get('/generate-password/:password', async (req, res) => {
-    const { password } = req.params;
-    const hash = hashPassword(password);
-    return res.send(hash);
+	const { password } = req.params;
+	const hash = hashPassword(password);
+	return res.send(hash);
 });
 
 app.post('/login', async (req, res) => {
-    const { password } = req.body;
-    if (!password) {
-        return sendErrorMessage(res, 422, 'PASSWORD_NOT_PROVIDED');
-    }
+	const { password } = req.body;
+	if (!password) {
+		return sendErrorMessage(res, 422, 'PASSWORD_NOT_PROVIDED');
+	}
 
-    const user = await getUserByPassword(password);
-    if (!user) {
-        return sendErrorMessage(res, 401, 'USER_NOT_FOUND');
-    }
+	const user = await getUserByPassword(password);
+	if (!user) {
+		return sendErrorMessage(res, 401, 'USER_NOT_FOUND');
+	}
 
-    const token = generateAccessToken(user);
-    signJWTCookie(res, token);
+	const token = generateAccessToken(user);
+	signJWTCookie(res, token);
 
-    const { name, surname, roles } = user;
-    return res.send({
-        ok: true,
-        message: 'USER_LOGGED_IN',
-        user: { name, surname, roles },
-    });
+	const { name, surname, roles } = user;
+	return res.send({
+		ok: true,
+		message: 'USER_LOGGED_IN',
+		user: { name, surname, roles },
+	});
 });
 
 // app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
 
 app.get('/product/:id', verifyAccessToken, async (req, res) => {
-    const productCode = req.params.id;
-    const product = await getArticleById(productCode);
+	const productCode = req.params.id;
+	const product = await getArticleById(productCode);
 
-    return res.send({ ok: true, message: 'SUCCESS', product: product });
+	return res.send({ ok: true, message: 'SUCCESS', product: product });
 });
 
 app.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
-    const coffeeSubscribers = await getAllCoffeeSubscriptions();
-    res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
+	const coffeeSubscribers = await getAllCoffeeSubscriptions();
+	res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
 });
 
 app.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async (req, res) => {
-    const clientId = +req.params.clientId;
-    const amount = +req.params.amount;
+	const clientId = +req.params.clientId;
+	const amount = +req.params.amount;
 
-    await updateCoffeeSubscriptionByAmount(clientId, req.user.id, amount);
-    res.send({ ok: true, message: 'SUCCESS' });
+	await updateCoffeeSubscriptionByAmount(clientId, req.user.id, amount);
+	res.send({ ok: true, message: 'SUCCESS' });
 });
 
 app.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async (req, res) => {
-    const clientId = +req.params.clientId;
+	const clientId = +req.params.clientId;
 
-    await updateCoffeeSubscriptionByReceiveCoffee(clientId, req.user.id);
-    res.send({ ok: true, message: 'SUCCESS' });
+	await updateCoffeeSubscriptionByReceiveCoffee(clientId, req.user.id);
+	res.send({ ok: true, message: 'SUCCESS' });
 });
 
 app.post('/order/create', verifyAccessToken, async (req, res) => {
-    const { products, paymentMethod } = req.body;
+	const { products, paymentMethod } = req.body;
 
-    if (products.length < 1) {
-        return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
-    }
+	if (products.length < 1) {
+		return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
+	}
 
-    await createOrder(products, paymentMethod, req.user.id);
-    res.send({ ok: true, message: 'SELL_CREATED' });
+	await createOrder(products, paymentMethod, req.user.id);
+	res.send({ ok: true, message: 'SELL_CREATED' });
 });
 
 app.get('/raports/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {
-    const data = await getRaport();
-    res.send({ ok: true, message: 'SUCCESS', data });
+	const data = await getRaport();
+	res.send({ ok: true, message: 'SUCCESS', data });
 });
 
 app.get(
-    '/raports/sellment-close/generate-raport',
-    verifyAccessToken,
-    (...args) => hasRole(...args, 'admin'),
-    async (req, res) => {
-        const raportInfo = await generateRaport(req.user.id);
+	'/raports/sellment-close/generate-raport',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const raportInfo = await generateRaport(req.user.id);
 
-        if (!raportInfo) {
-            return sendErrorMessage(res, 409, 'RAPORT_NOT_GENERATED');
-        }
+		if (!raportInfo) {
+			return sendErrorMessage(res, 409, 'RAPORT_NOT_GENERATED');
+		}
 
-        const raport = await getRaport(raportInfo.id);
-        const date = moment(raportInfo.date).format('DD.MM.YY');
+		const raport = await getRaport(raportInfo.id);
+		const date = moment(raportInfo.date).format('DD.MM.YY');
 
-        const raportPath = await generateRaportPDF(raport, date, raportInfo.number, raportInfo.year_number);
-        const pdfFile = fs.readFileSync(raportPath);
-        fs.rmSync(raportPath);
+		const raportPath = await generateRaportPDF(raport, date, raportInfo.number, raportInfo.year_number);
+		const pdfFile = fs.readFileSync(raportPath);
+		fs.rmSync(raportPath);
 
-        res.contentType('application/pdf');
-        res.send(pdfFile);
-    }
+		res.contentType('application/pdf');
+		res.send(pdfFile);
+	}
 );
 
 app.get(
-    '/get-workers',
-    verifyAccessToken,
-    (...args) => hasRole(...args, 'admin'),
-    async (req, res) => {
-        const workers = await getWorkers();
-        res.send({ ok: true, message: 'SUCCESS', workers });
-    }
+	'/workers/get',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const workers = await getWorkers();
+		res.send({ ok: true, message: 'SUCCESS', workers });
+	}
 );
 
 app.get(
-    '/get-activities',
-    verifyAccessToken,
-    (...args) => hasRole(...args, 'admin'),
-    async (req, res) => {
-        const activities = await getActivities();
-        res.send({ ok: true, message: 'SUCCESS', activities });
-    }
+	'/activities/get',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const activities = await getActivities();
+		res.send({ ok: true, message: 'SUCCESS', activities });
+	}
+);
+
+app.post(
+	'/activities/create',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const { workerId, activityId, description, date, amount } = req.body;
+		await createActivity(activityId, req.user.id, workerId, amount, date, description);
+		res.send({ ok: true, message: 'SUCCESS' });
+	}
 );
 
 app.listen(port, () => {
-    console.log(`⚡ Server running at: http://localhost:${port}`);
+	console.log(`⚡ Server running at: http://localhost:${port}`);
 });

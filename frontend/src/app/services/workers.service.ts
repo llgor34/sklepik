@@ -11,7 +11,7 @@ export class WorkersService {
 
   getWorkers() {
     return this.http
-      .get<WorkersResponse>('api/get-workers')
+      .get<WorkersResponse>('api/workers/get')
       .pipe(map((res) => res.workers));
   }
 }
