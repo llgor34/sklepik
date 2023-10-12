@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Wrz 19, 2023 at 08:44 AM
+-- Generation Time: Paź 12, 2023 at 07:21 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.0.28
 
@@ -29,14 +29,14 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL,
-  `description` text DEFAULT NULL
+  `name` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`id`, `description`) VALUES
+INSERT INTO `activities` (`id`, `name`) VALUES
 (1, 'Inne'),
 (2, 'Bułki'),
 (3, 'Kasa'),

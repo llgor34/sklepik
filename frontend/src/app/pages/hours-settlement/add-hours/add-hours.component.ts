@@ -14,12 +14,19 @@ export class AddHoursComponent implements OnInit {
   workers: Worker[] = [];
   activities: Activity[] = [];
 
+  activityId = '1';
+  isOtherActivity = true;
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const data = this.route.snapshot.data;
     this.workers = data['workers'];
     this.activities = data['activities'];
+  }
+
+  checkActivity() {
+    this.isOtherActivity = +this.activityId === 1;
   }
 
   onSubmit() {
