@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 12, 2023 at 07:21 PM
+-- Generation Time: Paź 12, 2023 at 08:09 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.0.28
 
@@ -428,19 +428,10 @@ CREATE TABLE `worked_hours` (
   `admin_id` int(11) DEFAULT NULL,
   `worker_id` int(11) DEFAULT NULL,
   `amount` decimal(10,0) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `work_date` date DEFAULT NULL,
   `modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `worked_hours`
---
-
-INSERT INTO `worked_hours` (`id`, `activity_id`, `admin_id`, `worker_id`, `amount`, `work_date`, `modified`) VALUES
-(0, 5, 2, 3, 2, '2023-09-05', '2023-09-05 21:05:19'),
-(1, 5, 2, 3, 2, '2023-09-05', '2023-09-05 21:04:37'),
-(2, 4, 2, 4, 2, '2023-09-05', '2023-09-05 21:03:29'),
-(3, 3, 2, 2, 2, '2023-09-05', '2023-09-05 21:02:42');
 
 -- --------------------------------------------------------
 
@@ -642,6 +633,12 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `sellment_close`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `worked_hours`
+--
+ALTER TABLE `worked_hours`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `workers`
