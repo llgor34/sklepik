@@ -9,5 +9,8 @@ export interface ErrorResponse extends Response {
     | 'PRODUCTS_NOT_PROVIDED'
     | 'AUTH_TOKEN_NOT_PROVIDED'
     | 'AUTH_TOKEN_EXPIRED'
-    | 'INSUFFICIENT_PERMISSIONS';
+    | 'INSUFFICIENT_PERMISSIONS'
+    | 'RAPORT_NOT_GENERATED'
+    | 'DISCOUNT_TOO_HIGH'
+    | 'NEGATIVE_PRICE';
 }

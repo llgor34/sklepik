@@ -41,29 +41,47 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ product.code }}</td>
-        <td>{{ product.short_name }}</td>
-        <td class="currency-addon">{{ product.price }}</td>
-        <td>
-          <input
-            class="form-control"
-            name="productAmount"
-            [(ngModel)]="product.amount"
-            min="1"
-            type="number"
-          />
-        </td>
-        <td class="currency-addon">
-          {{ product.price * product.amount | currency : " " }}
-        </td>
-        <td>
-          <button (click)="removeProduct(i)" class="btn btn-danger">
-            usuń
-          </button>
-        </td>
-      </tr>
+      <ng-container *ngFor="let product of products; let i = index">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ product.code }}</td>
+          <td>{{ product.short_name }}</td>
+          <td class="currency-addon">{{ product.price }}</td>
+          <td>
+            <input
+              *ngIf="!isProductDiscount(product)"
+              class="form-control"
+              name="productAmount"
+              [(ngModel)]="product.amount"
+              min="1"
+              type="number"
+            />
+            <input
+              *ngIf="isProductDiscount(product)"
+              class="form-control"
+              name="productAmount"
+              [(ngModel)]="product.amount"
+              min="1"
+              [max]="product.maxDiscountAmount!"
+              type="number"
+            />
+          </td>
+          <td class="currency-addon">
+            {{ product.price * product.amount | currency : " " }}
+          </td>
+          <td>
+            <button (click)="removeProduct(i)" class="btn btn-danger">
+              usuń
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="isProductDiscount(product)">
+          <td class="form-text" colspan="8">
+            Pozostało {{ product.maxDiscountAmount! / 2 }} PLN rabatu
+            pracowniczego
+          </td>
+        </tr>
+      </ng-container>
       <tr>
         <td colspan="5">SUMA</td>
         <td class="currency-addon">{{ sum | currency : " " }}</td>

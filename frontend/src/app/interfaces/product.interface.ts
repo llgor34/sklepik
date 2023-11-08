@@ -10,6 +10,7 @@ export interface ProductRaw {
   price: number;
   code: string;
   company: Company;
+  maxDiscountAmount?: number;
 }
 
 export interface Product extends ProductRaw {

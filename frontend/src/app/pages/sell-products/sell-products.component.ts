@@ -1,10 +1,12 @@
 import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
+import { WorkedHoursService } from 'src/app/services/worked-hours.service';
+import { forkJoin, of, switchMap } from 'rxjs';
+import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
 
 @Component({
   selector: 'app-sell-products',
@@ -24,10 +26,10 @@ export class SellProductsComponent implements DoCheck {
   productCodeControl!: ElementRef;
 
   constructor(
-    public authService: AuthService,
     private productsService: ProductsService,
     private orderService: OrderService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private workedHoursService: WorkedHoursService
   ) {}
 
   ngDoCheck(): void {
@@ -48,19 +50,27 @@ export class SellProductsComponent implements DoCheck {
 
         this.toastService.showSuccess('Utworzono zamówienie');
       },
-      error: () => {
-        this.toastService.showError('Wystąpił nieoczekiwany błąd');
+      error: (err: ErrorResponse) => {
+        let message = 'Wystąpił nieoczekiwany błąd';
+        switch (err.message) {
+          case 'DISCOUNT_TOO_HIGH':
+            message =
+              'Kwota zniżki nie może przekraczać łącznej kwoty wypracowanych zniżek';
+            break;
+          case 'NEGATIVE_PRICE':
+            message = 'Kwota zamówienia nie może być ujemna';
+            break;
+        }
+        this.toastService.showError(message);
       },
     });
   }
 
   calculateProductsSum() {
     let newProductsSum = 0;
-
     for (const product of this.products) {
       newProductsSum += product.price * product.amount;
     }
-
     this.sum = newProductsSum;
   }
 
@@ -82,21 +92,44 @@ export class SellProductsComponent implements DoCheck {
   }
 
   getProduct(productCode: number) {
-    this.productsService.getProductByCode(productCode).subscribe((product) => {
-      this.focusProductCodeControl();
-      if (!product) return;
+    this.productsService
+      .getProductByCode(productCode)
+      .pipe(
+        switchMap((product) =>
+          this.isProductDiscount(product!)
+            ? forkJoin([
+                of(product),
+                this.workedHoursService.getUsedDiscount(product!.code),
+                this.workedHoursService.getOwedDiscount(product!.code),
+              ])
+            : of([product, null, null])
+        )
+      )
+      .subscribe((data) => {
+        const [product, usedDiscount, owedDiscount] = data;
 
-      const existingProduct = this.getExistingProduct(product);
+        this.focusProductCodeControl();
+        if (!product) return;
 
-      if (existingProduct) {
-        this.products[this.products.indexOf(existingProduct)].amount++;
+        if (this.isProductDiscount(product)) {
+          const discountLeft = <number>owedDiscount - <number>usedDiscount;
+          product.maxDiscountAmount = discountLeft * 2;
+        }
+
+        const existingProduct = this.getExistingProduct(product);
+        if (existingProduct) {
+          this.products[this.products.indexOf(existingProduct)].amount++;
+          this.resetProductCodeControl();
+          return;
+        }
+
+        this.addProduct(product);
         this.resetProductCodeControl();
-        return;
-      }
+      });
+  }
 
-      this.addProduct(product);
-      this.resetProductCodeControl();
-    });
+  isProductDiscount(product: Product) {
+    return product.type === 'discount';
   }
 
   focusProductCodeControl() {

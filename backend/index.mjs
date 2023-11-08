@@ -16,6 +16,8 @@ import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
 import { getWorkers } from './db/workers.mjs';
 import { getActivities, createActivity } from './db/activities.mjs';
+import { getUsedDiscount } from './db/used-discount.mjs';
+import { getOwedDiscount } from './db/owed-discount.mjs';
 
 dotenv.config();
 const port = 3000;
@@ -85,6 +87,25 @@ app.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async
 app.post('/order/create', verifyAccessToken, async (req, res) => {
 	const { products, paymentMethod } = req.body;
 
+	let totalPrice = 0;
+	for (const product of products) {
+		totalPrice += +product.price * product.amount;
+	}
+	if (totalPrice < 0) {
+		return sendErrorMessage(res, 422, 'NEGATIVE_PRICE');
+	}
+
+	const discounts = products.filter(product => product.type === 'discount');
+	for (const discount of discounts) {
+		const usedDiscount = await getUsedDiscount(discount.code);
+		const owedDiscount = await getOwedDiscount(discount.code);
+
+		const leftDiscount = owedDiscount + usedDiscount + discount.amount * +discount.price;
+		if (leftDiscount < 0) {
+			return sendErrorMessage(res, 422, 'DISCOUNT_TOO_HIGH');
+		}
+	}
+
 	if (products.length < 1) {
 		return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
 	}
@@ -130,6 +151,20 @@ app.get(
 		res.send({ ok: true, message: 'SUCCESS', workers });
 	}
 );
+
+app.get('/workers/get-used-discount/:id', verifyAccessToken, async (req, res) => {
+	const workerCode = +req.params.id;
+
+	const usedDiscount = await getUsedDiscount(workerCode);
+	res.send({ ok: true, message: 'SUCCESS', usedDiscount });
+});
+
+app.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) => {
+	const workerCode = +req.params.id;
+
+	const owedDiscount = await getOwedDiscount(workerCode);
+	res.send({ ok: true, message: 'SUCCESS', owedDiscount });
+});
 
 app.get(
 	'/activities/get',
