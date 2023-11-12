@@ -18,6 +18,7 @@ import { getWorkers } from './db/workers.mjs';
 import { getActivities, createActivity } from './db/activities.mjs';
 import { getUsedDiscount } from './db/used-discount.mjs';
 import { getOwedDiscount } from './db/owed-discount.mjs';
+import { deleteHoursSettlement, getHoursSettlement } from './db/worked-hours.mjs';
 
 dotenv.config();
 const port = 3000;
@@ -154,16 +155,28 @@ app.get(
 
 app.get('/workers/get-used-discount/:id', verifyAccessToken, async (req, res) => {
 	const workerCode = +req.params.id;
-
 	const usedDiscount = await getUsedDiscount(workerCode);
+
 	res.send({ ok: true, message: 'SUCCESS', usedDiscount });
 });
 
 app.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) => {
 	const workerCode = +req.params.id;
-
 	const owedDiscount = await getOwedDiscount(workerCode);
+
 	res.send({ ok: true, message: 'SUCCESS', owedDiscount });
+});
+
+app.get('/hours-settlement/get', verifyAccessToken, async (req, res) => {
+	const hoursSettlement = await getHoursSettlement();
+	res.send({ ok: true, message: 'SUCCESS', hoursSettlement });
+});
+
+app.get('/hours-settlement/delete/:id', verifyAccessToken, async (req, res) => {
+	const hoursSettlementId = +req.params.id;
+	await deleteHoursSettlement(hoursSettlementId);
+
+	res.send({ ok: true, message: 'SUCCESS' });
 });
 
 app.get(

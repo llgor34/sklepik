@@ -27,6 +27,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
+import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.
     FilterPipe,
     HoursSettlementComponent,
     AddHoursComponent,
+    ConfirmButtonComponent,
   ],
   imports: [
     BrowserModule,

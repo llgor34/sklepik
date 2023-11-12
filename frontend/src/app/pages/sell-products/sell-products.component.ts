@@ -4,7 +4,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
-import { WorkedHoursService } from 'src/app/services/worked-hours.service';
+import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
 
@@ -29,7 +29,7 @@ export class SellProductsComponent implements DoCheck {
     private productsService: ProductsService,
     private orderService: OrderService,
     private toastService: ToastService,
-    private workedHoursService: WorkedHoursService
+    private hoursSettlementService: HoursSettlementService
   ) {}
 
   ngDoCheck(): void {
@@ -99,8 +99,8 @@ export class SellProductsComponent implements DoCheck {
           this.isProductDiscount(product!)
             ? forkJoin([
                 of(product),
-                this.workedHoursService.getUsedDiscount(product!.code),
-                this.workedHoursService.getOwedDiscount(product!.code),
+                this.hoursSettlementService.getUsedDiscount(product!.code),
+                this.hoursSettlementService.getOwedDiscount(product!.code),
               ])
             : of([product, null, null])
         )

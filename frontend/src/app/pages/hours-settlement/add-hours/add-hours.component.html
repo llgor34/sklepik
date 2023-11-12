@@ -60,6 +60,17 @@
       />
     </div>
   </div>
+  <div class="row">
+    <div class="form-group col-12">
+      <label for="amount">Resetuj formularz</label>
+      <input
+        class="form-check-input mx-2"
+        type="checkbox"
+        name="shouldResetForm"
+        [(ngModel)]="shouldResetForm"
+      />
+    </div>
+  </div>
   <button [disabled]="form.invalid" class="btn btn-primary mt-5 w-100">
     Potwierdź
   </button>

@@ -14,8 +14,6 @@ import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/
 import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
-import { WorkersResolver } from './pages/hours-settlement/add-hours/workers.resolver';
-import { ActivitiesResolver } from './pages/hours-settlement/add-hours/activities.resolver';
 
 const routes: Routes = [
   {
@@ -87,10 +85,6 @@ const routes: Routes = [
           {
             path: 'add',
             component: AddHoursComponent,
-            resolve: {
-              workers: WorkersResolver,
-              activities: ActivitiesResolver,
-            },
           },
         ],
       },
