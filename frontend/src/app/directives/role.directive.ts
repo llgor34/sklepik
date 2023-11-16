@@ -21,7 +21,7 @@ export class RoleDirective implements OnInit {
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef
   ) {
-    this.userRoles = authService.getRoles();
+    this.userRoles = authService.getRoles() ?? [];
   }
 
   ngOnInit(): void {

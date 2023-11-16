@@ -44,7 +44,7 @@ export function signJWTCookie(res, token) {
 }
 
 export function hasRole(req, res, next, role) {
-	if (!req.user.roles.includes(role)) {
+	if (!req.user.roles?.includes(role)) {
 		return sendErrorMessage(res, 401, 'INSUFFICIENT_PERMISSIONS');
 	}
 	next();

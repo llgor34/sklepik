@@ -167,17 +167,27 @@ app.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) =>
 	res.send({ ok: true, message: 'SUCCESS', owedDiscount });
 });
 
-app.get('/hours-settlement/get', verifyAccessToken, async (req, res) => {
-	const hoursSettlement = await getHoursSettlement();
-	res.send({ ok: true, message: 'SUCCESS', hoursSettlement });
-});
+app.get(
+	'/hours-settlement/get',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const hoursSettlement = await getHoursSettlement();
+		res.send({ ok: true, message: 'SUCCESS', hoursSettlement });
+	}
+);
 
-app.get('/hours-settlement/delete/:id', verifyAccessToken, async (req, res) => {
-	const hoursSettlementId = +req.params.id;
-	await deleteHoursSettlement(hoursSettlementId);
+app.get(
+	'/hours-settlement/delete/:id',
+	verifyAccessToken,
+	(...args) => hasRole(...args, 'admin'),
+	async (req, res) => {
+		const hoursSettlementId = +req.params.id;
+		await deleteHoursSettlement(hoursSettlementId);
 
-	res.send({ ok: true, message: 'SUCCESS' });
-});
+		res.send({ ok: true, message: 'SUCCESS' });
+	}
+);
 
 app.get(
 	'/activities/get',

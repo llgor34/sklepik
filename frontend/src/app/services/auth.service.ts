@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   getRoles() {
-    return this.user!.roles;
+    return this.user?.roles ?? [];
   }
 
   getUsername() {

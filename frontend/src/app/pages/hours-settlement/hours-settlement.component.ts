@@ -25,14 +25,18 @@ export class HoursSettlementComponent implements OnInit {
       .subscribe((records) => (this.records = records));
   }
 
+  addHoursSettlementRecord() {
+    this.router.navigateByUrl('/hours-settlement/add');
+  }
+
   deleteHoursSettlementRecord(id: number) {
     this.hoursSettlementService.deleteHoursSettlement(id).subscribe(() => {
-      this.records = this.records.filter((record) => record.id != id);
+      this.removeHoursSettlementRecord(id);
       this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
     });
   }
 
-  addHoursSettlementRecord() {
-    this.router.navigateByUrl('/hours-settlement/add');
+  private removeHoursSettlementRecord(id: number) {
+    this.records = this.records.filter((record) => record.id != id);
   }
 }

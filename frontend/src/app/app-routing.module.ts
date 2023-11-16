@@ -14,6 +14,7 @@ import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/
 import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   {
@@ -87,6 +88,10 @@ const routes: Routes = [
             component: AddHoursComponent,
           },
         ],
+        canActivateChild: [RoleGuard],
+        data: {
+          roles: ['admin'],
+        },
       },
     ],
   },

@@ -78,13 +78,6 @@ export class SellProductsComponent implements DoCheck {
     this.products = [];
   }
 
-  onProductCodePaste(event: ClipboardEvent) {
-    const productCode = +event.clipboardData!.getData('text');
-    if (!productCode) return;
-
-    this.getProduct(productCode);
-  }
-
   onGetProduct() {
     if (!this.productCode) return;
 
@@ -112,7 +105,7 @@ export class SellProductsComponent implements DoCheck {
         if (!product) return;
 
         if (this.isProductDiscount(product)) {
-          const discountLeft = <number>owedDiscount - <number>usedDiscount;
+          const discountLeft = <number>owedDiscount + <number>usedDiscount;
           product.maxDiscountAmount = discountLeft * 2;
         }
 
