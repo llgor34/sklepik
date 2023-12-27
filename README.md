@@ -36,7 +36,7 @@ Dzięki tym funkcjom, projekt Sklepik umożliwia sprawną obsługę operacji skl
 
 
 ## Współtwórcy
-- szmurk0
+- szmurk0 (https://github.com/szmurk0)
 
 Dziękujemy wszystkim, którzy przyczynili się do tego projektu.
 
