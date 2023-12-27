@@ -13,7 +13,7 @@ Projekt Sklepik został stworzony w celu efektywnego zarządzania operacjami w s
 
 Sklepik generuje codzienny raport zawierający kluczowe dane z całego dnia, takie jak ilość sprzedanych poszczególnych produktów oraz zysk dzienny. Raport ten dostarcza kompleksowych informacji na temat działalności sklepiku, co ułatwia analizę i podejmowanie decyzji biznesowych.
 
-Dzięki tym funkcjom, projekt Sklepik umożliwia sprawną obsługę operacji sklepiku oraz zapewnia narzędzia do monitorowania wydajności i analizy danych handlowych.
+Dzięki tym funkcjom, projekt Sklepik umożliwia sprawną obsługę operacji sklepiku oraz zapewnia narzędzia do monitorowania wydajności i analizy danych handlowych. Pomaga również ta funkcja w księgowości.
 
 
 ## Opis
