@@ -36,7 +36,7 @@
     <div class="form-group col-12">
       <label for="description">Opis pracy na rzecz sklepiku</label>
       <textarea
-        [disabled]="!isOtherActivity"
+        [disabled]="isActivityWithoutDescription"
         class="form-control"
         ngModel
         name="description"
@@ -57,17 +57,6 @@
         ngModel
         name="amount"
         required
-      />
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-12">
-      <label for="amount">Resetuj formularz</label>
-      <input
-        class="form-check-input mx-2"
-        type="checkbox"
-        name="shouldResetForm"
-        [(ngModel)]="shouldResetForm"
       />
     </div>
   </div>

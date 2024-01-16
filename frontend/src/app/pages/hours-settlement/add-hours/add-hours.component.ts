@@ -17,9 +17,9 @@ export class AddHoursComponent implements OnInit {
   workers: Worker[] = [];
   activities: Activity[] = [];
 
-  activityId = '1';
-  isOtherActivity = true;
-  shouldResetForm = true;
+  activityIdsWithDescription = [1, 7];
+  activityId = 1;
+  isActivityWithoutDescription = true;
 
   constructor(
     private router: Router,
@@ -31,6 +31,7 @@ export class AddHoursComponent implements OnInit {
   ngOnInit(): void {
     this.getWorkers();
     this.getActivities();
+    this.checkActivity();
   }
 
   getWorkers() {
@@ -46,7 +47,13 @@ export class AddHoursComponent implements OnInit {
   }
 
   checkActivity() {
-    this.isOtherActivity = +this.activityId === 1;
+    for (let activityId of this.activityIdsWithDescription) {
+      if (+this.activityId === activityId) {
+        this.isActivityWithoutDescription = false;
+        return;
+      }
+    }
+    this.isActivityWithoutDescription = true;
   }
 
   onSubmit() {
@@ -58,9 +65,6 @@ export class AddHoursComponent implements OnInit {
     };
 
     this.activitiesService.createActivity(formValue).subscribe(() => {
-      if (this.shouldResetForm) {
-        this.router.navigateByUrl('/hours-settlement');
-      }
       this.toastService.showSuccess('Dodano godziny robocze');
     });
   }
