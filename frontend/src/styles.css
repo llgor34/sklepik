@@ -14,3 +14,9 @@ h1 {
 .currency::after {
   content: " PLN";
 }
+
+.sticky-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

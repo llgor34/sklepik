@@ -28,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
+import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ConfirmButtonComponent } from './component/confirm-button/confirm-butto
     HoursSettlementComponent,
     AddHoursComponent,
     ConfirmButtonComponent,
+    TableStickyComponent,
   ],
   imports: [
     BrowserModule,
