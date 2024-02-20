@@ -25,12 +25,6 @@ export class SellCoffeeSubscribersComponent implements OnInit {
     this.currentDate = this.dateService.getLongDate();
   }
 
-  getSubscribers() {
-    this.coffeeSubscribersService
-      .getSubscribers()
-      .subscribe((subscribers) => (this.subscribers = subscribers));
-  }
-
   isSubscriptionUsedToday(subscriber: CoffeeSubscriber) {
     const date = subscriber.coffees_receive_datetimes[0]?.split(' ')[0];
     return date == this.currentDate;
@@ -41,14 +35,9 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
     this.coffeeSubscribersService
       .updateCoffeeSubscriber(subscriber.client_id, updateByAmount)
-      .subscribe({
-        next: () => {
-          this.toastService.showSuccess('Zmodyfikowano liczbę kaw');
-          this.getSubscribers();
-        },
-        error: () => {
-          this.toastService.showError('Nie udało się zmodyfikować liczby kaw');
-        },
+      .subscribe(() => {
+        this.toastService.showSuccess('Zmodyfikowano liczbę kaw');
+        this.getSubscribers();
       });
   }
 
@@ -57,15 +46,16 @@ export class SellCoffeeSubscribersComponent implements OnInit {
 
     this.coffeeSubscribersService
       .useCoffeeSubscription(subscriber.client_id)
-      .subscribe({
-        next: () => {
-          this.toastService.showSuccess('Użyto kawonamentu');
-          this.getSubscribers();
-        },
-        error: () => {
-          this.toastService.showError('Nie udało się użyć kawonamentu');
-        },
+      .subscribe(() => {
+        this.toastService.showSuccess('Użyto kawonamentu');
+        this.getSubscribers();
       });
+  }
+
+  getSubscribers() {
+    this.coffeeSubscribersService
+      .getSubscribers()
+      .subscribe((subscribers) => (this.subscribers = subscribers));
   }
 
   getSubscriberByIdx(idx: number) {

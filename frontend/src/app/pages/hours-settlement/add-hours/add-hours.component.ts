@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Activity } from 'src/app/interfaces/activity.interface';
 import { Worker } from 'src/app/interfaces/worker.interface';
 import { ActivitiesService } from 'src/app/services/activities.service';
@@ -22,7 +21,6 @@ export class AddHoursComponent implements OnInit {
   isActivityWithoutDescription = true;
 
   constructor(
-    private router: Router,
     private workersService: WorkersService,
     private activitiesService: ActivitiesService,
     private toastService: ToastService

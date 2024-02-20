@@ -10,12 +10,21 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getProductByCode(code: number) {
-    return this.http
-      .get<ProductResponse>(`api/product/${code}`)
-      .pipe(
-        map((res) =>
-          res.product ? ({ ...res.product, amount: 1 } as Product) : res.product
-        )
-      );
+    return this.http.get<ProductResponse>(`api/product/${code}`).pipe(
+      map((res) =>
+        res.product
+          ? ({
+              ...res.product,
+              amount: 1,
+              selectedOptions: res.product.product_category_options.map(
+                (category) => ({
+                  category_id: category.category_id,
+                  option_id: null,
+                })
+              ),
+            } as Product)
+          : res.product
+      )
+    );
   }
 }

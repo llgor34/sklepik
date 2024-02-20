@@ -21,7 +21,7 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
-import { firstElementOfArray } from './pipes/first-use-of-subscription.pipe';
+import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
 import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';

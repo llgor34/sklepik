@@ -7,7 +7,7 @@ import fs from 'fs';
 
 import { generateAccessToken, verifyAccessToken, signJWTCookie, hasRoleMiddleware, hasRole, hashPassword } from './general/auth-functions.mjs';
 import { getUserByPassword } from './db/auth.mjs';
-import { getArticleById } from './db/articles.mjs';
+import { getArticleByCode } from './db/articles.mjs';
 import { sendErrorMessage } from './general/messages.mjs';
 import { getAllCoffeeSubscriptions, updateCoffeeSubscriptionByAmount, updateCoffeeSubscriptionByReceiveCoffee } from './db/coffee-subscription.mjs';
 import { createOrder } from './db/order.mjs';
@@ -60,7 +60,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/product/:id', verifyAccessToken, async (req, res) => {
     const productCode = req.params.id;
-    const product = await getArticleById(productCode);
+    const product = await getArticleByCode(productCode);
 
     return res.send({ ok: true, message: 'SUCCESS', product: product });
 });
@@ -113,8 +113,8 @@ app.post('/order/create', verifyAccessToken, async (req, res) => {
         return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
     }
 
-    await createOrder(products, paymentMethod, req.user.id);
-    res.send({ ok: true, message: 'SELL_CREATED' });
+    const orderNumber = await createOrder(products, paymentMethod, req.user.id);
+    res.send({ ok: true, message: 'SELL_CREATED', orderNumber });
 });
 
 app.get('/raports/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {

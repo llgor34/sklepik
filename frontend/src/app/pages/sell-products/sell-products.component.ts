@@ -6,7 +6,6 @@ import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { forkJoin, of, switchMap } from 'rxjs';
-import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
 
 @Component({
   selector: 'app-sell-products',
@@ -17,6 +16,7 @@ export class SellProductsComponent implements DoCheck {
   products: Product[] = [];
   productCode: number | null = null;
   paymentMethod: PaymentMethod | null = null;
+  productIdsWithDisabledAmount: number[] = [30];
 
   sum = 0;
   amountPayed = 0;
@@ -38,32 +38,23 @@ export class SellProductsComponent implements DoCheck {
 
   submitSell() {
     if (!this.paymentMethod) return;
+    if (!this.isProductOptionsSelected()) {
+      this.toastService.showWarning('Należy wybrać opcje dla produktów');
+      return;
+    }
 
-    this.orderService.createOrder(this.products, this.paymentMethod).subscribe({
-      next: () => {
+    this.orderService
+      .createOrder(this.products, this.paymentMethod!)
+      .subscribe(({ orderNumber }) => {
         this.resetProductCodeControl();
         this.focusProductCodeControl();
         this.resetProducts();
-        this.sum = 0;
-        this.amountPayed = 0;
-        this.exchange = 0;
+        this.resetSums();
 
-        this.toastService.showSuccess('Utworzono zamówienie');
-      },
-      error: (err: ErrorResponse) => {
-        let message = 'Wystąpił nieoczekiwany błąd';
-        switch (err.message) {
-          case 'DISCOUNT_TOO_HIGH':
-            message =
-              'Kwota zniżki nie może przekraczać łącznej kwoty wypracowanych zniżek';
-            break;
-          case 'NEGATIVE_PRICE':
-            message = 'Kwota zamówienia nie może być ujemna';
-            break;
-        }
-        this.toastService.showError(message);
-      },
-    });
+        this.toastService.showSuccess(
+          `Utworzono zamówienie o numerze: ${orderNumber}`
+        );
+      });
   }
 
   calculateProductsSum() {
@@ -71,16 +62,27 @@ export class SellProductsComponent implements DoCheck {
     for (const product of this.products) {
       newProductsSum += product.price * product.amount;
     }
+
+    if (this.sum === newProductsSum) return;
     this.sum = newProductsSum;
+  }
+
+  resetSums() {
+    this.sum = 0;
+    this.amountPayed = 0;
+    this.exchange = 0;
   }
 
   resetProducts() {
     this.products = [];
   }
 
+  resetProductCodeControl() {
+    this.productCode = null;
+  }
+
   onGetProduct() {
     if (!this.productCode) return;
-
     this.getProduct(this.productCode);
   }
 
@@ -109,34 +111,40 @@ export class SellProductsComponent implements DoCheck {
           product.maxDiscountAmount = discountLeft * 2;
         }
 
-        const existingProduct = this.getExistingProduct(product);
-        if (existingProduct) {
-          this.products[this.products.indexOf(existingProduct)].amount++;
-          this.resetProductCodeControl();
-          return;
-        }
-
         this.addProduct(product);
         this.resetProductCodeControl();
       });
-  }
-
-  isProductDiscount(product: Product) {
-    return product.type === 'discount';
   }
 
   focusProductCodeControl() {
     this.productCodeControl.nativeElement.focus();
   }
 
-  resetProductCodeControl() {
-    this.productCode = null;
+  isProductDiscount(product: Product) {
+    return product.type === 'discount';
   }
 
-  getExistingProduct(product: Product) {
-    return this.products.filter(
-      (productInArray) => productInArray.code == product.code
-    )[0];
+  isProductIdAmountDisabled(id: number) {
+    return this.productIdsWithDisabledAmount.some(
+      (productId) => productId === id
+    );
+  }
+
+  isProductOptionsSelected() {
+    let valid = true;
+    mainLoop: for (const product of this.products) {
+      for (const option of product.selectedOptions) {
+        if (!option.option_id) {
+          valid = false;
+          break mainLoop;
+        }
+      }
+    }
+    return valid;
+  }
+
+  hasProductOptions(product: Product) {
+    return product.product_category_options.length > 0;
   }
 
   addProduct(product: Product) {

@@ -5,12 +5,10 @@ import {
   CanActivateChild,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { Role } from '../interfaces/role.interface';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

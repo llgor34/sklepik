@@ -13,3 +13,13 @@
 .form-check-label > * {
   margin: 0 5px;
 }
+
+.product-options label {
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.product-options-container {
+  display: flex;
+  column-gap: 10px;
+}

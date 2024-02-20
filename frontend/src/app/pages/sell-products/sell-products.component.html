@@ -54,6 +54,7 @@
               [(ngModel)]="product.amount"
               min="1"
               type="number"
+              [disabled]="isProductIdAmountDisabled(+product.code)"
             />
             <input
               *ngIf="isProductDiscount(product)"
@@ -69,9 +70,39 @@
             {{ product.price * product.amount | currency : " " }}
           </td>
           <td>
-            <button (click)="removeProduct(i)" class="btn btn-danger">
+            <button class="btn btn-danger" (click)="removeProduct(i)">
               usuń
             </button>
+          </td>
+        </tr>
+        <tr>
+          <td
+            *ngIf="product.product_category_options.length > 0"
+            class="product-options"
+            colspan="8"
+          >
+            <label>Opcje produktu</label>
+            <div class="product-options-container">
+              <div
+                *ngFor="
+                  let optionCategory of product.product_category_options;
+                  let j = index
+                "
+              >
+                <label>{{ optionCategory.category_name }}</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="product.selectedOptions[j].option_id"
+                >
+                  <option
+                    *ngFor="let option of optionCategory.options"
+                    [value]="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
           </td>
         </tr>
         <tr *ngIf="isProductDiscount(product)">
