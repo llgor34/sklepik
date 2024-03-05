@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { io } from 'socket.io-client';
+import { environment } from '../environment/environment';
+
 import { Product } from '../interfaces/product.interface';
-import { Response } from '../interfaces/response.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
 import { OrderNumberResponse } from '../interfaces/order-number.interface';
+import { Order } from '../interfaces/order.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +20,20 @@ export class OrderService {
       products,
       paymentMethod,
     });
+  }
+
+  getOrders$(): Observable<Order[]> {
+    const socket = io(environment.wsAddress, { withCredentials: true });
+    const observable = new Observable<Order[]>((observer) => {
+      socket.on('connect', () => {
+        socket.on('orderChange', (orders: Order[]) => observer.next(orders));
+        socket.on('reconnect_error', () =>
+          observer.error('Unexpected problem with socket connection')
+        );
+        socket.on('disconnect', () => observer.complete());
+      });
+    });
+
+    return observable;
   }
 }

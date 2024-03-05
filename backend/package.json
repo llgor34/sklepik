@@ -22,7 +22,8 @@
 		"jspdf-autotable": "^3.6.0",
 		"moment": "^2.29.4",
 		"mysql2": "^3.6.0",
-		"pdf-creator-node": "^2.3.5"
+		"pdf-creator-node": "^2.3.5",
+		"socket.io": "^4.7.4"
 	},
 	"type": "module",
 	"devDependencies": {

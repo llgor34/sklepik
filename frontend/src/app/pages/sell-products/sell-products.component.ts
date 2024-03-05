@@ -134,7 +134,7 @@ export class SellProductsComponent implements DoCheck {
     let valid = true;
     mainLoop: for (const product of this.products) {
       for (const option of product.selectedOptions) {
-        if (!option.option_id) {
+        if (option.option_id === null) {
           valid = false;
           break mainLoop;
         }

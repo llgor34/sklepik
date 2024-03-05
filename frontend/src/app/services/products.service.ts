@@ -19,7 +19,7 @@ export class ProductsService {
               selectedOptions: res.product.product_category_options.map(
                 (category) => ({
                   category_id: category.category_id,
-                  option_id: null,
+                  option_id: category.options[0].id,
                 })
               ),
             } as Product)

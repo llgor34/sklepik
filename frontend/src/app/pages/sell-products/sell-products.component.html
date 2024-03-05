@@ -75,12 +75,8 @@
             </button>
           </td>
         </tr>
-        <tr>
-          <td
-            *ngIf="product.product_category_options.length > 0"
-            class="product-options"
-            colspan="8"
-          >
+        <tr *ngIf="hasProductOptions(product)">
+          <td class="product-options" colspan="8">
             <label>Opcje produktu</label>
             <div class="product-options-container">
               <div
