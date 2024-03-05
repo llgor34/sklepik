@@ -1,1 +1,36 @@
-<p>orders works!</p>
+<h1>Zamówienia</h1>
+<div class="filters">
+  <h2>Filtry</h2>
+  <button class="btn btn-primary">filtr1</button>
+</div>
+<div class="row">
+  <div class="col-12 col-md-6 col-lg-4" *ngFor="let order of orders$ | async">
+    <div class="card card-body">
+      <h3 class="card-title">Zamówienie nr: {{ order.order_number }}</h3>
+      <p>Status zamówienia: {{ order.order_status }}</p>
+      <div>
+        Produkty do przygotowania:
+        <ul class="list-group mt-3" *ngFor="let product of order.products">
+          <li class="list-group-item">
+            {{ product.short_name }}
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex align-items-baseline justify-content-between"
+                *ngFor="let productOption of product.options"
+              >
+                <p class="m-0">
+                  {{ productOption.name }} - {{ productOption.value }}
+                </p>
+                <input
+                  class="d-block"
+                  style="width: 20px; height: 20px"
+                  type="checkbox"
+                />
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

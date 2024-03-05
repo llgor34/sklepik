@@ -34,11 +34,7 @@ export class LoginComponent {
         this.router.navigate(['/main']);
       },
       error: (error: ErrorResponse) => {
-        switch (error.message) {
-          case 'USER_NOT_FOUND':
-            this.userNotExists = true;
-            break;
-        }
+        this.userNotExists = true;
       },
     });
   }

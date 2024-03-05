@@ -23,15 +23,17 @@ export class OrderService {
   }
 
   getOrders$(): Observable<Order[]> {
-    const socket = io(environment.wsAddress, { withCredentials: true });
+    const socket = io(`${environment.wsAddress}/orders`, environment.wsConfig);
     const observable = new Observable<Order[]>((observer) => {
       socket.on('connect', () => {
-        socket.on('orderChange', (orders: Order[]) => observer.next(orders));
+        console.log('connected');
+        socket.on('ordersChange', (orders: Order[]) => observer.next(orders));
         socket.on('reconnect_error', () =>
           observer.error('Unexpected problem with socket connection')
         );
         socket.on('disconnect', () => observer.complete());
       });
+      return () => socket.close();
     });
 
     return observable;

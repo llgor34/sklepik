@@ -15,7 +15,7 @@ import { SellProductsComponent } from './pages/sell-products/sell-products.compo
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { RoleDirective } from './directives/role.directive';
+import { AllowedRolesDirective } from './directives/allowed-roles.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
@@ -40,7 +40,7 @@ import { TableStickyComponent } from './component/table-sticky/table-sticky.comp
     RaportComponent,
     ArchiveComponent,
     OrdersComponent,
-    RoleDirective,
+    AllowedRolesDirective,
     ClosementProtocolComponent,
     SellDefaultComponent,
     CardTableComponent,

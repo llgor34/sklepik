@@ -11,9 +11,8 @@ import { Role } from '../interfaces/role.interface';
 @Directive({
   selector: '[allowedRoles]',
 })
-export class RoleDirective implements OnInit {
+export class AllowedRolesDirective implements OnInit {
   @Input() allowedRoles!: Role[];
-
   userRoles: Role[];
 
   constructor(
