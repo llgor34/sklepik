@@ -5,12 +5,12 @@ import { SellmentCloseRaport } from 'src/app/interfaces/sellment-close-product.i
 import { SellmentCloseRaportService } from 'src/app/services/sellment-close-raport.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ClosementProtocolResolver implements Resolve<SellmentCloseRaport> {
-  constructor(private sellmentCloseService: SellmentCloseRaportService) {}
+    constructor(private sellmentCloseService: SellmentCloseRaportService) {}
 
-  resolve(): Observable<SellmentCloseRaport> {
-    return this.sellmentCloseService.getProducts().pipe(map((res) => res.data));
-  }
+    resolve(): Observable<SellmentCloseRaport> {
+        return this.sellmentCloseService.getProducts().pipe(map((res) => res.data));
+    }
 }

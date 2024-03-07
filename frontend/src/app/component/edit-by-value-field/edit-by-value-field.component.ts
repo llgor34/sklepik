@@ -2,20 +2,20 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-by-value-field',
-  templateUrl: './edit-by-value-field.component.html',
-  styleUrls: ['./edit-by-value-field.component.css'],
+    selector: 'app-edit-by-value-field',
+    templateUrl: './edit-by-value-field.component.html',
+    styleUrls: ['./edit-by-value-field.component.css'],
 })
 export class EditByValueFieldComponent {
-  control = new FormControl(0);
+    control = new FormControl(0);
 
-  @Input() btnClass!: string;
-  @Input() btnText!: string;
+    @Input() btnClass!: string;
+    @Input() btnText!: string;
 
-  @Output() btnClick = new EventEmitter<number>();
+    @Output() btnClick = new EventEmitter<number>();
 
-  onButtonClick() {
-    this.btnClick.emit(this.control.value!);
-    this.control.reset();
-  }
+    onButtonClick() {
+        this.btnClick.emit(this.control.value!);
+        this.control.reset();
+    }
 }

@@ -2,9 +2,9 @@ import { query } from './db-functions.mjs';
 import { hashPassword } from '../general/auth-functions.mjs';
 
 export async function getUserByPassword(password) {
-	const hash = hashPassword(password);
-	const res = await query(
-		`
+    const hash = hashPassword(password);
+    const res = await query(
+        `
 	SELECT
 		workers.id, workers.name, workers.surname, workers.password, GROUP_CONCAT(roles.name) AS roles
 	FROM
@@ -17,8 +17,8 @@ export async function getUserByPassword(password) {
 		workers.password = ?
 	GROUP BY 
 		workers.id;`,
-		[hash]
-	);
+        [hash]
+    );
 
-	return res[0];
+    return res[0];
 }

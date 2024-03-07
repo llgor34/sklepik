@@ -7,63 +7,59 @@ import { ToastService } from 'src/app/services/toast.service';
 import { WorkersService } from 'src/app/services/workers.service';
 
 @Component({
-  selector: 'app-add-hours',
-  templateUrl: './add-hours.component.html',
-  styleUrls: ['./add-hours.component.css'],
+    selector: 'app-add-hours',
+    templateUrl: './add-hours.component.html',
+    styleUrls: ['./add-hours.component.css'],
 })
 export class AddHoursComponent implements OnInit {
-  @ViewChild('form') form!: NgForm;
-  workers: Worker[] = [];
-  activities: Activity[] = [];
+    @ViewChild('form') form!: NgForm;
+    workers: Worker[] = [];
+    activities: Activity[] = [];
 
-  activityIdsWithDescription = [1, 7];
-  activityId = 1;
-  isActivityWithoutDescription = true;
+    activityIdsWithDescription = [1, 7];
+    activityId = 1;
+    isActivityWithoutDescription = true;
 
-  constructor(
-    private workersService: WorkersService,
-    private activitiesService: ActivitiesService,
-    private toastService: ToastService
-  ) {}
+    constructor(
+        private workersService: WorkersService,
+        private activitiesService: ActivitiesService,
+        private toastService: ToastService
+    ) {}
 
-  ngOnInit(): void {
-    this.getWorkers();
-    this.getActivities();
-    this.checkActivity();
-  }
-
-  getWorkers() {
-    this.workersService
-      .getWorkers()
-      .subscribe((workers) => (this.workers = workers));
-  }
-
-  getActivities() {
-    this.activitiesService
-      .getActivities()
-      .subscribe((activities) => (this.activities = activities));
-  }
-
-  checkActivity() {
-    for (let activityId of this.activityIdsWithDescription) {
-      if (+this.activityId === activityId) {
-        this.isActivityWithoutDescription = false;
-        return;
-      }
+    ngOnInit(): void {
+        this.getWorkers();
+        this.getActivities();
+        this.checkActivity();
     }
-    this.isActivityWithoutDescription = true;
-  }
 
-  onSubmit() {
-    const { workerId, activityId } = this.form.value;
-    const formValue = {
-      ...this.form.value,
-      workerId: +workerId,
-      activityId: +activityId,
-    };
+    getWorkers() {
+        this.workersService.getWorkers().subscribe((workers) => (this.workers = workers));
+    }
 
-    this.activitiesService.createActivity(formValue).subscribe(() => {
-      this.toastService.showSuccess('Dodano godziny robocze');
-    });
-  }
+    getActivities() {
+        this.activitiesService.getActivities().subscribe((activities) => (this.activities = activities));
+    }
+
+    checkActivity() {
+        for (let activityId of this.activityIdsWithDescription) {
+            if (+this.activityId === activityId) {
+                this.isActivityWithoutDescription = false;
+                return;
+            }
+        }
+        this.isActivityWithoutDescription = true;
+    }
+
+    onSubmit() {
+        const { workerId, activityId } = this.form.value;
+        const formValue = {
+            ...this.form.value,
+            workerId: +workerId,
+            activityId: +activityId,
+        };
+
+        this.activitiesService.createActivity(formValue).subscribe(() => {
+            this.toastService.showSuccess('Dodano godziny robocze');
+        });
+    }
 }

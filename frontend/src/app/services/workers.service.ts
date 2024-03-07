@@ -4,14 +4,12 @@ import { WorkersResponse } from '../interfaces/worker.interface';
 import { map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class WorkersService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getWorkers() {
-    return this.http
-      .get<WorkersResponse>('api/workers/get')
-      .pipe(map((res) => res.workers));
-  }
+    getWorkers() {
+        return this.http.get<WorkersResponse>('api/workers/get').pipe(map((res) => res.workers));
+    }
 }

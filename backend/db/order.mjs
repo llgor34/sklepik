@@ -8,15 +8,33 @@ export async function createOrder(products, paymentMethod, workerId, clientId = 
     const paymentMethodId = await getPaymentMethodIdByName(paymentMethod);
     const orderStatus = products.some((product) => product.selectedOptions.length > 0) ? 'new' : 'nd';
 
-    await query(`INSERT INTO orders VALUES(null, ?, ?, ?, null, null, ?)`, [workerId, clientId, paymentMethodId, orderStatus]);
+    await query(`INSERT INTO orders VALUES(null, ?, ?, ?, null, null, ?)`, [
+        workerId,
+        clientId,
+        paymentMethodId,
+        orderStatus,
+    ]);
     const orderId = await getLatestOrderId();
 
     for (const product of products) {
-        await query(`INSERT INTO articles_sellment VALUES(null, ?, ?, ?, ?)`, [product.id, orderId, product.price, product.amount]);
+        await query(`INSERT INTO articles_sellment VALUES(null, ?, ?, ?, ?)`, [
+            product.id,
+            orderId,
+            product.price,
+            product.amount,
+        ]);
 
         if (product.selectedOptions.length > 0) {
             const articlesSellmentId = await getLatestArticlesSellmentId();
-            await Promise.all(product.selectedOptions.map(({ category_id, option_id }) => query(`INSERT INTO products_options_list VALUES(null, ?, ?, ?)`, [articlesSellmentId, category_id, option_id])));
+            await Promise.all(
+                product.selectedOptions.map(({ category_id, option_id }) =>
+                    query(`INSERT INTO products_options_list VALUES(null, ?, ?, ?)`, [
+                        articlesSellmentId,
+                        category_id,
+                        option_id,
+                    ])
+                )
+            );
         }
     }
 
@@ -52,15 +70,29 @@ export async function getOrders() {
     for (const order of ordersRAW) {
         const existingOrderIdx = orders.map((existingOrder) => existingOrder.order_id).indexOf(order.order_id);
         if (existingOrderIdx === -1) {
-            orders.push(new Order(order.order_id, order.order_status, [new OrderProduct(order.articles_sellment_id, order.short_name, [new OrderProductOption(order.option_category_name, order.option_name)])]));
+            orders.push(
+                new Order(order.order_id, order.order_status, [
+                    new OrderProduct(order.articles_sellment_id, order.short_name, [
+                        new OrderProductOption(order.option_category_name, order.option_name),
+                    ]),
+                ])
+            );
             continue;
         }
 
-        const existingProductIdx = orders[existingOrderIdx].products.map((product) => product.articles_sellment_id).indexOf(order.articles_sellment_id);
+        const existingProductIdx = orders[existingOrderIdx].products
+            .map((product) => product.articles_sellment_id)
+            .indexOf(order.articles_sellment_id);
         if (existingProductIdx === -1) {
-            orders[existingOrderIdx].products.push(new OrderProduct(order.articles_sellment_id, order.short_name, [new OrderProductOption(order.option_category_name, order.option_name)]));
+            orders[existingOrderIdx].products.push(
+                new OrderProduct(order.articles_sellment_id, order.short_name, [
+                    new OrderProductOption(order.option_category_name, order.option_name),
+                ])
+            );
         } else {
-            orders[existingOrderIdx].products[existingProductIdx].options.push(new OrderProductOption(order.option_category_name, order.option_name));
+            orders[existingOrderIdx].products[existingProductIdx].options.push(
+                new OrderProductOption(order.option_category_name, order.option_name)
+            );
         }
     }
 

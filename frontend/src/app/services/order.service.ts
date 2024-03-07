@@ -10,32 +10,30 @@ import { OrderNumberResponse } from '../interfaces/order-number.interface';
 import { Order } from '../interfaces/order.interface';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class OrderService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  createOrder(products: Product[], paymentMethod: PaymentMethod) {
-    return this.http.post<OrderNumberResponse>('api/order/create', {
-      products,
-      paymentMethod,
-    });
-  }
+    createOrder(products: Product[], paymentMethod: PaymentMethod) {
+        return this.http.post<OrderNumberResponse>('api/order/create', {
+            products,
+            paymentMethod,
+        });
+    }
 
-  getOrders$(): Observable<Order[]> {
-    const socket = io(`${environment.wsAddress}/orders`, environment.wsConfig);
-    const observable = new Observable<Order[]>((observer) => {
-      socket.on('connect', () => {
-        console.log('connected');
-        socket.on('ordersChange', (orders: Order[]) => observer.next(orders));
-        socket.on('reconnect_error', () =>
-          observer.error('Unexpected problem with socket connection')
-        );
-        socket.on('disconnect', () => observer.complete());
-      });
-      return () => socket.close();
-    });
+    getOrders$(): Observable<Order[]> {
+        const socket = io(`${environment.wsAddress}/orders`, environment.wsConfig);
+        const observable = new Observable<Order[]>((observer) => {
+            socket.on('connect', () => {
+                console.log('connected');
+                socket.on('ordersChange', (orders: Order[]) => observer.next(orders));
+                socket.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
+                socket.on('disconnect', () => observer.complete());
+            });
+            return () => socket.close();
+        });
 
-    return observable;
-  }
+        return observable;
+    }
 }

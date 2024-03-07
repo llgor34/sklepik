@@ -7,30 +7,30 @@ import { HoursSettlementResponse } from '../interfaces/hours-settlement.interfac
 import { Response } from '../interfaces/response.interface';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class HoursSettlementService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getUsedDiscount(workerCode: string) {
-    return this.http
-      .get<UsedDiscountResponse>(`api/workers/get-used-discount/${workerCode}`)
-      .pipe(map((res) => res.usedDiscount));
-  }
+    getUsedDiscount(workerCode: string) {
+        return this.http
+            .get<UsedDiscountResponse>(`api/workers/get-used-discount/${workerCode}`)
+            .pipe(map((res) => res.usedDiscount));
+    }
 
-  getOwedDiscount(workerCode: string) {
-    return this.http
-      .get<OwedDiscountResponse>(`api/workers/get-owed-discount/${workerCode}`)
-      .pipe(map((res) => res.owedDiscount));
-  }
+    getOwedDiscount(workerCode: string) {
+        return this.http
+            .get<OwedDiscountResponse>(`api/workers/get-owed-discount/${workerCode}`)
+            .pipe(map((res) => res.owedDiscount));
+    }
 
-  getHoursSettlement() {
-    return this.http
-      .get<HoursSettlementResponse>('api/hours-settlement/get')
-      .pipe(map((res) => res.hoursSettlement));
-  }
+    getHoursSettlement() {
+        return this.http
+            .get<HoursSettlementResponse>('api/hours-settlement/get')
+            .pipe(map((res) => res.hoursSettlement));
+    }
 
-  deleteHoursSettlement(id: number) {
-    return this.http.get<Response>(`api/hours-settlement/delete/${id}`);
-  }
+    deleteHoursSettlement(id: number) {
+        return this.http.get<Response>(`api/hours-settlement/delete/${id}`);
+    }
 }

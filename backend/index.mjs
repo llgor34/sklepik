@@ -7,11 +7,22 @@ import dotenv from 'dotenv';
 import moment from 'moment';
 import fs from 'fs';
 
-import { generateAccessToken, verifyAccessToken, signJWTCookie, hasRoleMiddleware, hasRole, hashPassword } from './general/auth-functions.mjs';
+import {
+    generateAccessToken,
+    verifyAccessToken,
+    signJWTCookie,
+    hasRoleMiddleware,
+    hasRole,
+    hashPassword,
+} from './general/auth-functions.mjs';
 import { getUserByPassword } from './db/auth.mjs';
 import { getArticleByCode } from './db/articles.mjs';
 import { sendErrorMessage } from './general/messages.mjs';
-import { getAllCoffeeSubscriptions, updateCoffeeSubscriptionByAmount, updateCoffeeSubscriptionByReceiveCoffee } from './db/coffee-subscription.mjs';
+import {
+    getAllCoffeeSubscriptions,
+    updateCoffeeSubscriptionByAmount,
+    updateCoffeeSubscriptionByReceiveCoffee,
+} from './db/coffee-subscription.mjs';
 import { createOrder } from './db/order.mjs';
 import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';

@@ -1,34 +1,34 @@
 table {
-  border: 1px black solid;
+    border: 1px black solid;
 }
 
 table tr td {
-  border: 1px black solid;
-  padding: 5px;
+    border: 1px black solid;
+    padding: 5px;
 }
 
 table tr th {
-  border: 1px black solid;
-  padding: 5px;
+    border: 1px black solid;
+    padding: 5px;
 }
 
 table {
-  text-align: center;
-  width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+    text-align: center;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .signature {
-  height: 75px;
-  vertical-align: top;
+    height: 75px;
+    vertical-align: top;
 }
 
 .signature h2 {
-  font-size: 0.7em;
-  font-style: italic;
+    font-size: 0.7em;
+    font-style: italic;
 }
 
 .mi > * {
-  margin: 5px;
+    margin: 5px;
 }

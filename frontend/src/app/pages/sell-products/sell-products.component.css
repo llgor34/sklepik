@@ -1,25 +1,25 @@
 .currency-field-addon {
-  /* use position-relative on parent element */
-  position: absolute;
-  right: 10%;
-  top: 25%;
+    /* use position-relative on parent element */
+    position: absolute;
+    right: 10%;
+    top: 25%;
 }
 
 .currency-addon::after {
-  content: " PLN";
+    content: ' PLN';
 }
 
 .form-check > *,
 .form-check-label > * {
-  margin: 0 5px;
+    margin: 0 5px;
 }
 
 .product-options label {
-  font-weight: 600;
-  font-size: 0.9em;
+    font-weight: 600;
+    font-size: 0.9em;
 }
 
 .product-options-container {
-  display: flex;
-  column-gap: 10px;
+    display: flex;
+    column-gap: 10px;
 }

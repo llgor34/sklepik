@@ -1,54 +1,39 @@
-<nav
-  class="d-flex flex-column bg-dark text-white"
-  [ngClass]="{ open: isOpen }"
-  style="height: 100vh"
->
-  <ul>
-    <li
-      title="Strona główna"
-      routerLink="/main"
-      routerLinkActive="active"
-      class="text-capitalize fw-bold"
-    >
-      {{
-        isOpen ? authService.getUsername() : authService.getUsernameInitials()
-      }}
-    </li>
-    <li (click)="authService.logout()" title="Wyloguj się">
-      <i class="bi bi-box-arrow-right"></i>
-      <span>Wyloguj się</span>
-    </li>
-    <li routerLink="/sell" routerLinkActive="active" title="Sprzedaż">
-      <i class="bi bi-basket"></i>
-      <span>Sprzedaż</span>
-    </li>
-    <li routerLink="/raport" routerLinkActive="active" title="Raporty">
-      <i class="bi bi-file-text"></i>
-      <span>Raporty</span>
-    </li>
-    <li routerLink="/archive" routerLinkActive="active" title="Archiwum">
-      <i class="bi bi-archive"></i>
-      <span>Archiwum</span>
-    </li>
-    <li routerLink="/orders" routerLinkActive="active" title="Zamówienia">
-      <i class="bi bi-list-ul"></i>
-      <span>Zamówienia</span>
-    </li>
-    <li
-      routerLink="/hours-settlement"
-      routerLinkActive="active"
-      title="Rozliczanie godzin pracy"
-      *allowedRoles="['admin']"
-    >
-      <i class="bi bi-clock"></i>
-      <span>Rozliczanie godzin</span>
-    </li>
-  </ul>
-  <button
-    (click)="toggleIsOpen()"
-    class="btn btn-dark"
-    [ngClass]="{ open: isOpen }"
-  >
-    <i class="bi bi-arrow-left"></i>
-  </button>
+<nav class="d-flex flex-column bg-dark text-white" [ngClass]="{ open: isOpen }" style="height: 100vh">
+    <ul>
+        <li title="Strona główna" routerLink="/main" routerLinkActive="active" class="text-capitalize fw-bold">
+            {{ isOpen ? authService.getUsername() : authService.getUsernameInitials() }}
+        </li>
+        <li (click)="authService.logout()" title="Wyloguj się">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Wyloguj się</span>
+        </li>
+        <li routerLink="/sell" routerLinkActive="active" title="Sprzedaż">
+            <i class="bi bi-basket"></i>
+            <span>Sprzedaż</span>
+        </li>
+        <li routerLink="/raport" routerLinkActive="active" title="Raporty">
+            <i class="bi bi-file-text"></i>
+            <span>Raporty</span>
+        </li>
+        <li routerLink="/archive" routerLinkActive="active" title="Archiwum">
+            <i class="bi bi-archive"></i>
+            <span>Archiwum</span>
+        </li>
+        <li routerLink="/orders" routerLinkActive="active" title="Zamówienia">
+            <i class="bi bi-list-ul"></i>
+            <span>Zamówienia</span>
+        </li>
+        <li
+            routerLink="/hours-settlement"
+            routerLinkActive="active"
+            title="Rozliczanie godzin pracy"
+            *allowedRoles="['admin']"
+        >
+            <i class="bi bi-clock"></i>
+            <span>Rozliczanie godzin</span>
+        </li>
+    </ul>
+    <button (click)="toggleIsOpen()" class="btn btn-dark" [ngClass]="{ open: isOpen }">
+        <i class="bi bi-arrow-left"></i>
+    </button>
 </nav>

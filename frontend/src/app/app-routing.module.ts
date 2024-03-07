@@ -17,88 +17,88 @@ import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.
 import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'login',
-  },
-  {
-    path: 'login',
-    canActivate: [NotAuthenticatedGuard],
-    component: LoginComponent,
-  },
-  {
-    path: '',
-    canActivateChild: [AuthenticatedGuard],
-    children: [
-      {
-        path: 'main',
-        component: MainComponent,
-      },
-      {
-        path: 'sell',
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login',
+    },
+    {
+        path: 'login',
+        canActivate: [NotAuthenticatedGuard],
+        component: LoginComponent,
+    },
+    {
+        path: '',
+        canActivateChild: [AuthenticatedGuard],
         children: [
-          {
-            path: '',
-            component: SellDefaultComponent,
-          },
-          {
-            path: 'products',
-            component: SellProductsComponent,
-          },
-          {
-            path: 'coffee-subscribers',
-            component: SellCoffeeSubscribersComponent,
-          },
-        ],
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
-      },
-      {
-        path: 'raport',
-        children: [
-          {
-            path: '',
-            component: RaportComponent,
-          },
-          {
-            path: 'closement-protocol',
-            component: ClosementProtocolComponent,
-            resolve: {
-              products: ClosementProtocolResolver,
+            {
+                path: 'main',
+                component: MainComponent,
             },
-          },
+            {
+                path: 'sell',
+                children: [
+                    {
+                        path: '',
+                        component: SellDefaultComponent,
+                    },
+                    {
+                        path: 'products',
+                        component: SellProductsComponent,
+                    },
+                    {
+                        path: 'coffee-subscribers',
+                        component: SellCoffeeSubscribersComponent,
+                    },
+                ],
+            },
+            {
+                path: 'orders',
+                component: OrdersComponent,
+            },
+            {
+                path: 'raport',
+                children: [
+                    {
+                        path: '',
+                        component: RaportComponent,
+                    },
+                    {
+                        path: 'closement-protocol',
+                        component: ClosementProtocolComponent,
+                        resolve: {
+                            products: ClosementProtocolResolver,
+                        },
+                    },
+                ],
+            },
+            {
+                path: 'archive',
+                component: ArchiveComponent,
+            },
+            {
+                path: 'hours-settlement',
+                children: [
+                    {
+                        path: '',
+                        component: HoursSettlementComponent,
+                    },
+                    {
+                        path: 'add',
+                        component: AddHoursComponent,
+                    },
+                ],
+                canActivateChild: [RoleGuard],
+                data: {
+                    roles: ['admin'],
+                },
+            },
         ],
-      },
-      {
-        path: 'archive',
-        component: ArchiveComponent,
-      },
-      {
-        path: 'hours-settlement',
-        children: [
-          {
-            path: '',
-            component: HoursSettlementComponent,
-          },
-          {
-            path: 'add',
-            component: AddHoursComponent,
-          },
-        ],
-        canActivateChild: [RoleGuard],
-        data: {
-          roles: ['admin'],
-        },
-      },
-    ],
-  },
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

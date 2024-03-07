@@ -5,26 +5,22 @@ import { CoffeeSubscriberResponse } from '../interfaces/coffee-subscribers.inter
 import { map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class CoffeeSubscribersService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getSubscribers() {
-    return this.http
-      .get<CoffeeSubscriberResponse>('api/coffee-subscribers')
-      .pipe(map((res) => res.coffeeSubscribers));
-  }
+    getSubscribers() {
+        return this.http
+            .get<CoffeeSubscriberResponse>('api/coffee-subscribers')
+            .pipe(map((res) => res.coffeeSubscribers));
+    }
 
-  updateCoffeeSubscriber(clientId: number, updateByAmount: number) {
-    return this.http.get<Response>(
-      `api/coffee-subscribers/update/${clientId}/${updateByAmount}`
-    );
-  }
+    updateCoffeeSubscriber(clientId: number, updateByAmount: number) {
+        return this.http.get<Response>(`api/coffee-subscribers/update/${clientId}/${updateByAmount}`);
+    }
 
-  useCoffeeSubscription(clientId: number) {
-    return this.http.get<Response>(
-      `api/coffee-subscribers/receive-coffee/${clientId}`
-    );
-  }
+    useCoffeeSubscription(clientId: number) {
+        return this.http.get<Response>(`api/coffee-subscribers/receive-coffee/${clientId}`);
+    }
 }

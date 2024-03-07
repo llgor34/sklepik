@@ -16,13 +16,23 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
     raport.products = [];
 
     for (const key in raportRaw.products) {
-        raport.products.push({ ...raportRaw.products[key], products: raportRaw.products[key].products.map((product, i) => ({ i: i + 1, ...product })) });
+        raport.products.push({
+            ...raportRaw.products[key],
+            products: raportRaw.products[key].products.map((product, i) => ({ i: i + 1, ...product })),
+        });
     }
 
     const articleArr = [];
     for (const article of raport.products) {
         for (const product of article.products) {
-            articleArr.push([product.i, product.code, product.short_name, `${product.price} ${CURRENCY}`, product.amount, `${product.totalPrice} ${CURRENCY}`]);
+            articleArr.push([
+                product.i,
+                product.code,
+                product.short_name,
+                `${product.price} ${CURRENCY}`,
+                product.amount,
+                `${product.totalPrice} ${CURRENCY}`,
+            ]);
         }
         articleArr.push([
             { content: article.totalPriceLabel, colSpan: 5, styles: H2_CLASS },
@@ -44,8 +54,12 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
             lineWidth: 0.1,
         },
         body: [
-            [{ content: 'Dzienny Przychód Sklepiku', colSpan: 3 }, { content: date, colSpan: 2 }, { content: `ZS/${yearNumber}/${number}` }].map(element => ({ ...element, styles: H1_CLASS })),
-            ['Lp', 'Kod', 'Nazwa', 'Cena', 'Ilość', 'Suma'].map(content => ({ content, styles: H1_CLASS })),
+            [
+                { content: 'Dzienny Przychód Sklepiku', colSpan: 3 },
+                { content: date, colSpan: 2 },
+                { content: `ZS/${yearNumber}/${number}` },
+            ].map((element) => ({ ...element, styles: H1_CLASS })),
+            ['Lp', 'Kod', 'Nazwa', 'Cena', 'Ilość', 'Suma'].map((content) => ({ content, styles: H1_CLASS })),
             ...articleArr,
             [
                 { content: 'Łącznie na kasie', colSpan: 5, styles: H2_CLASS },
@@ -55,8 +69,12 @@ export async function generateRaportPDF(raportRaw, date, number, yearNumber) {
                 { content: 'Suma obrotu', colSpan: 5, styles: H2_CLASS },
                 { content: `${raport.totalPrice} ${CURRENCY}`, styles: H2_CLASS },
             ],
-            ['Saldo kasowe', 'Saldo terminala'].map(content => ({ content, colSpan: 3, styles: SIGNATURE_CLASS })),
-            ['Podpisy załogi', 'Podpis kierownika/zastępcy'].map(content => ({ content, colSpan: 3, styles: SIGNATURE_CLASS })),
+            ['Saldo kasowe', 'Saldo terminala'].map((content) => ({ content, colSpan: 3, styles: SIGNATURE_CLASS })),
+            ['Podpisy załogi', 'Podpis kierownika/zastępcy'].map((content) => ({
+                content,
+                colSpan: 3,
+                styles: SIGNATURE_CLASS,
+            })),
         ],
     });
     doc.save('test.pdf');

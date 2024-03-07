@@ -1,7 +1,7 @@
 import { query } from './db-functions.mjs';
 
 export async function getAllCoffeeSubscriptions() {
-	let coffeeSubscriptions = await query(`
+    let coffeeSubscriptions = await query(`
     SELECT
         c.id AS client_id,
         c.name,
@@ -19,29 +19,39 @@ export async function getAllCoffeeSubscriptions() {
         c.id
 `);
 
-	coffeeSubscriptions = coffeeSubscriptions.map(coffeeSubscription => {
-		return {
-			...coffeeSubscription,
-			coffees_receive_datetimes: coffeeSubscription.coffees_receive_datetimes ? coffeeSubscription.coffees_receive_datetimes.split(',') : [],
-		};
-	});
+    coffeeSubscriptions = coffeeSubscriptions.map((coffeeSubscription) => {
+        return {
+            ...coffeeSubscription,
+            coffees_receive_datetimes: coffeeSubscription.coffees_receive_datetimes
+                ? coffeeSubscription.coffees_receive_datetimes.split(',')
+                : [],
+        };
+    });
 
-	return coffeeSubscriptions;
+    return coffeeSubscriptions;
 }
 
 export async function updateCoffeeSubscriptionByAmount(client_id, worker_id, amount) {
-	const operationType = 'COFFEE_CORRECTION';
-	const operationDescription = `Coffee has been manually updated by worker by amount: ${amount}`;
-	await updateCoffeeSubscription(client_id, worker_id, amount, operationType, operationDescription);
+    const operationType = 'COFFEE_CORRECTION';
+    const operationDescription = `Coffee has been manually updated by worker by amount: ${amount}`;
+    await updateCoffeeSubscription(client_id, worker_id, amount, operationType, operationDescription);
 }
 
 export async function updateCoffeeSubscriptionByReceiveCoffee(client_id, worker_id) {
-	const operationType = 'COFFEE_RECEIVED';
-	const operationDescription = 'Coffee has been automatically updated by program by amount: -1';
-	await updateCoffeeSubscription(client_id, worker_id, -1, operationType, operationDescription);
+    const operationType = 'COFFEE_RECEIVED';
+    const operationDescription = 'Coffee has been automatically updated by program by amount: -1';
+    await updateCoffeeSubscription(client_id, worker_id, -1, operationType, operationDescription);
 }
 
 async function updateCoffeeSubscription(client_id, worker_id, amount, operationType, operationDescription) {
-	await query('UPDATE coffee_subscription SET coffees_left = coffees_left + ? WHERE client_id = ?', [amount, client_id]);
-	await query('INSERT INTO logs VALUES(null, ?, ?, ?, ?, null)', [operationType, operationDescription, worker_id, client_id]);
+    await query('UPDATE coffee_subscription SET coffees_left = coffees_left + ? WHERE client_id = ?', [
+        amount,
+        client_id,
+    ]);
+    await query('INSERT INTO logs VALUES(null, ?, ?, ?, ?, null)', [
+        operationType,
+        operationDescription,
+        worker_id,
+        client_id,
+    ]);
 }

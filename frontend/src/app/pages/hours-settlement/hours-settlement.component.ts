@@ -6,37 +6,35 @@ import { AddHoursComponent } from './add-hours/add-hours.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-hours-settlement',
-  templateUrl: './hours-settlement.component.html',
-  styleUrls: ['./hours-settlement.component.css'],
+    selector: 'app-hours-settlement',
+    templateUrl: './hours-settlement.component.html',
+    styleUrls: ['./hours-settlement.component.css'],
 })
 export class HoursSettlementComponent implements OnInit {
-  records!: HoursSettlement[];
+    records!: HoursSettlement[];
 
-  constructor(
-    private hoursSettlementService: HoursSettlementService,
-    private toastService: ToastService,
-    private router: Router
-  ) {}
+    constructor(
+        private hoursSettlementService: HoursSettlementService,
+        private toastService: ToastService,
+        private router: Router
+    ) {}
 
-  ngOnInit() {
-    this.hoursSettlementService
-      .getHoursSettlement()
-      .subscribe((records) => (this.records = records));
-  }
+    ngOnInit() {
+        this.hoursSettlementService.getHoursSettlement().subscribe((records) => (this.records = records));
+    }
 
-  addHoursSettlementRecord() {
-    this.router.navigateByUrl('/hours-settlement/add');
-  }
+    addHoursSettlementRecord() {
+        this.router.navigateByUrl('/hours-settlement/add');
+    }
 
-  deleteHoursSettlementRecord(id: number) {
-    this.hoursSettlementService.deleteHoursSettlement(id).subscribe(() => {
-      this.removeHoursSettlementRecord(id);
-      this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
-    });
-  }
+    deleteHoursSettlementRecord(id: number) {
+        this.hoursSettlementService.deleteHoursSettlement(id).subscribe(() => {
+            this.removeHoursSettlementRecord(id);
+            this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
+        });
+    }
 
-  private removeHoursSettlementRecord(id: number) {
-    this.records = this.records.filter((record) => record.id != id);
-  }
+    private removeHoursSettlementRecord(id: number) {
+        this.records = this.records.filter((record) => record.id != id);
+    }
 }

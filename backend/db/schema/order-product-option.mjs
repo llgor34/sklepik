@@ -1,9 +1,9 @@
 export class OrderProductOption {
-	name;
-	value;
+    name;
+    value;
 
-	constructor(name, value) {
-		this.name = name;
-		this.value = value;
-	}
+    constructor(name, value) {
+        this.name = name;
+        this.value = value;
+    }
 }

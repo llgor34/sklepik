@@ -5,41 +5,44 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+    selector: 'app-login',
+    templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  userNotExists = false;
+    userNotExists = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+    constructor(
+        private authService: AuthService,
+        private router: Router
+    ) {}
 
-  formSubmit(form: NgForm) {
-    const { password } = form.value;
-    if (this.isEmpty(password)) return;
+    formSubmit(form: NgForm) {
+        const { password } = form.value;
+        if (this.isEmpty(password)) return;
 
-    this.login(password);
-  }
+        this.login(password);
+    }
 
-  onPaste(event: ClipboardEvent) {
-    const password = event.clipboardData?.getData('text') ?? '';
-    if (this.isEmpty(password)) return;
+    onPaste(event: ClipboardEvent) {
+        const password = event.clipboardData?.getData('text') ?? '';
+        if (this.isEmpty(password)) return;
 
-    this.login(password);
-  }
+        this.login(password);
+    }
 
-  login(password: string) {
-    this.userNotExists = false;
-    this.authService.login(password).subscribe({
-      next: () => {
-        this.router.navigate(['/main']);
-      },
-      error: (error: ErrorResponse) => {
-        this.userNotExists = true;
-      },
-    });
-  }
+    login(password: string) {
+        this.userNotExists = false;
+        this.authService.login(password).subscribe({
+            next: () => {
+                this.router.navigate(['/main']);
+            },
+            error: (error: ErrorResponse) => {
+                this.userNotExists = true;
+            },
+        });
+    }
 
-  isEmpty(text: string) {
-    return text?.trim().length === 0;
-  }
+    isEmpty(text: string) {
+        return text?.trim().length === 0;
+    }
 }

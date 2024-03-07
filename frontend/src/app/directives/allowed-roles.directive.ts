@@ -1,40 +1,32 @@
-import {
-  Directive,
-  Input,
-  OnInit,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Role } from '../interfaces/role.interface';
 
 @Directive({
-  selector: '[allowedRoles]',
+    selector: '[allowedRoles]',
 })
 export class AllowedRolesDirective implements OnInit {
-  @Input() allowedRoles!: Role[];
-  userRoles: Role[];
+    @Input() allowedRoles!: Role[];
+    userRoles: Role[];
 
-  constructor(
-    authService: AuthService,
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
-  ) {
-    this.userRoles = authService.getRoles() ?? [];
-  }
-
-  ngOnInit(): void {
-    if (this.hasPermission()) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-      return;
+    constructor(
+        authService: AuthService,
+        private templateRef: TemplateRef<any>,
+        private viewContainer: ViewContainerRef
+    ) {
+        this.userRoles = authService.getRoles() ?? [];
     }
 
-    this.viewContainer.clear();
-  }
+    ngOnInit(): void {
+        if (this.hasPermission()) {
+            this.viewContainer.createEmbeddedView(this.templateRef);
+            return;
+        }
 
-  hasPermission() {
-    return this.allowedRoles.some((allowedRole) =>
-      this.userRoles.includes(allowedRole)
-    );
-  }
+        this.viewContainer.clear();
+    }
+
+    hasPermission() {
+        return this.allowedRoles.some((allowedRole) => this.userRoles.includes(allowedRole));
+    }
 }

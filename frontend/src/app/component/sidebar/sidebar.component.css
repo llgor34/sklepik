@@ -1,59 +1,59 @@
 ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 ul li {
-  padding: 10px;
-  transition: 0.1s linear;
-  font-size: 15px;
+    padding: 10px;
+    transition: 0.1s linear;
+    font-size: 15px;
 }
 
 li.active {
-  color: #ff960c;
+    color: #ff960c;
 }
 
 ul li:hover {
-  cursor: pointer;
-  background-color: #101418;
+    cursor: pointer;
+    background-color: #101418;
 }
 
 button {
-  rotate: 180deg;
-  transition: 0.2s;
+    rotate: 180deg;
+    transition: 0.2s;
 }
 
 button.open {
-  rotate: 360deg;
+    rotate: 360deg;
 }
 
 nav.open {
-  width: 10rem;
+    width: 10rem;
 }
 
 nav.open span {
-  opacity: 1;
+    opacity: 1;
 }
 
 nav {
-  width: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: 0.2s ease-in-out;
-  white-space: nowrap;
-  overflow-y: auto;
+    width: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+    white-space: nowrap;
+    overflow-y: auto;
 }
 
 nav span {
-  opacity: 0;
-  transition: 0.2s ease-in-out;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
 }
 
 nav.open ul li span {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 nav ul {
-  flex-grow: 1;
+    flex-grow: 1;
 }

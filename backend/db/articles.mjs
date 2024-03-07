@@ -50,17 +50,24 @@ export async function getArticleByCode(productCode) {
     );
 
     let articleOptions = [];
-    articleOptionsRAW.forEach(articleOption => {
-        const existingOptionIdx = articleOptions.map(option => option.id).indexOf(articleOption.category_connection_id);
+    articleOptionsRAW.forEach((articleOption) => {
+        const existingOptionIdx = articleOptions
+            .map((option) => option.id)
+            .indexOf(articleOption.category_connection_id);
         if (existingOptionIdx === -1) {
-            articleOptions.push({ id: articleOption.category_connection_id, category_id: articleOption.category_id, category_name: articleOption.category_name, options: [{ id: articleOption.id, name: articleOption.name }] });
+            articleOptions.push({
+                id: articleOption.category_connection_id,
+                category_id: articleOption.category_id,
+                category_name: articleOption.category_name,
+                options: [{ id: articleOption.id, name: articleOption.name }],
+            });
             return;
         }
 
         articleOptions[existingOptionIdx].options.push({ id: articleOption.id, name: articleOption.name });
     });
 
-    articleOptions = articleOptions.map(option => ({ ...option, id: undefined }));
+    articleOptions = articleOptions.map((option) => ({ ...option, id: undefined }));
 
     const article = {
         id,

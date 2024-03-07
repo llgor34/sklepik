@@ -40,7 +40,11 @@ export function hashPassword(password) {
 }
 
 export function signJWTCookie(res, token) {
-    res.cookie('jwt', token, { signed: true, httpOnly: true, expires: new Date(Date.now() + process.env.TOKEN_EXPIRATION_TIME_IN_SECONDS * 1000) });
+    res.cookie('jwt', token, {
+        signed: true,
+        httpOnly: true,
+        expires: new Date(Date.now() + process.env.TOKEN_EXPIRATION_TIME_IN_SECONDS * 1000),
+    });
 }
 
 export function hasRoleMiddleware(req, res, next, role) {

@@ -3,7 +3,7 @@
     <h2>Filtry</h2>
 </app-filter>
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let order of orders$ | async | filter : activeFilter">
+    <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let order of orders$ | async | filter: activeFilter">
         <div class="card card-body">
             <h3 class="card-title">Zamówienie nr: {{ order.order_number }}</h3>
             <p>Status zamówienia: {{ order.order_status }}</p>

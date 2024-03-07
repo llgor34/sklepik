@@ -1,104 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
-	<head>
-		<meta charset="UTF-8" />
-		<style>
-			body {
-				font-size: 4.5mm;
-			}
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            body {
+                font-size: 4.5mm;
+            }
 
-			table {
-				text-align: center;
-				width: 85%;
-				margin-left: auto;
-				margin-right: auto;
-				border: 1px black solid;
-				border-collapse: collapse;
-			}
+            table {
+                text-align: center;
+                width: 85%;
+                margin-left: auto;
+                margin-right: auto;
+                border: 1px black solid;
+                border-collapse: collapse;
+            }
 
-			table tr td {
-				border: 1px black solid;
-				padding: 5px;
-			}
+            table tr td {
+                border: 1px black solid;
+                padding: 5px;
+            }
 
-			table tr th {
-				border: 1px black solid;
-				padding: 5px;
-			}
+            table tr th {
+                border: 1px black solid;
+                padding: 5px;
+            }
 
-			.signature {
-				height: 75px;
-				vertical-align: top;
-			}
+            .signature {
+                height: 75px;
+                vertical-align: top;
+            }
 
-			.signature h2 {
-				font-size: 0.7em;
-				font-style: italic;
-			}
+            .signature h2 {
+                font-size: 0.7em;
+                font-style: italic;
+            }
 
-			.mi > * {
-				margin: 5px;
-			}
+            .mi > * {
+                margin: 5px;
+            }
 
-			.currency::after {
-				content: ' PLN';
-			}
-		</style>
-	</head>
-	<body>
-		<table>
-			<tr>
-				<th colspan="3">Dzienny Protokół Zamknięcia Sklepiku</th>
-				<th colspan="2">{{ date }}</th>
-				<th>ZS/{{ yearNumber }}/{{ number }}</th>
-			</tr>
-			<tr>
-				<th>Lp</th>
-				<th>Kod</th>
-				<th>Nazwa</th>
-				<th>Cena</th>
-				<th>Ilość</th>
-				<th>Suma</th>
-			</tr>
-			<!-- *ngFor="let raportProduct of raport.products" -->
-			{{#each raport.products}} {{#each this.products}}
-			<!-- *ngFor="let product of raportProduct.value.products; let i = index" -->
-			<tr>
-				<td>{{ this.i }}</td>
-				<td>{{ this.code }}</td>
-				<td>{{ this.short_name }}</td>
-				<td class="currency">{{ this.price }}</td>
-				<td>{{ this.amount }}</td>
-				<td class="currency">{{ this.totalPrice }}</td>
-			</tr>
-			{{/each}}
-			<tr>
-				<th colspan="5">{{ this.totalPriceLabel }}</th>
-				<th class="currency">{{ this.totalPrice }}</th>
-			</tr>
-			{{/each}}
-			<tr>
-				<th colspan="5">Łącznie na kasie</th>
-				<th class="currency">{{ raport.totalPriceWithDiscounts }}</th>
-			</tr>
-			<tr>
-				<th colspan="5">Suma obrotu</th>
-				<th class="currency">{{ raport.totalPrice }}</th>
-			</tr>
-			<tr class="signature">
-				<td colspan="3">
-					<h2>Saldo kasowe (pomniejszone o wkład 30zł)</h2>
-					<p class="currency">{{ raport.totalCashPrice }}</p>
-				</td>
-				<td colspan="3">
-					<h2>Saldo terminala (wypełniane następnego dnia)</h2>
-					<p class="currency">{{ raport.totalNonCashPrice }}</p>
-				</td>
-			</tr>
-			<tr class="signature">
-				<td colspan="3"><h2>Podpisy załogi</h2></td>
-				<td colspan="3"><h2>Podpis kierownika/zastępcy</h2></td>
-			</tr>
-		</table>
-	</body>
+            .currency::after {
+                content: ' PLN';
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th colspan="3">Dzienny Protokół Zamknięcia Sklepiku</th>
+                <th colspan="2">{{ date }}</th>
+                <th>ZS/{{ yearNumber }}/{{ number }}</th>
+            </tr>
+            <tr>
+                <th>Lp</th>
+                <th>Kod</th>
+                <th>Nazwa</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Suma</th>
+            </tr>
+            <!-- *ngFor="let raportProduct of raport.products" -->
+            {{#each raport.products}} {{#each this.products}}
+            <!-- *ngFor="let product of raportProduct.value.products; let i = index" -->
+            <tr>
+                <td>{{ this.i }}</td>
+                <td>{{ this.code }}</td>
+                <td>{{ this.short_name }}</td>
+                <td class="currency">{{ this.price }}</td>
+                <td>{{ this.amount }}</td>
+                <td class="currency">{{ this.totalPrice }}</td>
+            </tr>
+            {{/each}}
+            <tr>
+                <th colspan="5">{{ this.totalPriceLabel }}</th>
+                <th class="currency">{{ this.totalPrice }}</th>
+            </tr>
+            {{/each}}
+            <tr>
+                <th colspan="5">Łącznie na kasie</th>
+                <th class="currency">{{ raport.totalPriceWithDiscounts }}</th>
+            </tr>
+            <tr>
+                <th colspan="5">Suma obrotu</th>
+                <th class="currency">{{ raport.totalPrice }}</th>
+            </tr>
+            <tr class="signature">
+                <td colspan="3">
+                    <h2>Saldo kasowe (pomniejszone o wkład 30zł)</h2>
+                    <p class="currency">{{ raport.totalCashPrice }}</p>
+                </td>
+                <td colspan="3">
+                    <h2>Saldo terminala (wypełniane następnego dnia)</h2>
+                    <p class="currency">{{ raport.totalNonCashPrice }}</p>
+                </td>
+            </tr>
+            <tr class="signature">
+                <td colspan="3"><h2>Podpisy załogi</h2></td>
+                <td colspan="3"><h2>Podpis kierownika/zastępcy</h2></td>
+            </tr>
+        </table>
+    </body>
 </html>
