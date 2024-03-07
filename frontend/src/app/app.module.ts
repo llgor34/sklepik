@@ -29,6 +29,7 @@ import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlem
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
+import { FilterComponent } from './component/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { TableStickyComponent } from './component/table-sticky/table-sticky.comp
     AddHoursComponent,
     ConfirmButtonComponent,
     TableStickyComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

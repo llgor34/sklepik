@@ -1,0 +1,11 @@
+<ng-content></ng-content>
+<div class="btn-group">
+    <button
+        *ngFor="let filter of filters"
+        (click)="setActiveFilter(filter.value)"
+        class="btn btn-outline-primary"
+        [ngClass]="{ active: filter.value === activeFilter }"
+    >
+        {{ filter.label }}
+    </button>
+</div>
