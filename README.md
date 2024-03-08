@@ -28,6 +28,8 @@ Dzięki tym funkcjom, projekt Sklepik umożliwia sprawną obsługę operacji skl
 - Angular
 - TypeScript
 - MySQL
+- Express.js
+- Websocket.io
 
 
 ## Planowane Funkcje
