@@ -23,7 +23,7 @@ import {
     updateCoffeeSubscriptionByAmount,
     updateCoffeeSubscriptionByReceiveCoffee,
 } from './db/coffee-subscription.mjs';
-import { createOrder } from './db/order.mjs';
+import { createOrder, updateOrderStatus } from './db/order.mjs';
 import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
@@ -235,6 +235,14 @@ app.post(
         res.send({ ok: true, message: 'SUCCESS' });
     }
 );
+
+app.put('/order/update-status', verifyAccessToken, async (req, res) => {
+    const { orderId: order_id, orderStatus: order_status } = req.body;
+    await updateOrderStatus(order_id, order_status);
+    res.send({ ok: true, message: 'SUCCESS' });
+
+    await onOrdersChange();
+});
 
 // SOCKETS
 export const ordersNamespace = io.of('/orders');

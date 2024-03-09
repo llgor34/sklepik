@@ -109,6 +109,10 @@ export async function getOrders() {
     return orders;
 }
 
+export async function updateOrderStatus(order_id, order_status) {
+    await query(`UPDATE orders SET status = ? WHERE id = ?`, [order_status, order_id]);
+}
+
 export function getOrderNumber(id) {
     return +id.toString().slice(-2);
 }

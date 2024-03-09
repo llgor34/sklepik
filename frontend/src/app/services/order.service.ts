@@ -7,7 +7,8 @@ import { environment } from '../environment/environment';
 import { Product } from '../interfaces/product.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
 import { OrderNumberResponse } from '../interfaces/order-number.interface';
-import { Order } from '../interfaces/order.interface';
+import { Order, OrderStatus } from '../interfaces/order.interface';
+import { Response } from '../interfaces/response.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -35,5 +36,9 @@ export class OrderService {
         });
 
         return observable;
+    }
+
+    updateOrderStatus$(orderId: number, orderStatus: OrderStatus): Observable<Response> {
+        return this.http.put<Response>('api/order/update-status', { orderId, orderStatus });
     }
 }

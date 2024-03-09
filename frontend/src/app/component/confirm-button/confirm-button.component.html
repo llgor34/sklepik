@@ -1,4 +1,6 @@
-<button (click)="onConfirm()" class="btn btn-danger d-block mb-1">
-    {{ isInConfirmMode ? 'Potwierdź' : 'Usuń' }}
+<button (click)="onConfirm()" [ngClass]="confirmBtnClass" class="btn d-block mb-1">
+    {{ isInConfirmMode ? 'Potwierdź' : label }}
 </button>
-<button (click)="onCancel()" *ngIf="isInConfirmMode" class="btn btn-warning d-block">Anuluj</button>
+<button *ngIf="isInConfirmMode" (click)="onCancel()" [ngClass]="cancelBtnClass" class="btn btn-warning d-block">
+    Anuluj
+</button>

@@ -12,28 +12,18 @@
 
         <ng-template #tableBodyTemplate let-record let-i="idx">
             <td>{{ i + 1 }}</td>
-            <td>{{ record.work_date | date: 'dd.MM.yyyy' }}</td>
+            <td>{{ record.work_date | date : 'dd.MM.yyyy' }}</td>
             <td>{{ record.name }} {{ record.surname }}</td>
             <td>{{ record.activity_name }}</td>
             <td>{{ record.description }}</td>
             <td>{{ record.amount }}</td>
             <td class="d-flex justify-content-end">
-                <app-confirm-button (confirm)="deleteHoursSettlementRecord(record.id)"></app-confirm-button>
+                <app-confirm-button
+                    label="Usuń"
+                    confirmBtnClass="btn-danger"
+                    (confirm)="deleteHoursSettlementRecord(record.id)"
+                ></app-confirm-button>
             </td>
         </ng-template>
     </app-table-sticky>
-    <!-- <div class="overflow-auto mt-2">
-    <table class="table">
-      <thead>
-        <tr class="position-sticky sticky-top bg-white">
-         
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let record of records; let i = index">
-         
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
 </div>

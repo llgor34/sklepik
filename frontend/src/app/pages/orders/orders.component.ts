@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Filter } from 'src/app/interfaces/filter.interface';
-import { Order } from 'src/app/interfaces/order.interface';
+import { Order, OrderStatus } from 'src/app/interfaces/order.interface';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -11,16 +11,25 @@ import { OrderService } from 'src/app/services/order.service';
 export class OrdersComponent implements OnInit {
     orders$!: Observable<Order[]>;
 
-    activeFilter: string = '';
+    activeFilter: string = 'new';
     filters: Filter[] = [
-        { label: 'Wszystko', value: '' },
+        { label: 'Nowe', value: 'new' },
         { label: 'Hotdogi', value: 'hotdog' },
         { label: 'Bułki', value: 'bułka' },
+        { label: 'Wykonane', value: 'done' },
     ];
 
     constructor(private orderService: OrderService) {}
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.orders$ = this.orderService.getOrders$().pipe(tap(console.log));
+    }
+
+    updateOrderStatus(orderId: number, orderStatus: OrderStatus) {
+        this.orderService.updateOrderStatus$(orderId, orderStatus).subscribe(console.log);
+    }
+
+    trackByOrderId(index: number, order: Order) {
+        return order.order_id;
     }
 }
