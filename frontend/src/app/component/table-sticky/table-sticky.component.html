@@ -6,12 +6,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let record of records; let i = index">
-                <ng-container
-                    [ngTemplateOutlet]="tableContentTemplate"
-                    [ngTemplateOutletContext]="{ $implicit: record, idx: i }"
-                ></ng-container>
-            </tr>
+            <ng-content></ng-content>
         </tbody>
     </table>
 </div>

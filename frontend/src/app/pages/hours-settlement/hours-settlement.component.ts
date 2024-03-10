@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HoursSettlementComponent implements OnInit {
     records!: HoursSettlement[];
+    searchValue = '';
 
     constructor(
         private hoursSettlementService: HoursSettlementService,

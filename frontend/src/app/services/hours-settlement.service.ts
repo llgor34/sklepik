@@ -5,12 +5,13 @@ import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
 import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
 import { HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
+import { DateService } from './date.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HoursSettlementService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private dateService: DateService) {}
 
     getUsedDiscount(workerCode: string) {
         return this.http
@@ -25,9 +26,15 @@ export class HoursSettlementService {
     }
 
     getHoursSettlement() {
-        return this.http
-            .get<HoursSettlementResponse>('api/hours-settlement/get')
-            .pipe(map((res) => res.hoursSettlement));
+        return this.http.get<HoursSettlementResponse>('api/hours-settlement/get').pipe(
+            map((res) => res.hoursSettlement),
+            map((hoursSettlement) =>
+                hoursSettlement.map((hourSettlement) => ({
+                    ...hourSettlement,
+                    work_date: this.dateService.formateDate(hourSettlement.work_date, 'DD.MM.yyyy'),
+                }))
+            )
+        );
     }
 
     deleteHoursSettlement(id: number) {

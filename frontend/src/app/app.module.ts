@@ -29,9 +29,10 @@ import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlem
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
-import { FilterComponent } from './component/filter/filter.component';
+import { FiltersComponent } from './component/filters/filters.component';
 import { FilterByFnPipe } from './pipes/filter-by-fn.pipe';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
+import { SearchFilterComponent } from './component/search-filter/search-filter.component';
 
 @NgModule({
     declarations: [
@@ -55,9 +56,10 @@ import { OrderStatusPipe } from './pipes/order-status.pipe';
         AddHoursComponent,
         ConfirmButtonComponent,
         TableStickyComponent,
-        FilterComponent,
+        FiltersComponent,
         FilterByFnPipe,
         OrderStatusPipe,
+        SearchFilterComponent,
     ],
     imports: [
         BrowserModule,

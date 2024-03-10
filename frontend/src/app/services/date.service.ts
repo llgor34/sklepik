@@ -12,4 +12,8 @@ export class DateService {
     getLongDate() {
         return moment().format('YYYY-MM-DD');
     }
+
+    formateDate(date: string, format: string) {
+        return moment(date).format(format);
+    }
 }

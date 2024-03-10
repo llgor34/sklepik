@@ -12,7 +12,6 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SellCoffeeSubscribersComponent implements OnInit {
     subscribers: CoffeeSubscriber[] = [];
     currentDate = '';
-    searchValue = '';
 
     constructor(
         private dateService: DateService,
