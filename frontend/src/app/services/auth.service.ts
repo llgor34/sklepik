@@ -53,6 +53,6 @@ export class AuthService {
         if (!this.user) {
             return '';
         }
-        return `${this.user.name[0].toUpperCase()} ${this.user.surname[0].toUpperCase()}`;
+        return `${this.user.name[0].toUpperCase()}${this.user.surname[0].toUpperCase()}`;
     }
 }

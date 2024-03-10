@@ -40,9 +40,11 @@ nav {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: 0.2s ease-in-out;
+    transition: 0.2s width ease-in-out;
     white-space: nowrap;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 nav span {

@@ -1,6 +1,6 @@
 <nav class="d-flex flex-column bg-dark text-white" [ngClass]="{ open: isOpen }" style="height: 100vh">
     <ul>
-        <li title="Strona główna" routerLink="/main" routerLinkActive="active" class="text-capitalize fw-bold">
+        <li routerLink="/main" routerLinkActive="active" class="text-capitalize fw-bold" title="Strona główna">
             {{ isOpen ? authService.getUsername() : authService.getUsernameInitials() }}
         </li>
         <li (click)="authService.logout()" title="Wyloguj się">
