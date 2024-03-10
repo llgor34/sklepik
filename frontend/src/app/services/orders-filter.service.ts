@@ -27,11 +27,11 @@ export class OrdersFilterService {
         },
     ];
 
-    private filterByStatus(order: Order, status: OrderStatus) {
+    filterByStatus(order: Order, status: OrderStatus) {
         return order.order_status === status;
     }
 
-    private filterByProductName(order: Order, value: string) {
+    filterByProductName(order: Order, value: string) {
         return order.products.some((product) => product.short_name.toLowerCase().includes(value));
     }
 

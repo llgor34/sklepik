@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-6">
+        <h2 class="mb-4">W trakcie przygotowania</h2>
+        <div class="row">
+            <app-order
+                *ngFor="let orderInProgress of ordersInProgress$ | async"
+                [order]="orderInProgress"
+                [showProducts]="false"
+                [showStatus]="false"
+                classes="col-4 mb-4"
+            ></app-order>
+        </div>
+    </div>
+    <div class="col-6">
+        <h2 class="mb-4">Gotowe</h2>
+        <div class="row">
+            <app-order
+                *ngFor="let orderDone of ordersDone$ | async"
+                [order]="orderDone"
+                [showProducts]="false"
+                [showStatus]="false"
+                classes="col-4 mb-4"
+            ></app-order>
+        </div>
+    </div>
+</div>

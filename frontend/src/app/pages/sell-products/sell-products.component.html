@@ -65,7 +65,7 @@
                         />
                     </td>
                     <td class="currency-addon">
-                        {{ product.price * product.amount | currency: ' ' }}
+                        {{ product.price * product.amount | currency : ' ' }}
                     </td>
                     <td>
                         <button class="btn btn-danger" (click)="removeProduct(i)">usuń</button>
@@ -94,7 +94,7 @@
             </ng-container>
             <tr>
                 <td colspan="5">SUMA</td>
-                <td class="currency-addon">{{ sum | currency: ' ' }}</td>
+                <td class="currency-addon">{{ sum | currency : ' ' }}</td>
             </tr>
             <tr>
                 <td colspan="5">Zapłata</td>
@@ -106,7 +106,7 @@
             <tr>
                 <td colspan="5">Reszta</td>
                 <td class="currency-addon" id="change" [ngClass]="{ 'text-danger': amountPayed - sum > 0 }">
-                    {{ amountPayed - sum < 0 ? 0 : (amountPayed - sum | currency: ' ') }}
+                    {{ amountPayed - sum < 0 ? 0 : (amountPayed - sum | currency : ' ') }}
                 </td>
             </tr>
             <tr>
@@ -145,3 +145,4 @@
         </tbody>
     </table>
 </div>
+<app-done-orders></app-done-orders>

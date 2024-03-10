@@ -247,13 +247,13 @@ app.put('/order/update-status', verifyAccessToken, async (req, res) => {
 // SOCKETS
 export const ordersNamespace = io.of('/orders');
 
-io.on('connection', (socket) => {
-    console.log('A user connected');
+// io.on('connection', (socket) => {
+//     console.log('A user connected');
 
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-});
+//     socket.on('disconnect', () => {
+//         console.log('user disconnected');
+//     });
+// });
 
 ordersNamespace.on('connection', async (socket) => {
     await emitOrdersFor(socket);

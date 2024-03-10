@@ -28,3 +28,12 @@ h1 {
 .card.disabled .list-group-item {
     background-color: #eee;
 }
+
+.fixed-buttons-container {
+    position: fixed;
+}
+
+.fixed-buttons-container.bottom {
+    bottom: 15px;
+    right: 20px;
+}

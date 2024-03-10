@@ -1,0 +1,22 @@
+<div class="orders" [ngClass]="{ active: isOrdersShown }">
+  <div class="row">
+    <ng-container *ngIf="orders$ | async as orders">
+      <ng-container *ngIf="orders.length > 0; else noOrders">
+        <app-order *ngFor="let order of orders" [order]="order">
+          <app-confirm-button
+            (confirm)="updateOrderStatus(order.order_id, 'closed')"
+            label="Oznacz jako wydane"
+            confirmBtnClass="btn-success w-100"
+            cancelBtnClass="w-100"
+          ></app-confirm-button>
+        </app-order>
+      </ng-container>
+      <ng-template #noOrders>
+        <p>Brak gotowych zamówień</p>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
+<div class="fixed-buttons-container bottom">
+  <button (click)="toggleShowOrders()" class="btn btn-primary">Wyświetl zamówienia</button>
+</div>

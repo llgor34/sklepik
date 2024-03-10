@@ -33,6 +33,9 @@ import { FiltersComponent } from './component/filters/filters.component';
 import { FilterByFnPipe } from './pipes/filter-by-fn.pipe';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
 import { SearchFilterComponent } from './component/search-filter/search-filter.component';
+import { DoneOrdersComponent } from './component/done-orders/done-orders.component';
+import { OrderComponent } from './component/order/order.component';
+import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 
 @NgModule({
     declarations: [
@@ -60,6 +63,9 @@ import { SearchFilterComponent } from './component/search-filter/search-filter.c
         FilterByFnPipe,
         OrderStatusPipe,
         SearchFilterComponent,
+        DoneOrdersComponent,
+        OrderComponent,
+        OrdersPublicComponent,
     ],
     imports: [
         BrowserModule,
