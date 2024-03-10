@@ -30,6 +30,8 @@ import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
 import { FilterComponent } from './component/filter/filter.component';
+import { FilterByFnPipe } from './pipes/filter-by-fn.pipe';
+import { OrderStatusPipe } from './pipes/order-status.pipe';
 
 @NgModule({
     declarations: [
@@ -54,6 +56,8 @@ import { FilterComponent } from './component/filter/filter.component';
         ConfirmButtonComponent,
         TableStickyComponent,
         FilterComponent,
+        FilterByFnPipe,
+        OrderStatusPipe,
     ],
     imports: [
         BrowserModule,

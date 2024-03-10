@@ -1,10 +1,10 @@
 <ng-content></ng-content>
 <div class="btn-group">
     <button
-        *ngFor="let filter of filters"
-        (click)="setActiveFilter(filter.value)"
+        *ngFor="let filter of filters; let idx = index"
+        (click)="setActiveFilter(idx)"
         class="btn btn-outline-primary"
-        [ngClass]="{ active: filter.value === activeFilter }"
+        [ngClass]="{ active: idx === activeFilterIdx }"
     >
         {{ filter.label }}
     </button>

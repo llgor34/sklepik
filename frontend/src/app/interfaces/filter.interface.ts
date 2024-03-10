@@ -1,4 +1,6 @@
 export interface Filter {
     label: string;
-    value: string;
+    filterFn: FilterFn;
 }
+
+export type FilterFn = (...args: any[]) => boolean;

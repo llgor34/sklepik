@@ -1,15 +1,15 @@
 <h1>Zamówienia</h1>
-<app-filter class="d-block mb-4" [(activeFilter)]="activeFilter" [filters]="filters">
+<app-filter class="d-block pb-3 bg-white sticky-top" [(activeFilterIdx)]="activeFilterIdx" [filters]="filters">
     <h2>Filtry</h2>
 </app-filter>
 <div class="row">
     <div
         class="col-12 col-md-6 col-lg-4 mb-4"
-        *ngFor="let order of orders$ | async | filter : activeFilter; trackBy: trackByOrderId"
+        *ngFor="let order of orders$ | async | filterByFn : getCurrentFilterFn(); trackBy: trackByOrderId"
     >
         <div class="card card-body" [ngClass]="{ disabled: order.order_status === 'done' }">
             <h3 class="card-title">Zamówienie nr: {{ order.order_number }}</h3>
-            <p>Status zamówienia: {{ order.order_status }}</p>
+            <p>Status zamówienia: {{ order.order_status | orderStatus }}</p>
             <p>Produkty do przygotowania:</p>
             <ul class="list-group mb-3" *ngFor="let product of order.products">
                 <li class="list-group-item" [ngClass]="{ 'text-decoration-line-through': optionDone.value }">

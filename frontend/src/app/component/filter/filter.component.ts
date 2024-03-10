@@ -8,10 +8,10 @@ import { Filter } from 'src/app/interfaces/filter.interface';
 })
 export class FilterComponent {
     @Input() filters!: Filter[];
-    @Input() activeFilter!: string;
-    @Output() activeFilterChange = new EventEmitter<string>();
+    @Input() activeFilterIdx!: number;
+    @Output() activeFilterIdxChange = new EventEmitter<number>();
 
-    setActiveFilter(value: string) {
-        this.activeFilterChange.emit(value);
+    setActiveFilter(idx: number) {
+        this.activeFilterIdxChange.emit(idx);
     }
 }

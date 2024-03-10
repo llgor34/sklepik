@@ -8,7 +8,7 @@ export class FilterPipe implements PipeTransform {
         if (!arr || !filterValue) {
             return arr;
         }
-        const filteredArr = arr.filter((el) => JSON.stringify(el).toLowerCase().includes(filterValue.toLowerCase()));
-        return filteredArr;
+
+        return arr.filter((el) => JSON.stringify(el).toLowerCase().includes(filterValue.toLowerCase()));
     }
 }
