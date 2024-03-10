@@ -36,6 +36,8 @@ import { SearchFilterComponent } from './component/search-filter/search-filter.c
 import { DoneOrdersComponent } from './component/done-orders/done-orders.component';
 import { OrderComponent } from './component/order/order.component';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
+import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
+import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +68,8 @@ import { OrdersPublicComponent } from './pages/orders-public/orders-public.compo
         DoneOrdersComponent,
         OrderComponent,
         OrdersPublicComponent,
+        AuthenticatedLayoutComponent,
+        NotAuthenticatedLayoutComponent,
     ],
     imports: [
         BrowserModule,

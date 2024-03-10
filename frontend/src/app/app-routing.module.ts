@@ -16,20 +16,33 @@ import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlem
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { RoleGuard } from './guards/role.guard';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
+import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
+import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 
 const routes: Routes = [
     {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'login',
-    },
-    {
-        path: 'login',
-        canActivate: [NotAuthenticatedGuard],
-        component: LoginComponent,
+        component: NotAuthenticatedLayoutComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'login',
+            },
+            {
+                path: 'login',
+                canActivate: [NotAuthenticatedGuard],
+                component: LoginComponent,
+            },
+            {
+                path: 'orders-public',
+                component: OrdersPublicComponent,
+            },
+        ],
     },
     {
         path: '',
+        component: AuthenticatedLayoutComponent,
         canActivateChild: [AuthenticatedGuard],
         children: [
             {
@@ -56,10 +69,6 @@ const routes: Routes = [
             {
                 path: 'orders',
                 component: OrdersComponent,
-            },
-            {
-                path: 'orders-public',
-                component: OrdersPublicComponent,
             },
             {
                 path: 'raport',

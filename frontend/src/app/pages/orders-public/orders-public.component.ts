@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AppComponent } from 'src/app/app.component';
 import { Order } from 'src/app/interfaces/order.interface';
 import { OrderService } from 'src/app/services/order.service';
 import { OrdersFilterService } from 'src/app/services/orders-filter.service';
@@ -10,23 +9,14 @@ import { OrdersFilterService } from 'src/app/services/orders-filter.service';
     templateUrl: './orders-public.component.html',
     styleUrls: ['./orders-public.component.css'],
 })
-export class OrdersPublicComponent implements OnInit, OnDestroy {
+export class OrdersPublicComponent implements OnInit {
     ordersInProgress$!: Observable<Order[]>;
     ordersDone$!: Observable<Order[]>;
 
-    constructor(
-        private appComponent: AppComponent,
-        private orderService: OrderService,
-        private filterService: OrdersFilterService
-    ) {}
+    constructor(private orderService: OrderService, private filterService: OrdersFilterService) {}
 
     ngOnInit() {
-        this.appComponent.disableSidebar();
         this.initOrders();
-    }
-
-    ngOnDestroy() {
-        this.appComponent.enableSidebar();
     }
 
     initOrders() {
