@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2024 at 02:02 PM
+-- Generation Time: Mar 11, 2024 at 08:08 AM
 -- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Wersja PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -4990,7 +4990,33 @@ INSERT INTO `articles_sellment` (`id`, `article_id`, `order_id`, `price`, `amoun
 (4783, 15, 3751, 5.00, 1),
 (4784, 15, 3752, 5.00, 1),
 (4785, 15, 3753, 5.00, 1),
-(4786, 15, 3754, 5.00, 1);
+(4786, 15, 3754, 5.00, 1),
+(4787, 15, 3755, 5.00, 1),
+(4788, 15, 3756, 5.00, 1),
+(4789, 15, 3756, 5.00, 1),
+(4790, 15, 3757, 5.00, 1),
+(4791, 15, 3758, 5.00, 1),
+(4792, 15, 3759, 5.00, 1),
+(4793, 15, 3760, 5.00, 1),
+(4794, 15, 3761, 5.00, 1),
+(4795, 15, 3762, 5.00, 1),
+(4796, 15, 3763, 5.00, 1),
+(4797, 15, 3764, 5.00, 1),
+(4798, 15, 3765, 5.00, 1),
+(4799, 15, 3766, 5.00, 1),
+(4800, 15, 3767, 5.00, 1),
+(4801, 15, 3768, 5.00, 1),
+(4802, 15, 3769, 5.00, 1),
+(4803, 15, 3770, 5.00, 1),
+(4804, 15, 3771, 5.00, 1),
+(4805, 15, 3772, 5.00, 1),
+(4806, 15, 3773, 5.00, 1),
+(4807, 15, 3774, 5.00, 1),
+(4808, 15, 3775, 5.00, 1),
+(4809, 15, 3776, 5.00, 1),
+(4810, 15, 3776, 5.00, 1),
+(4811, 1, 3777, 0.50, 1),
+(4812, 15, 3777, 5.00, 1);
 
 -- --------------------------------------------------------
 
@@ -8820,7 +8846,31 @@ INSERT INTO `orders` (`id`, `worker_id`, `client_id`, `payment_method_id`, `crea
 (3751, 2, NULL, 1, '2024-02-20 12:59:14', NULL, NULL),
 (3752, 2, NULL, 1, '2024-02-20 13:00:11', NULL, NULL),
 (3753, 2, NULL, 1, '2024-02-20 13:00:56', NULL, NULL),
-(3754, 2, NULL, 1, '2024-02-20 13:01:08', NULL, NULL);
+(3754, 2, NULL, 1, '2024-02-20 13:01:08', NULL, NULL),
+(3755, 2, NULL, 1, '2024-02-28 21:14:56', NULL, 'closed'),
+(3756, 2, NULL, 1, '2024-02-28 21:29:26', NULL, 'done'),
+(3757, 2, NULL, 1, '2024-02-28 21:29:33', NULL, 'new');
+INSERT INTO `orders` (`id`, `worker_id`, `client_id`, `payment_method_id`, `created_at`, `closed_at`, `status`) VALUES
+(3758, 2, NULL, 1, '2024-02-29 20:46:54', NULL, 'new'),
+(3759, 2, NULL, 1, '2024-02-29 20:47:34', NULL, 'new'),
+(3760, 2, NULL, 1, '2024-02-29 20:48:16', NULL, 'new'),
+(3761, 2, NULL, 1, '2024-02-29 21:20:25', NULL, 'new'),
+(3762, 2, NULL, 1, '2024-02-29 21:20:41', NULL, 'new'),
+(3763, 2, NULL, 1, '2024-02-29 21:21:04', NULL, 'new'),
+(3764, 2, NULL, 1, '2024-02-29 21:22:41', NULL, 'new'),
+(3765, 2, NULL, 1, '2024-02-29 21:23:44', NULL, 'new'),
+(3766, 2, NULL, 1, '2024-02-29 21:24:05', NULL, 'new'),
+(3767, 2, NULL, 1, '2024-02-29 21:24:09', NULL, 'new'),
+(3768, 2, NULL, 1, '2024-02-29 21:24:53', NULL, 'new'),
+(3769, 2, NULL, 1, '2024-02-29 21:25:22', NULL, 'new'),
+(3770, 2, NULL, 1, '2024-02-29 21:26:43', NULL, 'new'),
+(3771, 2, NULL, 1, '2024-02-29 21:27:48', NULL, 'new'),
+(3772, 2, NULL, 1, '2024-02-29 21:31:37', NULL, 'new'),
+(3773, 2, NULL, 1, '2024-02-29 21:32:18', NULL, 'new'),
+(3774, 2, NULL, 2, '2024-02-29 21:33:01', NULL, 'new'),
+(3775, 2, NULL, 2, '2024-02-29 21:34:27', NULL, 'new'),
+(3776, 2, NULL, 2, '2024-02-29 21:34:50', NULL, 'new'),
+(3777, 2, NULL, 2, '2024-03-10 12:43:44', NULL, 'new');
 
 -- --------------------------------------------------------
 
@@ -8923,6 +8973,7 @@ CREATE TABLE `products_options` (
 --
 
 INSERT INTO `products_options` (`id`, `name`, `category_id`) VALUES
+(0, 'Brak', 1),
 (1, '1000 wysp', 1),
 (2, 'Czosnkowy', 1),
 (3, 'Amerykański', 1);
@@ -8945,8 +8996,54 @@ CREATE TABLE `products_options_list` (
 --
 
 INSERT INTO `products_options_list` (`id`, `articles_sellment_id`, `category_id`, `option_id`) VALUES
-(1, 4786, 1, 1),
-(2, 4786, 1, 2);
+(5, 4788, 1, 1),
+(6, 4788, 1, 2),
+(7, 4789, 1, 3),
+(8, 4789, 1, 2),
+(9, 4790, 1, 3),
+(10, 4790, 1, 2),
+(11, 4791, 1, 1),
+(12, 4791, 1, 1),
+(13, 4792, 1, 2),
+(14, 4792, 1, 3),
+(15, 4793, 1, 2),
+(16, 4793, 1, 3),
+(17, 4794, 1, 0),
+(18, 4794, 1, 0),
+(19, 4795, 1, 1),
+(20, 4795, 1, 2),
+(21, 4796, 1, 1),
+(22, 4796, 1, 3),
+(23, 4797, 1, 0),
+(24, 4797, 1, 0),
+(25, 4798, 1, 0),
+(26, 4798, 1, 0),
+(27, 4799, 1, 0),
+(28, 4799, 1, 0),
+(29, 4800, 1, 1),
+(30, 4800, 1, 3),
+(31, 4801, 1, 1),
+(32, 4801, 1, 3),
+(33, 4802, 1, 0),
+(34, 4802, 1, 0),
+(35, 4803, 1, 0),
+(36, 4803, 1, 0),
+(37, 4804, 1, 1),
+(38, 4804, 1, 1),
+(39, 4805, 1, 0),
+(40, 4805, 1, 0),
+(41, 4806, 1, 0),
+(42, 4806, 1, 0),
+(43, 4807, 1, 3),
+(44, 4807, 1, 1),
+(45, 4808, 1, 0),
+(46, 4808, 1, 0),
+(47, 4809, 1, 0),
+(48, 4809, 1, 0),
+(49, 4810, 1, 1),
+(50, 4810, 1, 1),
+(51, 4812, 1, 1),
+(52, 4812, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -9628,7 +9725,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `articles_sellment`
 --
 ALTER TABLE `articles_sellment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4787;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4813;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -9658,7 +9755,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3755;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3778;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -9688,13 +9785,13 @@ ALTER TABLE `products_category_connection`
 -- AUTO_INCREMENT for table `products_options`
 --
 ALTER TABLE `products_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products_options_list`
 --
 ALTER TABLE `products_options_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `roles`
