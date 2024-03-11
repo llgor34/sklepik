@@ -1,0 +1,29 @@
+<div class="card card-body" [ngClass]="{ disabled: order.order_status === 'done' }">
+    <h3 *ngIf="showTitle" class="card-title">Zamówienie nr: {{ order.order_number }}</h3>
+    <p *ngIf="showStatus">Status zamówienia: {{ order.order_status | orderStatus }}</p>
+    <ng-container *ngIf="showProducts">
+        <p>Produkty do przygotowania:</p>
+        <ul class="list-group mb-3" *ngFor="let product of order.products">
+            <li class="list-group-item" [ngClass]="{ 'text-decoration-line-through': optionDone.value }">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="m-0">
+                        {{ product.short_name }}
+                    </p>
+                    <input
+                        ngModel
+                        name="optionDone"
+                        #optionDone="ngModel"
+                        style="width: 20px; height: 20px"
+                        type="checkbox"
+                    />
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" *ngFor="let productOption of product.options">
+                        <p class="m-0">{{ productOption.name }} - {{ productOption.value }}</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </ng-container>
+    <ng-content></ng-content>
+</div>

@@ -15,6 +15,7 @@ import { ClosementProtocolResolver } from './pages/raport/closement-protocol/clo
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
 import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { RoleGuard } from './guards/role.guard';
+import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 
 const routes: Routes = [
     {
@@ -55,6 +56,10 @@ const routes: Routes = [
             {
                 path: 'orders',
                 component: OrdersComponent,
+            },
+            {
+                path: 'orders-public',
+                component: OrdersPublicComponent,
             },
             {
                 path: 'raport',

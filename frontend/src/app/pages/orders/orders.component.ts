@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Filter } from 'src/app/interfaces/filter.interface';
 import { Order, OrderStatus } from 'src/app/interfaces/order.interface';
 import { OrderService } from 'src/app/services/order.service';
@@ -18,11 +18,11 @@ export class OrdersComponent implements OnInit {
 
     ngOnInit() {
         this.filters = this.filterService.getFilters();
-        this.orders$ = this.orderService.getOrders$().pipe(tap(console.log));
+        this.orders$ = this.orderService.getOrders$();
     }
 
     updateOrderStatus(orderId: number, orderStatus: OrderStatus) {
-        this.orderService.updateOrderStatus$(orderId, orderStatus).subscribe(console.log);
+        this.orderService.updateOrderStatus$(orderId, orderStatus).subscribe();
     }
 
     getCurrentFilterFn() {

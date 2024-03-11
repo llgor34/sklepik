@@ -8,8 +8,15 @@ import { ToastService } from './services/toast.service';
     styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-    constructor(
-        public authService: AuthService,
-        private toastService: ToastService
-    ) {}
+    protected sidebarEnabled = true;
+
+    constructor(public authService: AuthService, private toastService: ToastService) {}
+
+    enableSidebar() {
+        this.sidebarEnabled = true;
+    }
+
+    disableSidebar() {
+        this.sidebarEnabled = false;
+    }
 }
