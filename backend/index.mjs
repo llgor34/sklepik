@@ -1,5 +1,4 @@
 import express from 'express';
-import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -35,20 +34,23 @@ import { deleteHoursSettlement, getHoursSettlement } from './db/worked-hours.mjs
 import { emitOrdersFor, onOrdersChange } from './ws-events/orders.mjs';
 
 dotenv.config();
-const port = 3000;
+
+// htpp-server config
+const serverPort = process.env.HTTP_SERVER_PORT ?? 3000;
 const app = express();
-const server = createServer(app);
-const io = new Server(server, {
+app.use(cors({ origin: ['http://localhost:4200'] }));
+app.use(express.json());
+app.use(cookieParser(process.env.TOKEN_SECRET));
+
+// websocket-server config
+const webscoketPort = process.env.WEBSOCKET_SERVER_PORT ?? 3001;
+const io = new Server(webscoketPort, {
     cors: {
-        origin: 'http://localhost:4200',
+        origin: ['http://localhost:4200', `http://localhost:${serverPort}`],
         methods: ['GET', 'POST'],
         credentials: true,
     },
 });
-
-app.use(cors({ origin: ['localhost:4200', '127.0.0.1:4200'] }));
-app.use(express.json());
-app.use(cookieParser(process.env.TOKEN_SECRET));
 
 app.get('/generate-password/:password', async (req, res) => {
     const { password } = req.params;
@@ -259,6 +261,6 @@ ordersNamespace.on('connection', async (socket) => {
     await emitOrdersFor(socket);
 });
 
-server.listen(port, () => {
-    console.log(`⚡ Server running at: http://localhost:${port}`);
+app.listen(serverPort, () => {
+    console.log(`⚡ Server running at: http://localhost:${serverPort}`);
 });
