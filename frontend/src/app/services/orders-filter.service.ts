@@ -14,8 +14,7 @@ export class OrdersFilterService {
         },
         {
             label: 'Hotdogi',
-            filterFn: (order: Order) =>
-                this.filterByProductName(order, 'hotdog') && !this.filterByStatus(order, 'done'),
+            filterFn: (order: Order) => this.filterByProductName(order, 'dog') && !this.filterByStatus(order, 'done'),
         },
         {
             label: 'Bułki',
