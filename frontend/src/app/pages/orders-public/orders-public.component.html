@@ -1,26 +1,18 @@
-<div class="row">
-    <div class="col-6">
+<div class="m-0 p-0 bg-dark row h-100">
+    <div class="col-6 border-right color-secondary">
         <h2 class="mb-4">W trakcie przygotowania</h2>
         <div class="row">
-            <app-order
-                *ngFor="let orderInProgress of ordersInProgress$ | async"
-                [order]="orderInProgress"
-                [showProducts]="false"
-                [showStatus]="false"
-                classes="col-3 mb-4"
-            ></app-order>
+            <div class="order-number col-3 mb-4" *ngFor="let orderInProgress of ordersInProgress$ | async">
+                {{ orderInProgress.order_number }}
+            </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 color-primary">
         <h2 class="mb-4">Gotowe</h2>
         <div class="row">
-            <app-order
-                *ngFor="let orderDone of ordersDone$ | async"
-                [order]="orderDone"
-                [showProducts]="false"
-                [showStatus]="false"
-                classes="col-3 mb-4"
-            ></app-order>
+            <div class="order-number col-3 mb-4" *ngFor="let orderDone of ordersDone$ | async">
+                {{ orderDone.order_number }}
+            </div>
         </div>
     </div>
 </div>

@@ -1,3 +1,15 @@
-:host ::ng-deep .card-title {
-    font-size: 22px;
+.order-number {
+    font-size: 35px;
+}
+
+.border-right {
+    border-right: 2px solid #144700;
+}
+
+.color-secondary {
+    color: #999;
+}
+
+.color-primary {
+    color: #0eac00;
 }
