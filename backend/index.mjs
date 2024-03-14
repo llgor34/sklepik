@@ -248,19 +248,11 @@ app.put('/order/update-status', verifyAccessToken, async (req, res) => {
 
 // SOCKETS
 export const ordersNamespace = io.of('/orders');
-
-// io.on('connection', (socket) => {
-//     console.log('A user connected');
-
-//     socket.on('disconnect', () => {
-//         console.log('user disconnected');
-//     });
-// });
-
 ordersNamespace.on('connection', async (socket) => {
     await emitOrdersFor(socket);
 });
 
 app.listen(serverPort, () => {
-    console.log(`⚡ Server running at: http://localhost:${serverPort}`);
+    console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
+    console.log(`⚡ SocketServer running at: http://localhost:${webscoketPort}`);
 });

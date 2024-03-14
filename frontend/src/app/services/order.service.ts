@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
-import { environment } from '../environment/environment';
+import { environment } from 'src/environments/environment';
 
 import { Product } from '../interfaces/product.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
