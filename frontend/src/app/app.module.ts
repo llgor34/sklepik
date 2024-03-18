@@ -38,7 +38,6 @@ import { OrderComponent } from './component/order/order.component';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
-import { HttpProxyInterceptor } from './interceptors/http-proxy.interceptor';
 
 @NgModule({
     declarations: [
@@ -85,7 +84,6 @@ import { HttpProxyInterceptor } from './interceptors/http-proxy.interceptor';
         }),
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: HttpProxyInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         {
             provide: APP_INITIALIZER,

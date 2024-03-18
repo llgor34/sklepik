@@ -38,7 +38,7 @@ dotenv.config();
 // htpp-server config
 const serverPort = process.env.HTTP_SERVER_PORT ?? 3000;
 const app = express();
-app.use(cors({ origin: ['http://localhost:4200'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:4200'] }));
 app.use(express.json());
 app.use(cookieParser(process.env.TOKEN_SECRET));
 
