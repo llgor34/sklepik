@@ -1,255 +1,43 @@
 import express from 'express';
-import { Server } from 'socket.io';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import moment from 'moment';
-import fs from 'fs';
 import path from 'path';
+import { getHttpServerPort, getWsServerPort } from './general/server-port.mjs';
 
-import {
-    generateAccessToken,
-    verifyAccessToken,
-    signJWTCookie,
-    hasRoleMiddleware,
-    hasRole,
-    hashPassword,
-} from './general/auth-functions.mjs';
-import { getUserByPassword } from './db/auth.mjs';
-import { getArticleByCode } from './db/articles.mjs';
-import { sendErrorMessage } from './general/messages.mjs';
-import {
-    getAllCoffeeSubscriptions,
-    updateCoffeeSubscriptionByAmount,
-    updateCoffeeSubscriptionByReceiveCoffee,
-} from './db/coffee-subscription.mjs';
-import { createOrder, updateOrderStatus } from './db/order.mjs';
-import { getRaport } from './db/raport/sellment-close/get-raport.mjs';
-import { generateRaport } from './db/raport/sellment-close/generate-raport.mjs';
-import { generateRaportPDF } from './db/raport/sellment-close/generate-raport-pdf.mjs';
-import { getWorkers } from './db/workers.mjs';
-import { getActivities, createActivity } from './db/activities.mjs';
-import { getUsedDiscount } from './db/used-discount.mjs';
-import { getOwedDiscount } from './db/owed-discount.mjs';
-import { deleteHoursSettlement, getHoursSettlement } from './db/worked-hours.mjs';
-import { emitOrdersFor, onOrdersChange } from './ws-events/orders.mjs';
+import authRoutes from './routes/auth-routes.mjs';
+import coffeeSubscribersRouter from './routes/coffee-subscribers-routes.mjs';
+import productRoutes from './routes/product-routes.mjs';
+import orderRoutes from './routes/order-routes.mjs';
+import raportsRoutes from './routes/raports-routes.mjs';
+import workersRoutes from './routes/workers-routes.mjs';
+import hoursSettlementRoutes from './routes/hours-settlement-routes.mjs';
+import activitiesRoutes from './routes/activities-routes.mjs';
+
+export * from './ws-server.mjs';
 
 dotenv.config();
 
 // http-server config
-const serverPort = process.env.HTTP_SERVER_PORT ?? 3000;
+const websocketPort = getWsServerPort();
+const serverPort = getHttpServerPort();
 const app = express();
 app.use(cors({ origin: ['http://localhost:4200'] }));
 app.use(express.json());
 app.use(cookieParser(process.env.TOKEN_SECRET));
 
-// websocket-server config
-const webscoketPort = process.env.WEBSOCKET_SERVER_PORT ?? 3001;
-const io = new Server(webscoketPort, {
-    cors: {
-        origin: ['http://localhost:4200', `http://localhost:${serverPort}`],
-        methods: ['GET', 'POST'],
-        credentials: true,
-    },
-});
-
 // http-server routes
 const router = express.Router();
 app.use('/api', router);
 
-router.get('/generate-password/:password', async (req, res) => {
-    const { password } = req.params;
-    const hash = hashPassword(password);
-    return res.send(hash);
-});
-
-router.post('/login', async (req, res) => {
-    const { password } = req.body;
-    if (!password) {
-        return sendErrorMessage(res, 422, 'PASSWORD_NOT_PROVIDED');
-    }
-
-    const user = await getUserByPassword(password);
-    if (!user) {
-        return sendErrorMessage(res, 401, 'USER_NOT_FOUND');
-    }
-
-    const token = generateAccessToken(user);
-    signJWTCookie(res, token);
-
-    const { name, surname, roles } = user;
-    return res.send({
-        ok: true,
-        message: 'USER_LOGGED_IN',
-        user: { name, surname, roles },
-    });
-});
-
-// app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
-
-router.get('/product/:id', verifyAccessToken, async (req, res) => {
-    const productCode = req.params.id;
-    const product = await getArticleByCode(productCode);
-
-    return res.send({ ok: true, message: 'SUCCESS', product: product });
-});
-
-router.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
-    const coffeeSubscribers = await getAllCoffeeSubscriptions();
-    res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
-});
-
-router.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async (req, res) => {
-    const clientId = +req.params.clientId;
-    const amount = +req.params.amount;
-
-    await updateCoffeeSubscriptionByAmount(clientId, req.user.id, amount);
-    res.send({ ok: true, message: 'SUCCESS' });
-});
-
-router.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async (req, res) => {
-    const clientId = +req.params.clientId;
-
-    await updateCoffeeSubscriptionByReceiveCoffee(clientId, req.user.id);
-    res.send({ ok: true, message: 'SUCCESS' });
-});
-
-router.post('/order/create', verifyAccessToken, async (req, res) => {
-    const { products, paymentMethod } = req.body;
-
-    let totalPrice = 0;
-    for (const product of products) {
-        totalPrice += +product.price * product.amount;
-    }
-    if (totalPrice < 0) {
-        if (!hasRole(req.user.roles, 'admin')) {
-            return sendErrorMessage(res, 422, 'NEGATIVE_PRICE');
-        }
-    }
-
-    const discounts = products.filter((product) => product.type === 'discount');
-    for (const discount of discounts) {
-        const usedDiscount = await getUsedDiscount(discount.code);
-        const owedDiscount = await getOwedDiscount(discount.code);
-
-        const leftDiscount = owedDiscount + usedDiscount + discount.amount * +discount.price;
-        if (leftDiscount < 0) {
-            return sendErrorMessage(res, 422, 'DISCOUNT_TOO_HIGH');
-        }
-    }
-
-    if (products.length < 1) {
-        return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
-    }
-
-    const orderNumber = await createOrder(products, paymentMethod, req.user.id);
-    res.send({ ok: true, message: 'SELL_CREATED', orderNumber });
-
-    await onOrdersChange();
-});
-
-router.get('/raports/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {
-    const data = await getRaport();
-    res.send({ ok: true, message: 'SUCCESS', data });
-});
-
-router.get(
-    '/raports/sellment-close/generate-raport',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const raportInfo = await generateRaport(req.user.id);
-
-        if (!raportInfo) {
-            return sendErrorMessage(res, 409, 'RAPORT_NOT_GENERATED');
-        }
-
-        const raport = await getRaport(raportInfo.id);
-        const date = moment(raportInfo.date).format('DD.MM.YY');
-
-        const raportPath = await generateRaportPDF(raport, date, raportInfo.number, raportInfo.year_number);
-        const pdfFile = fs.readFileSync(raportPath);
-        fs.rmSync(raportPath);
-
-        res.contentType('application/pdf');
-        res.send(pdfFile);
-    }
-);
-
-router.get(
-    '/workers/get',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const workers = await getWorkers();
-        res.send({ ok: true, message: 'SUCCESS', workers });
-    }
-);
-
-router.get('/workers/get-used-discount/:id', verifyAccessToken, async (req, res) => {
-    const workerCode = +req.params.id;
-    const usedDiscount = await getUsedDiscount(workerCode);
-
-    res.send({ ok: true, message: 'SUCCESS', usedDiscount });
-});
-
-router.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) => {
-    const workerCode = +req.params.id;
-    const owedDiscount = await getOwedDiscount(workerCode);
-
-    res.send({ ok: true, message: 'SUCCESS', owedDiscount });
-});
-
-router.get(
-    '/hours-settlement/get',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const hoursSettlement = await getHoursSettlement();
-        res.send({ ok: true, message: 'SUCCESS', hoursSettlement });
-    }
-);
-
-router.get(
-    '/hours-settlement/delete/:id',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const hoursSettlementId = +req.params.id;
-        await deleteHoursSettlement(hoursSettlementId);
-
-        res.send({ ok: true, message: 'SUCCESS' });
-    }
-);
-
-router.get(
-    '/activities/get',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const activities = await getActivities();
-        res.send({ ok: true, message: 'SUCCESS', activities });
-    }
-);
-
-router.post(
-    '/activities/create',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const { workerId, activityId, description, date, amount } = req.body;
-        await createActivity(activityId, req.user.id, workerId, amount, date, description);
-        res.send({ ok: true, message: 'SUCCESS' });
-    }
-);
-
-router.put('/order/update-status', verifyAccessToken, async (req, res) => {
-    const { orderId: order_id, orderStatus: order_status } = req.body;
-    await updateOrderStatus(order_id, order_status);
-    res.send({ ok: true, message: 'SUCCESS' });
-
-    await onOrdersChange();
-});
+router.use('/', authRoutes);
+router.use('/coffee-subscribers', coffeeSubscribersRouter);
+router.use('/product', productRoutes);
+router.use('/order', orderRoutes);
+router.use('/raports', raportsRoutes);
+router.use('/workers', workersRoutes);
+router.use('/hours-settlement', hoursSettlementRoutes);
+router.use('/activities', activitiesRoutes);
 
 // host angular-app
 app.use('/', express.static('dist'));
@@ -258,13 +46,8 @@ app.get('*', function (req, res) {
     res.sendFile(path.resolve('dist/index.html'));
 });
 
-// SOCKETS
-export const ordersNamespace = io.of('/orders');
-ordersNamespace.on('connection', async (socket) => {
-    await emitOrdersFor(socket);
-});
-
+// start http-server
 app.listen(serverPort, () => {
     console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
-    console.log(`⚡ SocketServer running at: http://localhost:${webscoketPort}`);
+    console.log(`⚡ SocketServer running at: http://localhost:${websocketPort}`);
 });
