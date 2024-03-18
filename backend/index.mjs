@@ -35,7 +35,7 @@ import { emitOrdersFor, onOrdersChange } from './ws-events/orders.mjs';
 
 dotenv.config();
 
-// htpp-server config
+// http-server config
 const serverPort = process.env.HTTP_SERVER_PORT ?? 3000;
 const app = express();
 app.use(cors({ origin: ['http://localhost:4200'] }));
@@ -52,13 +52,17 @@ const io = new Server(webscoketPort, {
     },
 });
 
-app.get('/generate-password/:password', async (req, res) => {
+// http-server routes
+const router = express.Router();
+app.use('/api', router);
+
+router.get('/generate-password/:password', async (req, res) => {
     const { password } = req.params;
     const hash = hashPassword(password);
     return res.send(hash);
 });
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { password } = req.body;
     if (!password) {
         return sendErrorMessage(res, 422, 'PASSWORD_NOT_PROVIDED');
@@ -82,19 +86,19 @@ app.post('/login', async (req, res) => {
 
 // app.get('/', verifyAccessToken, (req, res) => res.send(req.user));
 
-app.get('/product/:id', verifyAccessToken, async (req, res) => {
+router.get('/product/:id', verifyAccessToken, async (req, res) => {
     const productCode = req.params.id;
     const product = await getArticleByCode(productCode);
 
     return res.send({ ok: true, message: 'SUCCESS', product: product });
 });
 
-app.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
+router.get('/coffee-subscribers', verifyAccessToken, async (req, res) => {
     const coffeeSubscribers = await getAllCoffeeSubscriptions();
     res.send({ ok: true, message: 'SUCCESS', coffeeSubscribers });
 });
 
-app.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async (req, res) => {
+router.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async (req, res) => {
     const clientId = +req.params.clientId;
     const amount = +req.params.amount;
 
@@ -102,14 +106,14 @@ app.get('/coffee-subscribers/update/:clientId/:amount', verifyAccessToken, async
     res.send({ ok: true, message: 'SUCCESS' });
 });
 
-app.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async (req, res) => {
+router.get('/coffee-subscribers/receive-coffee/:clientId', verifyAccessToken, async (req, res) => {
     const clientId = +req.params.clientId;
 
     await updateCoffeeSubscriptionByReceiveCoffee(clientId, req.user.id);
     res.send({ ok: true, message: 'SUCCESS' });
 });
 
-app.post('/order/create', verifyAccessToken, async (req, res) => {
+router.post('/order/create', verifyAccessToken, async (req, res) => {
     const { products, paymentMethod } = req.body;
 
     let totalPrice = 0;
@@ -143,12 +147,12 @@ app.post('/order/create', verifyAccessToken, async (req, res) => {
     await onOrdersChange();
 });
 
-app.get('/raports/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {
+router.get('/raports/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {
     const data = await getRaport();
     res.send({ ok: true, message: 'SUCCESS', data });
 });
 
-app.get(
+router.get(
     '/raports/sellment-close/generate-raport',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -171,7 +175,7 @@ app.get(
     }
 );
 
-app.get(
+router.get(
     '/workers/get',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -181,21 +185,21 @@ app.get(
     }
 );
 
-app.get('/workers/get-used-discount/:id', verifyAccessToken, async (req, res) => {
+router.get('/workers/get-used-discount/:id', verifyAccessToken, async (req, res) => {
     const workerCode = +req.params.id;
     const usedDiscount = await getUsedDiscount(workerCode);
 
     res.send({ ok: true, message: 'SUCCESS', usedDiscount });
 });
 
-app.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) => {
+router.get('/workers/get-owed-discount/:id', verifyAccessToken, async (req, res) => {
     const workerCode = +req.params.id;
     const owedDiscount = await getOwedDiscount(workerCode);
 
     res.send({ ok: true, message: 'SUCCESS', owedDiscount });
 });
 
-app.get(
+router.get(
     '/hours-settlement/get',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -205,7 +209,7 @@ app.get(
     }
 );
 
-app.get(
+router.get(
     '/hours-settlement/delete/:id',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -217,7 +221,7 @@ app.get(
     }
 );
 
-app.get(
+router.get(
     '/activities/get',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -227,7 +231,7 @@ app.get(
     }
 );
 
-app.post(
+router.post(
     '/activities/create',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
@@ -238,7 +242,7 @@ app.post(
     }
 );
 
-app.put('/order/update-status', verifyAccessToken, async (req, res) => {
+router.put('/order/update-status', verifyAccessToken, async (req, res) => {
     const { orderId: order_id, orderStatus: order_status } = req.body;
     await updateOrderStatus(order_id, order_status);
     res.send({ ok: true, message: 'SUCCESS' });
