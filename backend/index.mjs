@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import moment from 'moment';
 import fs from 'fs';
+import path from 'path';
 
 import {
     generateAccessToken,
@@ -248,6 +249,13 @@ router.put('/order/update-status', verifyAccessToken, async (req, res) => {
     res.send({ ok: true, message: 'SUCCESS' });
 
     await onOrdersChange();
+});
+
+// host angular-app
+app.use('/', express.static('dist'));
+
+app.get('*', function (req, res) {
+    res.sendFile(path.resolve('dist/index.html'));
 });
 
 // SOCKETS
