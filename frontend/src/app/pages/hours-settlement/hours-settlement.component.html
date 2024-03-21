@@ -17,7 +17,7 @@
         <th colspan="2">Liczba godzin</th>
 
         <tr *ngFor="let record of records; let i = index">
-            <td>{{ i + 1 }}</td>
+            <td>{{ record.idx }}</td>
             <td>{{ record.work_date }}</td>
             <td>{{ record.name }} {{ record.surname }}</td>
             <td>{{ record.activity_name }}</td>

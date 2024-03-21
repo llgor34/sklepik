@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { HoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
+import { HoursSettlement, NumeratedHoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { FilterPipe } from 'src/app/pipes/filter.pipe';
+import { NumeratePipe } from 'src/app/pipes/numerate.pipe';
 
 @Component({
     selector: 'app-hours-settlement',
     templateUrl: './hours-settlement.component.html',
     styleUrls: ['./hours-settlement.component.css'],
-    providers: [FilterPipe],
+    providers: [FilterPipe, NumeratePipe],
 })
 export class HoursSettlementComponent implements OnInit {
-    records!: HoursSettlement[];
+    records!: NumeratedHoursSettlement[];
     records$!: Observable<HoursSettlement[]>;
     searchValue$ = new BehaviorSubject('');
 
@@ -21,16 +22,20 @@ export class HoursSettlementComponent implements OnInit {
         private hoursSettlementService: HoursSettlementService,
         private toastService: ToastService,
         private router: Router,
-        private filterPipe: FilterPipe
+        private filterPipe: FilterPipe,
+        private numeratePipe: NumeratePipe
     ) {}
 
     ngOnInit() {
         this.records$ = combineLatest([this.hoursSettlementService.getHoursSettlement(), this.searchValue$]).pipe(
-            map(([records, searchValue]) => this.filterPipe.transform(records, searchValue)!)
+            map(([records, searchValue]) => this.filterPipe.transform(records, searchValue)!),
+            map((records) =>
+                this.numeratePipe.transform(records).map((record) => ({ ...record.value, idx: record.idx }))
+            )
         );
     }
 
-    onPageChange(records: HoursSettlement[]) {
+    onPageChange(records: NumeratedHoursSettlement[]) {
         this.records = records;
     }
 

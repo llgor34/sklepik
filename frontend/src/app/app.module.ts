@@ -39,6 +39,7 @@ import { OrdersPublicComponent } from './pages/orders-public/orders-public.compo
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
 import { PaginatorComponent } from './component/paginator/paginator.component';
+import { NumeratePipe } from './pipes/numerate.pipe';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { PaginatorComponent } from './component/paginator/paginator.component';
         AuthenticatedLayoutComponent,
         NotAuthenticatedLayoutComponent,
         PaginatorComponent,
+        NumeratePipe,
     ],
     imports: [
         BrowserModule,

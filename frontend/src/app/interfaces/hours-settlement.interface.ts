@@ -1,3 +1,4 @@
+import { NumeratedIdx } from './numerated.interface';
 import { Response } from './response.interface';
 
 export interface HoursSettlementResponse extends Response {
@@ -13,3 +14,5 @@ export interface HoursSettlement {
     description: string | null;
     amount: number;
 }
+
+export type NumeratedHoursSettlement = HoursSettlement & NumeratedIdx;

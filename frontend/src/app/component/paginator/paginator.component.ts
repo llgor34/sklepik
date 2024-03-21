@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment';
 })
 export class PaginatorComponent implements OnInit {
     @Input() items$!: Observable<any[]>;
-    pages$!: Observable<Page<any>[]>;
-
     @Output() pageChange = new EventEmitter<any[]>();
+
+    pages$!: Observable<Page<any>[]>;
 
     itemsPerPage: number = environment.itemsPerPage;
     currentPageNumber: number | null = null;
@@ -23,7 +23,7 @@ export class PaginatorComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeCurrentPageNumber();
-        this.pages$ = this.items$.pipe(map((items) => this.getPages(items)));
+        this.initializePages();
         this.items$.subscribe(() => this.onPageChange());
     }
 
@@ -31,10 +31,13 @@ export class PaginatorComponent implements OnInit {
         let currentPageNumber = this.route.snapshot.queryParamMap.get('page');
         if (!currentPageNumber) {
             currentPageNumber = '1';
-            this.setCurrentPageNumber(1);
         }
 
-        this.currentPageNumber = +currentPageNumber;
+        this.setCurrentPageNumber(+currentPageNumber);
+    }
+
+    initializePages() {
+        this.pages$ = this.items$.pipe(map((items) => this.getPages(items)));
     }
 
     onPageChange() {
@@ -50,6 +53,11 @@ export class PaginatorComponent implements OnInit {
     getPages(items: any[]) {
         const pages: Page<any>[] = [];
 
+        if (items.length === 0) {
+            pages.push({ number: 1, items: [] });
+            return pages;
+        }
+
         let i = 0;
         while (items.length > 0) {
             const currentPageItems = items.splice(0, this.itemsPerPage);
@@ -60,17 +68,18 @@ export class PaginatorComponent implements OnInit {
         return pages;
     }
 
-    setCurrentPageNumber(pageNumber: number) {
-        this.currentPageNumber = pageNumber;
-        this.router.navigate([], { queryParams: { page: pageNumber } });
-        this.onPageChange();
-    }
-
     nextPage() {
         this.setCurrentPageNumber(this.currentPageNumber! + 1);
+        this.onPageChange();
     }
 
     previousPage() {
         this.setCurrentPageNumber(this.currentPageNumber! - 1);
+        this.onPageChange();
+    }
+
+    setCurrentPageNumber(pageNumber: number) {
+        this.currentPageNumber = pageNumber;
+        this.router.navigate([], { queryParams: { page: pageNumber } });
     }
 }
