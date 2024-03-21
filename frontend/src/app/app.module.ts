@@ -38,6 +38,7 @@ import { OrderComponent } from './component/order/order.component';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
+import { PaginatorComponent } from './component/paginator/paginator.component';
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-l
         OrdersPublicComponent,
         AuthenticatedLayoutComponent,
         NotAuthenticatedLayoutComponent,
+        PaginatorComponent,
     ],
     imports: [
         BrowserModule,

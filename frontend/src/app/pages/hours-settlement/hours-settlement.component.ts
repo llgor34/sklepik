@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { AddHoursComponent } from './add-hours/add-hours.component';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Page } from 'src/app/interfaces/page.interface';
 
 @Component({
     selector: 'app-hours-settlement',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class HoursSettlementComponent implements OnInit {
     records!: HoursSettlement[];
+    records$!: Observable<HoursSettlement[]>;
     searchValue = '';
 
     constructor(
@@ -22,6 +24,11 @@ export class HoursSettlementComponent implements OnInit {
 
     ngOnInit() {
         this.hoursSettlementService.getHoursSettlement().subscribe((records) => (this.records = records));
+        this.records$ = this.hoursSettlementService.getHoursSettlement();
+    }
+
+    onPageChange(records: HoursSettlement[]) {
+        this.records = records;
     }
 
     addHoursSettlementRecord() {

@@ -28,4 +28,5 @@
             </td>
         </tr>
     </app-table-sticky>
+    <app-paginator [items$]="records$" (pageChange)="onPageChange($event)"></app-paginator>
 </div>
