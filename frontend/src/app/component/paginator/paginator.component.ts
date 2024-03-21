@@ -24,7 +24,7 @@ export class PaginatorComponent implements OnInit {
     ngOnInit(): void {
         this.initializeCurrentPageNumber();
         this.pages$ = this.items$.pipe(map((items) => this.getPages(items)));
-        this.onPageChange();
+        this.items$.subscribe(() => this.onPageChange());
     }
 
     initializeCurrentPageNumber() {

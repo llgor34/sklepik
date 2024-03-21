@@ -3,28 +3,31 @@ import { HoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Page } from 'src/app/interfaces/page.interface';
+import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import { FilterPipe } from 'src/app/pipes/filter.pipe';
 
 @Component({
     selector: 'app-hours-settlement',
     templateUrl: './hours-settlement.component.html',
     styleUrls: ['./hours-settlement.component.css'],
+    providers: [FilterPipe],
 })
 export class HoursSettlementComponent implements OnInit {
     records!: HoursSettlement[];
     records$!: Observable<HoursSettlement[]>;
-    searchValue = '';
+    searchValue$ = new BehaviorSubject('');
 
     constructor(
         private hoursSettlementService: HoursSettlementService,
         private toastService: ToastService,
-        private router: Router
+        private router: Router,
+        private filterPipe: FilterPipe
     ) {}
 
     ngOnInit() {
-        this.hoursSettlementService.getHoursSettlement().subscribe((records) => (this.records = records));
-        this.records$ = this.hoursSettlementService.getHoursSettlement();
+        this.records$ = combineLatest([this.hoursSettlementService.getHoursSettlement(), this.searchValue$]).pipe(
+            map(([records, searchValue]) => this.filterPipe.transform(records, searchValue)!)
+        );
     }
 
     onPageChange(records: HoursSettlement[]) {
