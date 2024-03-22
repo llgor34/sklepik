@@ -1,0 +1,9 @@
+<div class="btn-group d-flex justify-content-center">
+    <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPageNumber! - 1 === 0">
+        Poprzednia
+    </button>
+    <button class="btn btn-dark" disabled>{{ currentPageNumber }}</button>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="currentPageNumber! + 1 > maxPageNumber!">
+        Następna
+    </button>
+</div>
