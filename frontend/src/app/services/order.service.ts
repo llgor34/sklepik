@@ -29,7 +29,6 @@ export class OrderService {
             socket.on('connect', () => {
                 socket.on('ordersChange', (orders: Order[]) => observer.next(orders));
                 socket.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
-                socket.on('disconnect', () => observer.complete());
             });
             return () => socket.close();
         });

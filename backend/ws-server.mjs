@@ -14,6 +14,7 @@ const io = new Server(webscoketPort, {
         methods: ['GET', 'POST'],
         credentials: true,
     },
+    connectionStateRecovery: {},
 });
 
 // websocket routes
