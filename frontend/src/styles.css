@@ -1,5 +1,14 @@
 @import 'ngx-toastr/toastr';
 
+@font-face {
+    font-family: 'Exo2';
+    src: url('./assets/fonts/Exo2.ttf');
+}
+
+body {
+    --bs-body-font-family: 'Exo2';
+}
+
 body,
 html {
     margin: 0;

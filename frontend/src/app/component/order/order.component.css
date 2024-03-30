@@ -1,3 +1,19 @@
 .list-group {
     border: initial;
 }
+
+.list-group-item {
+    background: transparent;
+}
+
+.list-group-item.hotdog {
+    background-color: #bfcfd0;
+}
+
+.list-group-item.doubledog {
+    background-color: #e8b5b5;
+}
+
+.list-group-item.zegdog {
+    background-color: #c6aed5;
+}

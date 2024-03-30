@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Product, ProductResponse } from '../interfaces/product.interface';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Product, ProductResponse } from '../interfaces/product.interface';
 export class ProductsService {
     constructor(private http: HttpClient) {}
 
-    getProductByCode(code: number) {
+    getProductByCode$(code: number): Observable<Product | null> {
         return this.http.get<ProductResponse>(`api/product/${code}`).pipe(
             map((res) =>
                 res.product
