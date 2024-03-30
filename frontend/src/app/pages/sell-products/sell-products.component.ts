@@ -43,7 +43,7 @@ export class SellProductsComponent implements DoCheck {
             return;
         }
 
-        this.orderService.createOrder(this.products, this.paymentMethod!).subscribe(({ orderNumber }) => {
+        this.orderService.createOrder$(this.products, this.paymentMethod!).subscribe(({ orderNumber }) => {
             this.resetProductCodeControl();
             this.focusProductCodeControl();
             this.resetProducts();
@@ -84,7 +84,7 @@ export class SellProductsComponent implements DoCheck {
 
     getProduct(productCode: number) {
         this.productsService
-            .getProductByCode(productCode)
+            .getProductByCode$(productCode)
             .pipe(
                 switchMap((product) =>
                     this.isProductDiscount(product!)

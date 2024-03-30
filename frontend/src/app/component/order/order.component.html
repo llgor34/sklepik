@@ -4,9 +4,18 @@
     <ng-container *ngIf="showProducts">
         <p>Produkty do przygotowania:</p>
         <ul class="list-group mb-3" *ngFor="let product of order.products">
-            <li class="list-group-item" [ngClass]="{ 'text-decoration-line-through': optionDone.value }">
+            <li
+                class="list-group-item"
+                [class.]=""
+                [ngClass]="{
+                    'text-decoration-line-through': optionDone.value,
+                    hotdog: isHotdog(product.code),
+                    doubledog: isDoubleDog(product.code),
+                    zegdog: isZegDog(product.code)
+                }"
+            >
                 <div class="d-flex justify-content-between align-items-center">
-                    <p class="m-0">
+                    <p class="m-0 fw-bold text-uppercase">
                         {{ product.short_name }}
                     </p>
                     <input

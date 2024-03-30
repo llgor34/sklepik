@@ -49,6 +49,7 @@ export async function getOrders() {
             orders.status as order_status,
             articles_sellment.id as articles_sellment_id,
             articles.short_name,
+            articles.code as product_code,
             products_category.name as option_category_name,
             products_options.name as option_name 
         FROM 
@@ -72,7 +73,7 @@ export async function getOrders() {
         if (existingOrderIdx === -1) {
             orders.push(
                 new Order(order.order_id, order.order_status, [
-                    new OrderProduct(order.articles_sellment_id, order.short_name, [
+                    new OrderProduct(order.articles_sellment_id, order.product_code, order.short_name, [
                         new OrderProductOption(order.option_category_name, order.option_name),
                     ]),
                 ])
@@ -85,7 +86,7 @@ export async function getOrders() {
             .indexOf(order.articles_sellment_id);
         if (existingProductIdx === -1) {
             orders[existingOrderIdx].products.push(
-                new OrderProduct(order.articles_sellment_id, order.short_name, [
+                new OrderProduct(order.articles_sellment_id, order.product_code, order.short_name, [
                     new OrderProductOption(order.option_category_name, order.option_name),
                 ])
             );
