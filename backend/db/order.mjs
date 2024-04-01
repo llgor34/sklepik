@@ -111,7 +111,13 @@ export async function getOrders() {
 }
 
 export async function updateOrderStatus(order_id, order_status) {
-    await query(`UPDATE orders SET status = ? WHERE id = ?`, [order_status, order_id]);
+    let queryString = 'UPDATE orders SET status = ?';
+    if (order_status === 'closed') {
+        queryString += ', closed_at = CURRENT_TIMESTAMP()';
+    }
+    queryString += ' WHERE id = ?';
+
+    await query(queryString, [order_status, order_id]);
 }
 
 export function getOrderNumber(id) {
