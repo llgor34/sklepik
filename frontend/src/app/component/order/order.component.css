@@ -2,18 +2,35 @@
     border: initial;
 }
 
-.list-group-item {
+.list-group-item,
+.card.disabled .list-group-item {
     background: transparent;
 }
 
-.list-group-item.hotdog {
+.list-group-item.hotdog,
+.card.disabled .list-group-item.hotdog {
     background-color: #bfcfd0;
 }
 
-.list-group-item.doubledog {
+.list-group-item.doubledog,
+.card.disabled .list-group-item.doubledog {
     background-color: #e8b5b5;
 }
 
-.list-group-item.zegdog {
+.list-group-item.zegdog,
+.card.disabled .list-group-item.zegdog {
     background-color: #c6aed5;
+}
+
+.lesson {
+    font-size: 0.8rem;
+    background-color: #453501;
+    border-left: #997404 5px solid;
+    color: #ffda6a;
+    padding: 10px;
+}
+
+.lesson .time {
+    font-size: 0.9rem;
+    font-weight: bold;
 }
