@@ -40,6 +40,7 @@ import { AuthenticatedLayoutComponent } from './component/authenticated-layout/a
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
 import { PaginatorComponent } from './component/paginator/paginator.component';
 import { NumeratePipe } from './pipes/numerate.pipe';
+import { LessonTimePipe } from './pipes/lesson-time.pipe';
 
 @NgModule({
     declarations: [
@@ -74,6 +75,7 @@ import { NumeratePipe } from './pipes/numerate.pipe';
         NotAuthenticatedLayoutComponent,
         PaginatorComponent,
         NumeratePipe,
+        LessonTimePipe,
     ],
     imports: [
         BrowserModule,

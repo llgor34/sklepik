@@ -6,6 +6,7 @@ import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { forkJoin, of, switchMap } from 'rxjs';
+import { LessonService } from 'src/app/services/lesson.service';
 
 @Component({
     selector: 'app-sell-products',
@@ -18,6 +19,9 @@ export class SellProductsComponent implements DoCheck {
     paymentMethod: PaymentMethod | null = null;
     productIdsWithDisabledAmount: number[] = [30];
 
+    lessons$ = this.lessonService.getLessons$();
+    lessonId = null;
+
     sum = 0;
     amountPayed = 0;
     exchange = 0;
@@ -28,8 +32,9 @@ export class SellProductsComponent implements DoCheck {
     constructor(
         private productsService: ProductsService,
         private orderService: OrderService,
-        private toastService: ToastService,
-        private hoursSettlementService: HoursSettlementService
+        private hoursSettlementService: HoursSettlementService,
+        private lessonService: LessonService,
+        private toastService: ToastService
     ) {}
 
     ngDoCheck(): void {
@@ -43,14 +48,16 @@ export class SellProductsComponent implements DoCheck {
             return;
         }
 
-        this.orderService.createOrder$(this.products, this.paymentMethod!).subscribe(({ orderNumber }) => {
-            this.resetProductCodeControl();
-            this.focusProductCodeControl();
-            this.resetProducts();
-            this.resetSums();
+        this.orderService
+            .createOrder$(this.products, this.paymentMethod, this.lessonId)
+            .subscribe(({ orderNumber }) => {
+                this.resetProductCodeControl();
+                this.focusProductCodeControl();
+                this.resetProducts();
+                this.resetSums();
 
-            this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
-        });
+                this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
+            });
     }
 
     calculateProductsSum() {
@@ -135,6 +142,10 @@ export class SellProductsComponent implements DoCheck {
             }
         }
         return valid;
+    }
+
+    isOrder() {
+        return this.products.some((product) => this.hasProductOptions(product));
     }
 
     hasProductOptions(product: Product) {

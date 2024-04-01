@@ -10,7 +10,7 @@ import { onOrdersChange } from '../ws-events/orders.mjs';
 const router = express.Router();
 
 router.post('/create', verifyAccessToken, async (req, res) => {
-    const { products, paymentMethod } = req.body;
+    const { products, paymentMethod, lessonId } = req.body;
 
     let totalPrice = 0;
     for (const product of products) {
@@ -37,7 +37,7 @@ router.post('/create', verifyAccessToken, async (req, res) => {
         return sendErrorMessage(res, 422, 'PRODUCTS_NOT_PROVIDED');
     }
 
-    const orderNumber = await createOrder(products, paymentMethod, req.user.id);
+    const orderNumber = await createOrder(products, paymentMethod, lessonId, req.user.id);
     res.send({ ok: true, message: 'SELL_CREATED', orderNumber });
 
     await onOrdersChange();

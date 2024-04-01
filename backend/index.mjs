@@ -13,6 +13,7 @@ import raportsRoutes from './routes/raports-routes.mjs';
 import workersRoutes from './routes/workers-routes.mjs';
 import hoursSettlementRoutes from './routes/hours-settlement-routes.mjs';
 import activitiesRoutes from './routes/activities-routes.mjs';
+import lessonsRoutes from './routes/lessons-routes.mjs';
 
 export * from './ws-server.mjs';
 
@@ -38,6 +39,7 @@ router.use('/raports', raportsRoutes);
 router.use('/workers', workersRoutes);
 router.use('/hours-settlement', hoursSettlementRoutes);
 router.use('/activities', activitiesRoutes);
+router.use('/lessons', lessonsRoutes);
 
 // host angular-app
 app.use('/', express.static('dist'));

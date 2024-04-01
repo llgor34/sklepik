@@ -16,10 +16,11 @@ import { Response } from '../interfaces/response.interface';
 export class OrderService {
     constructor(private http: HttpClient) {}
 
-    createOrder$(products: Product[], paymentMethod: PaymentMethod) {
+    createOrder$(products: Product[], paymentMethod: PaymentMethod, lessonId: number | null) {
         return this.http.post<OrderNumberResponse>('api/order/create', {
             products,
             paymentMethod,
+            lessonId,
         });
     }
 

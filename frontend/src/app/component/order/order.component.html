@@ -1,6 +1,9 @@
 <div class="card card-body" [ngClass]="{ disabled: order.order_status === 'done' }">
     <h3 *ngIf="showTitle" class="card-title">Zamówienie nr: {{ order.order_number }}</h3>
     <p *ngIf="showStatus">Status zamówienia: {{ order.order_status | orderStatus }}</p>
+    <p *ngIf="order.lesson as lesson" class="lesson">
+        Zamówienie na przerwę: <span class="time">{{ lesson | lessonTime }}</span>
+    </p>
     <ng-container *ngIf="showProducts">
         <p>Produkty do przygotowania:</p>
         <ul class="list-group mb-3" *ngFor="let product of order.products">

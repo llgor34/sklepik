@@ -7,8 +7,8 @@ dotenv.config();
 
 // websocket config
 const serverPort = getHttpServerPort();
-const webscoketPort = getWsServerPort();
-const io = new Server(webscoketPort, {
+const websocketPort = getWsServerPort();
+const io = new Server(websocketPort, {
     cors: {
         origin: ['http://localhost:4200', `http://localhost:${serverPort}`],
         methods: ['GET', 'POST'],

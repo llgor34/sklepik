@@ -111,8 +111,8 @@
             </tr>
             <tr>
                 <td colspan="5">Metoda płatności</td>
-                <td>
-                    <div class="form-check d-flex align-items-center">
+                <td class="payment-methods">
+                    <div class="d-flex align-items-center">
                         <input
                             [(ngModel)]="paymentMethod"
                             value="CASH"
@@ -126,7 +126,7 @@
                             Gotówka
                         </label>
                     </div>
-                    <div class="form-check d-flex align-items-center">
+                    <div class="d-flex align-items-center">
                         <input
                             [(ngModel)]="paymentMethod"
                             value="BLIK"
@@ -140,6 +140,17 @@
                             BLIK
                         </label>
                     </div>
+                </td>
+            </tr>
+            <tr *ngIf="isOrder()">
+                <td colspan="5">Zamówienie na przerwę:</td>
+                <td>
+                    <select [(ngModel)]="lessonId" name="lessonId" class="form-select">
+                        <option value="null" disabled>Obecna</option>
+                        <option *ngFor="let lesson of lessons$ | async" [value]="lesson.id">
+                            {{ lesson | lessonTime }}
+                        </option>
+                    </select>
                 </td>
             </tr>
         </tbody>
