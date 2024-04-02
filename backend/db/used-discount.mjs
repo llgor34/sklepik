@@ -1,9 +1,9 @@
 import { query } from './db-functions.mjs';
 
-export async function getUsedDiscount(workedCode) {
+export async function getUsedDiscountByWorkerCode(workerCode) {
     const res = await query(
         'SELECT SUM(articles_sellment.price * articles_sellment.amount) AS usedDiscount FROM articles_sellment INNER JOIN  articles on articles.id = articles_sellment.article_id WHERE articles.code = ?;',
-        [workedCode]
+        [workerCode]
     );
 
     let usedDiscount = +res[0].usedDiscount;
@@ -11,5 +11,11 @@ export async function getUsedDiscount(workedCode) {
         usedDiscount = 0;
     }
 
+    return usedDiscount;
+}
+
+export async function getUsedDiscountByWorkerId(id) {
+    const workerCode = (await query('SELECT password FROM workers WHERE id = ?', [id]))[0].password;
+    const usedDiscount = await getUsedDiscountByWorkerCode(workerCode);
     return usedDiscount;
 }

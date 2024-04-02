@@ -2,8 +2,8 @@ import express from 'express';
 
 import { verifyAccessToken, hasRole } from '../general/auth-functions.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
-import { getUsedDiscount } from '../db/used-discount.mjs';
-import { getOwedDiscount } from '../db/owed-discount.mjs';
+import { getUsedDiscountByWorkerCode } from '../db/used-discount.mjs';
+import { getOwedDiscountByWorkerCode } from '../db/owed-discount.mjs';
 import { createOrder, updateOrderStatus } from '../db/order.mjs';
 import { onOrdersChange } from '../ws-events/orders.mjs';
 
@@ -24,8 +24,8 @@ router.post('/create', verifyAccessToken, async (req, res) => {
 
     const discounts = products.filter((product) => product.type === 'discount');
     for (const discount of discounts) {
-        const usedDiscount = await getUsedDiscount(discount.code);
-        const owedDiscount = await getOwedDiscount(discount.code);
+        const usedDiscount = await getUsedDiscountByWorkerCode(discount.code);
+        const owedDiscount = await getOwedDiscountByWorkerCode(discount.code);
 
         const leftDiscount = owedDiscount + usedDiscount + discount.amount * +discount.price;
         if (leftDiscount < 0) {

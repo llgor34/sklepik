@@ -1,16 +1,10 @@
 import express from 'express';
 
-import { hashPassword, generateAccessToken, signJWTCookie } from '../general/auth-functions.mjs';
+import { generateAccessToken, signJWTCookie } from '../general/auth-functions.mjs';
 import { getUserByPassword } from '../db/auth.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
 
 const router = express.Router();
-
-router.get('/generate-password/:password', async (req, res) => {
-    const { password } = req.params;
-    const hash = hashPassword(password);
-    return res.send(hash);
-});
 
 router.post('/login', async (req, res) => {
     const { password } = req.body;

@@ -1,8 +1,6 @@
 import { query } from './db-functions.mjs';
-import { hashPassword } from '../general/auth-functions.mjs';
 
 export async function getUserByPassword(password) {
-    const hash = hashPassword(password);
     const res = await query(
         `
 	SELECT
@@ -17,7 +15,7 @@ export async function getUserByPassword(password) {
 		workers.password = ?
 	GROUP BY 
 		workers.id;`,
-        [hash]
+        [password]
     );
 
     return res[0];

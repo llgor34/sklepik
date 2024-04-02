@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { createHash } from 'node:crypto';
 
 import { sendErrorMessage } from './messages.mjs';
 
@@ -28,15 +27,6 @@ export function verifyAccessToken(req, res, next) {
         req.user = decoded;
         next();
     });
-}
-
-export function verifyPassword(password, hash) {
-    return hashPassword(password) === hash;
-}
-
-export function hashPassword(password) {
-    const hash = createHash('sha256').update(password).digest('hex');
-    return hash;
 }
 
 export function signJWTCookie(res, token) {
