@@ -1,25 +1,11 @@
-<div class="card mt-4">
+<div *ngIf="version$ | async as version" class="card mt-4">
     <div class="flex-container">
         <div class="card-body">
             <h1 class="card-title mb-2">Witaj w programie sklepikowym!</h1>
-            <h2 class="card-subtitle mb-4" style="font-size: 20px">Aktualna wersja: 1.0.0</h2>
+            <h2 class="card-subtitle mb-4">Aktualna wersja: {{ version.number }}</h2>
             <p class="card-text">Co nowego?</p>
             <ul>
-                <li>
-                    Dodano rzecz 1 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima optio perferendis
-                    provident, vel ipsam facilis eius voluptas, praesentium beatae voluptatem ratione quibusdam neque,
-                    in nihil ad repellat eligendi at! Incidunt.
-                </li>
-                <li>
-                    Dodano rzecz 2 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vitae quam laboriosam
-                    repellendus quis voluptas sequi. Blanditiis dolore sunt, voluptates accusamus veniam ipsa ducimus,
-                    facilis iure alias voluptate atque illum?
-                </li>
-                <li>
-                    Dodano rzecz 3 - Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium expedita
-                    recusandae illo dignissimos distinctio animi natus esse, porro est repellat soluta, perspiciatis
-                    corporis nesciunt, placeat quidem. Excepturi vitae magni suscipit.
-                </li>
+                <li *ngFor="let feature of version.features">{{ feature }}</li>
             </ul>
         </div>
         <div>
