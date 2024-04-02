@@ -1,29 +1,61 @@
-<div class="card mt-4">
-    <div class="flex-container">
-        <div class="card-body">
-            <h1 class="card-title mb-2">Witaj w programie sklepikowym!</h1>
-            <h2 class="card-subtitle mb-4" style="font-size: 20px">Aktualna wersja: 1.0.0</h2>
-            <p class="card-text">Co nowego?</p>
-            <ul>
-                <li>
-                    Dodano rzecz 1 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima optio perferendis
-                    provident, vel ipsam facilis eius voluptas, praesentium beatae voluptatem ratione quibusdam neque,
-                    in nihil ad repellat eligendi at! Incidunt.
-                </li>
-                <li>
-                    Dodano rzecz 2 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vitae quam laboriosam
-                    repellendus quis voluptas sequi. Blanditiis dolore sunt, voluptates accusamus veniam ipsa ducimus,
-                    facilis iure alias voluptate atque illum?
-                </li>
-                <li>
-                    Dodano rzecz 3 - Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium expedita
-                    recusandae illo dignissimos distinctio animi natus esse, porro est repellat soluta, perspiciatis
-                    corporis nesciunt, placeat quidem. Excepturi vitae magni suscipit.
-                </li>
-            </ul>
+<div class="row my-3">
+    <div class="col">
+        <div class="card shadow-lg" *ngIf="version$ | async as version">
+            <div class="flex-container">
+                <div class="card-body">
+                    <h1 class="card-title mb-2">Witaj w programie sklepikowym!</h1>
+                    <h2 class="card-subtitle mb-4">Aktualna wersja: {{ version.number }}</h2>
+                    <p class="card-text">Co nowego?</p>
+                    <ul>
+                        <li *ngFor="let feature of version.features">{{ feature }}</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="assets/main.svg" alt="People drinking coffee" />
+                </div>
+            </div>
         </div>
-        <div>
-            <img src="assets/welcome1.jpg" alt="Welcome image" />
+    </div>
+</div>
+<div class="row my-3 row-gap-3">
+    <div class="col-xl-6">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Informacje o godzinach pracy</h2>
+                <table class="table table-secondary">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td>Całkowita liczba wypracowanych godzin:</td>
+                            <td class="hour">{{ workedHoursAmount$ | async }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Informacje o zniżkach</h2>
+                <table class="table table-secondary">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td>Całkowita kwota wypracowanych zniżek:</td>
+                            <td class="currency">{{ owedDiscount$ | async }}</td>
+                        </tr>
+                        <tr class="table-danger">
+                            <td class="text-danger">Wykorzystana kwota wypracowanych zniżek:</td>
+                            <td class="text-danger currency">{{ usedDiscount$ | async }}</td>
+                        </tr>
+                        <tr class="table-success">
+                            <td class="text-success">Pozostała kwota wypracowanych zniżek:</td>
+                            <td class="text-success currency">{{ remainingDiscount$ | async }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

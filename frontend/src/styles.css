@@ -24,6 +24,10 @@ h1 {
     content: ' PLN';
 }
 
+.hour::after {
+    content: ' h';
+}
+
 .sticky-container {
     display: flex;
     flex-direction: column;

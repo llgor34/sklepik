@@ -1,7 +1,10 @@
 .card {
-    background-color: blueviolet;
-    color: #fff;
+    background-color: #fff;
     border: 0;
+}
+
+.card-subtitle {
+    font-size: 20px;
 }
 
 .flex-container {
@@ -19,6 +22,19 @@ img {
     border-bottom-left-radius: 75px;
     border-top-right-radius: var(--bs-border-radius);
     border-bottom-right-radius: var(--bs-border-radius);
+}
+
+@media (max-width: 1200px) {
+    .flex-container {
+        flex-direction: column;
+    }
+
+    img {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: var(--bs-border-radius);
+        border-bottom-right-radius: var(--bs-border-radius);
+    }
 }
 
 li {

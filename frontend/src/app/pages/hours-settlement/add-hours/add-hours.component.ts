@@ -27,13 +27,13 @@ export class AddHoursComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.getWorkers();
+        this.getWorkers$();
         this.getActivities();
         this.checkActivity();
     }
 
-    getWorkers() {
-        this.workersService.getWorkers().subscribe((workers) => (this.workers = workers));
+    getWorkers$() {
+        this.workersService.getWorkers$().subscribe((workers) => (this.workers = workers));
     }
 
     getActivities() {
