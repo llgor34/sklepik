@@ -1,56 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HoursSettlement, NumeratedHoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
-import { FilterPipe } from 'src/app/pipes/filter.pipe';
-import { NumeratePipe } from 'src/app/pipes/numerate.pipe';
+import { Observable } from 'rxjs';
+import { ListTableComponent } from 'src/app/component/list-table/list-table.component';
+import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
 
 @Component({
     selector: 'app-hours-settlement',
     templateUrl: './hours-settlement.component.html',
     styleUrls: ['./hours-settlement.component.css'],
-    providers: [FilterPipe, NumeratePipe],
 })
-export class HoursSettlementComponent implements OnInit {
-    records!: NumeratedHoursSettlement[];
-    records$!: Observable<HoursSettlement[]>;
-    searchValue$ = new BehaviorSubject('');
+export class HoursSettlementComponent {
+    @ViewChild(ListTableComponent, { static: true })
+    listTableComponent!: ListTableComponent<HoursSettlement>;
+
+    records$: Observable<HoursSettlement[]> = this.hoursSettlementService.getHoursSettlement();
+    tableBodyContext!: TableBodyContext<NumeratedHoursSettlement[]>;
 
     constructor(
         private hoursSettlementService: HoursSettlementService,
         private toastService: ToastService,
-        private router: Router,
-        private filterPipe: FilterPipe,
-        private numeratePipe: NumeratePipe
+        private router: Router
     ) {}
-
-    ngOnInit() {
-        this.records$ = combineLatest([this.hoursSettlementService.getHoursSettlement(), this.searchValue$]).pipe(
-            map(([records, searchValue]) => this.filterPipe.transform(records, searchValue)!),
-            map((records) =>
-                this.numeratePipe.transform(records).map((record) => ({ ...record.value, idx: record.idx }))
-            )
-        );
-    }
-
-    onPageChange(records: NumeratedHoursSettlement[]) {
-        this.records = records;
-    }
 
     addHoursSettlementRecord() {
         this.router.navigateByUrl('/hours-settlement/add');
     }
 
-    deleteHoursSettlementRecord(id: number) {
-        this.hoursSettlementService.deleteHoursSettlement(id).subscribe(() => {
-            this.removeHoursSettlementRecord(id);
+    deleteHoursSettlementRecord(record: NumeratedHoursSettlement) {
+        this.hoursSettlementService.deleteHoursSettlement(record.id).subscribe(() => {
+            this.listTableComponent.removeRecordByIdx(record.idx);
             this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
         });
-    }
-
-    private removeHoursSettlementRecord(id: number) {
-        this.records = this.records.filter((record) => record.id != id);
     }
 }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
 import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
-import { HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
+import { HoursSettlement, HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
 import { DateService } from './date.service';
 
@@ -13,19 +13,19 @@ import { DateService } from './date.service';
 export class HoursSettlementService {
     constructor(private http: HttpClient, private dateService: DateService) {}
 
-    getUsedDiscount(workerCode: string) {
+    getUsedDiscount(workerCode: string): Observable<number> {
         return this.http
             .get<UsedDiscountResponse>(`api/workers/get-used-discount/${workerCode}`)
             .pipe(map((res) => res.usedDiscount));
     }
 
-    getOwedDiscount(workerCode: string) {
+    getOwedDiscount(workerCode: string): Observable<number> {
         return this.http
             .get<OwedDiscountResponse>(`api/workers/get-owed-discount/${workerCode}`)
             .pipe(map((res) => res.owedDiscount));
     }
 
-    getHoursSettlement() {
+    getHoursSettlement(): Observable<HoursSettlement[]> {
         return this.http.get<HoursSettlementResponse>('api/hours-settlement/get').pipe(
             map((res) => res.hoursSettlement),
             map((hoursSettlement) =>
@@ -37,7 +37,7 @@ export class HoursSettlementService {
         );
     }
 
-    deleteHoursSettlement(id: number) {
+    deleteHoursSettlement(id: number): Observable<Response> {
         return this.http.get<Response>(`api/hours-settlement/delete/${id}`);
     }
 }

@@ -27,7 +27,36 @@ export async function getArticleByCode(productCode) {
         return null;
     }
 
-    const { id, type, short_name, full_name, price, code, company_id, company_name } = articleRAW;
+    const article = await getArticleObj(articleRAW);
+    return article;
+}
+
+export async function getArticles() {
+    let articles = await query(
+        `
+    SELECT
+        articles.id, 
+        articles.type, 
+        articles.short_name, 
+        articles.full_name, 
+        articles.price, 
+        articles.code, 
+        companies.id as company_id, 
+        companies.name as company_name
+    FROM 
+        articles
+    LEFT JOIN 
+        companies ON articles.company_id = companies.id
+    `,
+        []
+    );
+
+    articles = articles.map(getArticleObj);
+    return await Promise.all(articles);
+}
+
+async function getArticleObj(article) {
+    const { id, type, short_name, full_name, price, code, company_id, company_name } = article;
 
     const articleOptionsRAW = await query(
         `
@@ -69,7 +98,7 @@ export async function getArticleByCode(productCode) {
 
     articleOptions = articleOptions.map((option) => ({ ...option, id: undefined }));
 
-    const article = {
+    return {
         id,
         type,
         short_name,
@@ -82,6 +111,46 @@ export async function getArticleByCode(productCode) {
         },
         product_category_options: articleOptions,
     };
+}
 
-    return article;
+export async function createArticle(price, code, type, short_name, full_name, comapanyId = null) {
+    return await query(`INSERT INTO articles VALUES null, ?, ?, ?, ?, ?, ?`, [
+        price,
+        code,
+        type,
+        short_name,
+        full_name,
+        comapanyId,
+    ]);
+}
+
+export async function updateArticle(articleData, articleId) {
+    let queryStrRaw = 'UPDATE articles SET ';
+    const params = [];
+
+    for (const key in articleData) {
+        if (articleData[key]) {
+            queryStrRaw += `${key} = ? `;
+            params.push(articleData[key]);
+        }
+    }
+
+    let preparedQuery = removeTrailingCommaFromQuery(queryStrRaw);
+    preparedQuery += ' WHERE id = ?';
+    params.push(articleId);
+
+    await query(preparedQuery, params);
+}
+
+export async function deleteArticle(id) {
+    return await query(`DELETE FROM articles WHERE id = ?`, [id]);
+}
+
+function removeTrailingCommaFromQuery(queryStr) {
+    let newQuery = queryStr.split(',');
+    if (newQuery.length > 1) {
+        newQuery.length = newQuery.length - 1;
+    }
+    newQuery = newQuery.join(',');
+    return newQuery;
 }

@@ -1,21 +1,19 @@
-<div class="sticky-container">
-    <h1>Rozliczanie godzin</h1>
-    <div class="d-flex justify-content-between align-items-center">
-        <app-search-filter
-            class="w-25"
-            [searchValue]="(searchValue$ | async)!"
-            (searchValueChange)="searchValue$.next($event)"
-        ></app-search-filter>
-        <button (click)="addHoursSettlementRecord()" class="d-block btn btn-primary">+</button>
-    </div>
-    <app-table-sticky class="mt-3">
+<app-list-table
+    title="Rozliczanie godzin"
+    [observable$]="records$"
+    [tableBodyTemplate]="tableBodyTemplate"
+    [tableHeadTemplate]="tableHeadTemplate"
+    (addNew)="addHoursSettlementRecord()"
+>
+    <ng-template #tableHeadTemplate>
         <th>Lp.</th>
         <th>Data</th>
         <th>Imie i nazwisko</th>
         <th>Nazwa aktywności</th>
         <th>Opis</th>
         <th colspan="2">Liczba godzin</th>
-
+    </ng-template>
+    <ng-template #tableBodyTemplate [typedTemplate]="tableBodyContext" let-records>
         <tr *ngFor="let record of records">
             <td>{{ record.idx }}</td>
             <td>{{ record.work_date }}</td>
@@ -27,10 +25,9 @@
                 <app-confirm-button
                     label="Usuń"
                     confirmBtnClass="btn-danger"
-                    (confirm)="deleteHoursSettlementRecord(record.id)"
+                    (confirm)="deleteHoursSettlementRecord(record)"
                 ></app-confirm-button>
             </td>
         </tr>
-    </app-table-sticky>
-    <app-paginator [items$]="records$" (pageChange)="onPageChange($event)"></app-paginator>
-</div>
+    </ng-template>
+</app-list-table>

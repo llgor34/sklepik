@@ -3,6 +3,7 @@
         <thead>
             <tr class="position-sticky sticky-top bg-white">
                 <ng-content select="th"></ng-content>
+                <ng-container [ngTemplateOutlet]="tableHeadTemplate"></ng-container>
             </tr>
         </thead>
         <tbody>

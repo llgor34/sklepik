@@ -6,10 +6,7 @@ import { ToastService } from '../services/toast.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(
-        private authService: AuthService,
-        private toastService: ToastService
-    ) {}
+    constructor(private authService: AuthService, private toastService: ToastService) {}
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler) {
         return next.handle(request).pipe(
@@ -44,11 +41,19 @@ export class ErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 'NEGATIVE_PRICE':
-                        this.toastService.showError('Kwota zamówienia nie może być ujemna');
+                        this.toastService.showError('Kwota nie może być ujemna');
                         break;
 
                     case 'USER_NOT_FOUND':
                         this.toastService.showError('Użytkownik o podanym identyfikatorze nie istnieje!');
+                        break;
+
+                    case 'PRICE_NOT_NUMBER':
+                        this.toastService.showError('Cena musi być liczbą');
+                        break;
+
+                    case 'INVALID_DATA_FORMAT':
+                        this.toastService.showError('Niepoprawny format danych');
                         break;
 
                     default:

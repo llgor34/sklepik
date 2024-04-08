@@ -9,11 +9,11 @@ import { environment } from 'src/environments/environment';
     templateUrl: './paginator.component.html',
     styleUrls: ['./paginator.component.css'],
 })
-export class PaginatorComponent implements OnInit {
-    @Input() items$!: Observable<any[]>;
-    @Output() pageChange = new EventEmitter<any[]>();
+export class PaginatorComponent<T> implements OnInit {
+    @Input() items$!: Observable<T[]>;
+    @Output() pageChange = new EventEmitter<T[]>();
 
-    pages$!: Observable<Page<any>[]>;
+    pages$!: Observable<Page<T>[]>;
 
     itemsPerPage: number = environment.itemsPerPage;
     currentPageNumber: number | null = null;
@@ -24,7 +24,7 @@ export class PaginatorComponent implements OnInit {
     ngOnInit(): void {
         this.initializeCurrentPageNumber();
         this.initializePages();
-        this.items$.subscribe(() => this.onPageChange());
+        this.items$.subscribe(() => this.onPageChange(true));
     }
 
     initializeCurrentPageNumber() {
@@ -40,18 +40,19 @@ export class PaginatorComponent implements OnInit {
         this.pages$ = this.items$.pipe(map((items) => this.getPages(items)));
     }
 
-    onPageChange() {
+    onPageChange(itemsChanged = false) {
         this.pages$
             .pipe(
                 take(1),
+                tap(() => itemsChanged && this.setCurrentPageNumber(1)),
                 tap((pages) => (this.maxPageNumber = pages.length)),
                 map((pages) => pages[this.currentPageNumber! - 1])
             )
             .subscribe((page) => this.pageChange.emit(page.items));
     }
 
-    getPages(items: any[]) {
-        const pages: Page<any>[] = [];
+    getPages(items: T[]) {
+        const pages: Page<T>[] = [];
 
         if (items.length === 0) {
             pages.push({ number: 1, items: [] });

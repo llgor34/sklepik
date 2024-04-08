@@ -41,6 +41,8 @@ import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-l
 import { PaginatorComponent } from './component/paginator/paginator.component';
 import { NumeratePipe } from './pipes/numerate.pipe';
 import { LessonTimePipe } from './pipes/lesson-time.pipe';
+import { ListTableComponent } from './component/list-table/list-table.component';
+import { TypedTemplateDirective } from './directives/typed-template.directive';
 
 @NgModule({
     declarations: [
@@ -76,6 +78,8 @@ import { LessonTimePipe } from './pipes/lesson-time.pipe';
         PaginatorComponent,
         NumeratePipe,
         LessonTimePipe,
+        ListTableComponent,
+        TypedTemplateDirective,
     ],
     imports: [
         BrowserModule,

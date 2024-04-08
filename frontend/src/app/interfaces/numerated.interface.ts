@@ -1,3 +1,3 @@
 export interface NumeratedIdx {
-    idx?: number;
+    idx: number;
 }
