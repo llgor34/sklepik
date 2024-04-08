@@ -15,6 +15,7 @@ import hoursSettlementRoutes from './routes/hours-settlement-routes.mjs';
 import activitiesRoutes from './routes/activities-routes.mjs';
 import lessonsRoutes from './routes/lessons-routes.mjs';
 import versionRoutes from './routes/version-routes.mjs';
+import movieRoutes from './routes/movie-routes.mjs';
 
 export * from './ws-server.mjs';
 
@@ -42,6 +43,7 @@ router.use('/hours-settlement', hoursSettlementRoutes);
 router.use('/activities', activitiesRoutes);
 router.use('/lessons', lessonsRoutes);
 router.use('/version', versionRoutes);
+router.use('/movie', movieRoutes);
 
 // host angular-app
 app.use('/', express.static('dist'));
