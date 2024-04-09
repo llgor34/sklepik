@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2024 at 10:21 PM
+-- Generation Time: Apr 09, 2024 at 07:31 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -5004,7 +5004,9 @@ INSERT INTO `articles_sellment` (`id`, `article_id`, `order_id`, `price`, `amoun
 (4797, 15, 3762, 5.00, 1),
 (4798, 15, 3763, 5.00, 1),
 (4799, 15, 3764, 5.00, 1),
-(4800, 15, 3764, 5.00, 1);
+(4800, 15, 3764, 5.00, 1),
+(4801, 96, 3765, -0.50, 103),
+(4802, 1, 3765, 0.50, 1000);
 
 -- --------------------------------------------------------
 
@@ -8876,7 +8878,8 @@ INSERT INTO `orders` (`id`, `worker_id`, `client_id`, `payment_method_id`, `crea
 (3761, 2, NULL, 1, '2024-03-21 20:28:18', '2024-04-01 17:21:27', 'closed', NULL),
 (3762, 2, NULL, 1, '2024-04-01 18:50:13', '2024-04-01 18:51:02', 'closed', NULL),
 (3763, 2, NULL, 1, '2024-04-01 19:41:54', NULL, 'new', NULL),
-(3764, 2, NULL, 1, '2024-04-01 19:42:40', NULL, 'new', 11);
+(3764, 2, NULL, 1, '2024-04-01 19:42:40', NULL, 'new', 11),
+(3765, 1, NULL, 2, '2024-04-09 09:40:53', NULL, 'nd', NULL);
 
 -- --------------------------------------------------------
 
@@ -9152,6 +9155,48 @@ INSERT INTO `sellment_close` (`id`, `number`, `year_number`, `date`, `issuer_wor
 (83, '80', '23/24', '2024-01-15 13:13:14', 30, 3639, 3701),
 (84, '81', '23/24', '2024-03-16 20:50:27', 2, 3702, 3758),
 (85, '82', '23/24', '2024-03-18 17:46:02', 2, 3759, 3759);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `version`
+--
+
+CREATE TABLE `version` (
+  `id` int(11) NOT NULL,
+  `number` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `version`
+--
+
+INSERT INTO `version` (`id`, `number`) VALUES
+(1, '0.1.0');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `version_feature`
+--
+
+CREATE TABLE `version_feature` (
+  `id` int(11) NOT NULL,
+  `version_id` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `version_feature`
+--
+
+INSERT INTO `version_feature` (`id`, `version_id`, `description`) VALUES
+(1, 1, 'Rozróżnianie hotdogów - Wprowadzono wizualne rozróżnianie poszczególnych produktów, poprzez nadawanie im unikalnych kolorów tła (np. jeden kolor dla hotdogów, drugi kolor dla doubledogów itp.).'),
+(2, 1, 'Zamawianie na następną przerwę - Dodano możliwość ustawienia przerwy, na którą dane zamówienie ma zostać zrealizowane. Dzięki temu można stworzyć i zrealizować zamówienie jeszcze przed konkretną przerwą!'),
+(3, 1, 'Aktualizacja widoku zarządzania godzinami - Poprawiono filtrowanie, tak aby nie występowało ścinanie się aplikacji. Wprowadzono podział wyświetlanych rekordów na podstrony, drobne zmiany wizualne.'),
+(4, 1, 'Drobne poprawki techniczne - Zmieniono endpointy dla backendu, wprowadzono ponowną synchronizację zamówień po rozłączeniu z siecią.'),
+(5, 1, 'Drobne poprawki wizualne - Zmiana czcionki na bardziej czytelną, poprawiono wygląd widoku sprzedaży, naprawiony \'resizing\' meni bocznego'),
+(6, 1, 'Widok strony głownej - Wprowadzono widok strony głównej, na której wyświetla się aktualna wersja programu i informacje o pracowniku.');
 
 -- --------------------------------------------------------
 
@@ -9484,7 +9529,6 @@ INSERT INTO `worked_hours` (`id`, `activity_id`, `admin_id`, `worker_id`, `amoun
 (332, 3, 28, 27, 1.5, NULL, '2024-01-12', '2024-01-11 10:55:55'),
 (333, 2, 28, 30, 1.5, NULL, '2024-01-12', '2024-01-11 10:56:04'),
 (334, 4, 28, 25, 1.5, NULL, '2024-01-12', '2024-01-11 10:56:10'),
-(335, 5, 28, 27, 1, NULL, '2024-01-12', '2024-01-11 10:56:22'),
 (336, 1, 28, 3, 2, 'Rozliczenie zaległych godzin (listopad - styczeń)', '2024-01-12', '2024-01-11 10:57:10'),
 (337, 3, 30, 25, 1.5, NULL, '2024-01-15', '2024-01-15 11:34:58'),
 (338, 2, 30, 5, 1.5, NULL, '2024-01-15', '2024-01-15 11:35:37'),
@@ -9499,16 +9543,9 @@ INSERT INTO `worked_hours` (`id`, `activity_id`, `admin_id`, `worker_id`, `amoun
 (347, 4, 30, 27, 1.5, NULL, '2024-01-17', '2024-01-15 11:40:28'),
 (348, 5, 30, 30, 1.5, NULL, '2024-01-17', '2024-01-15 11:40:47'),
 (349, 5, 30, 26, 1.5, NULL, '2024-01-17', '2024-01-15 11:41:20'),
-(350, 3, 30, 25, 1.5, NULL, '2024-01-18', '2024-01-15 11:41:55'),
 (352, 2, 30, 30, 1.5, NULL, '2024-01-18', '2024-01-15 11:42:52'),
-(353, 4, 30, 31, 1.5, NULL, '2024-01-18', '2024-01-15 11:43:16'),
 (354, 5, 30, 30, 1.5, NULL, '2024-01-18', '2024-01-15 11:43:34'),
 (355, 5, 30, 29, 1.5, NULL, '2024-01-18', '2024-01-15 11:43:51'),
-(356, 3, 30, 27, 1.5, NULL, '2024-01-19', '2024-01-15 11:44:21'),
-(357, 2, 30, 30, 1.5, NULL, '2024-01-19', '2024-01-15 11:44:55'),
-(358, 4, 30, 25, 1.5, NULL, '2024-01-19', '2024-01-15 11:45:36'),
-(359, 5, 30, 30, 1.5, NULL, '2024-01-19', '2024-01-15 11:45:58'),
-(360, 5, 30, 27, 1.5, NULL, '2024-01-19', '2024-01-15 11:46:28'),
 (361, 3, 30, 30, 0.5, NULL, '2024-01-15', '2024-01-15 12:29:38');
 
 -- --------------------------------------------------------
@@ -9529,9 +9566,9 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`id`, `name`, `surname`, `password`) VALUES
-(1, 'Igor', 'Manoryk', '93c1ff8e6e8c3c80dab9be3af6d0ec09043276e9beaf935ec8e031c27db6b0d8'),
-(2, 'Grzegorz', 'Studniarz', 'd16be75d47692086c54d9b024566c4aec7a0cb3ec431fdaa0aebe7548f850458'),
-(3, 'Mateusz', 'Bieniek', '1f8eb4f812ad3a7d0267e41a4b935bb191d7aed717866e542f1e9712a3894924'),
+(1, 'Igor', 'Manoryk', '25195078985541290000'),
+(2, 'Grzegorz', 'Studniarz', '67685136012979905000'),
+(3, 'Mateusz', 'Bieniek', '1234567890'),
 (4, 'Anna', 'Poloczek', '905150c4d8c55e7788dddcd65c11698b28b39c9ee294c212fd64ef477006995c'),
 (5, 'Sebastian', 'Czop', '7095c274f87716295ac912266cad6e48cee744318297d9c02f43f9921311e676'),
 (6, 'Szymon', 'Śliwa', '779aa14720a1c0631bdfad590ad4f475681e0dda690c6d3286ed707c868b3881'),
@@ -9685,6 +9722,19 @@ ALTER TABLE `sellment_close`
   ADD KEY `ending_order_id` (`ending_order_id`);
 
 --
+-- Indeksy dla tabeli `version`
+--
+ALTER TABLE `version`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `version_feature`
+--
+ALTER TABLE `version_feature`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `version_id` (`version_id`);
+
+--
 -- Indeksy dla tabeli `worked_hours`
 --
 ALTER TABLE `worked_hours`
@@ -9719,7 +9769,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `articles_sellment`
 --
 ALTER TABLE `articles_sellment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4801;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4803;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -9755,7 +9805,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3765;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3766;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -9804,6 +9854,18 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `sellment_close`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+
+--
+-- AUTO_INCREMENT for table `version`
+--
+ALTER TABLE `version`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `version_feature`
+--
+ALTER TABLE `version_feature`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `worked_hours`
@@ -9890,6 +9952,12 @@ ALTER TABLE `products_options_list`
 ALTER TABLE `sellment_close`
   ADD CONSTRAINT `sellment_close_ibfk_1` FOREIGN KEY (`issuer_worker_id`) REFERENCES `workers` (`id`),
   ADD CONSTRAINT `sellment_close_ibfk_2` FOREIGN KEY (`ending_order_id`) REFERENCES `orders` (`id`);
+
+--
+-- Constraints for table `version_feature`
+--
+ALTER TABLE `version_feature`
+  ADD CONSTRAINT `version_feature_ibfk_1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`);
 
 --
 -- Constraints for table `worked_hours`
