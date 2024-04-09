@@ -3,7 +3,10 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
+import { createServer } from 'http';
 import { getHttpServerPort, getWsServerPort } from './general/server-port.mjs';
+import { Server } from 'socket.io';
+import { emitOrdersFor } from './ws-events/orders.mjs';
 
 import authRoutes from './routes/auth-routes.mjs';
 import coffeeSubscribersRouter from './routes/coffee-subscribers-routes.mjs';
@@ -17,17 +20,31 @@ import lessonsRoutes from './routes/lessons-routes.mjs';
 import versionRoutes from './routes/version-routes.mjs';
 import movieRoutes from './routes/movie-routes.mjs';
 
-export * from './ws-server.mjs';
-
 dotenv.config();
 
-// http-server config
+// server config
 const websocketPort = getWsServerPort();
 const serverPort = getHttpServerPort();
 const app = express();
 app.use(cors({ origin: ['http://localhost:4200'] }));
 app.use(express.json());
 app.use(cookieParser(process.env.TOKEN_SECRET));
+
+export const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:4200',
+        methods: ['GET', 'POST'],
+        credentials: true,
+    },
+    connectionStateRecovery: {},
+});
+
+// websocket routes
+export const ordersNamespace = io.of('/orders');
+ordersNamespace.on('connection', async (socket) => {
+    await emitOrdersFor(socket);
+});
 
 // http-server routes
 const router = express.Router();
@@ -52,8 +69,7 @@ app.get('*', function (req, res) {
     res.sendFile(path.resolve('dist/index.html'));
 });
 
-// start http-server
-app.listen(serverPort, () => {
+// start server
+server.listen(serverPort, () => {
     console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
-    console.log(`⚡ SocketServer running at: http://localhost:${websocketPort}`);
 });

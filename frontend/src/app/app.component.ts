@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { ToastService } from './services/toast.service';
+import { io } from 'socket.io-client';
 
 @Component({
     selector: 'app-root',
