@@ -4,8 +4,8 @@ import { verifyAccessToken, hasRole } from '../general/auth-functions.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
 import { getUsedDiscountByWorkerCode } from '../db/used-discount.mjs';
 import { getOwedDiscountByWorkerCode } from '../db/owed-discount.mjs';
-import { createOrder, updateOrderStatus } from '../db/order.mjs';
-import { onOrdersChange } from '../ws-events/orders.mjs';
+import { createOrder, getOrderNumber, updateOrderStatus } from '../db/order.mjs';
+import { onOrdersChange, onOrderStatusReady } from '../ws-events/orders.mjs';
 
 const router = express.Router();
 
@@ -46,9 +46,14 @@ router.post('/create', verifyAccessToken, async (req, res) => {
 router.put('/update-status', verifyAccessToken, async (req, res) => {
     const { orderId: order_id, orderStatus: order_status } = req.body;
     await updateOrderStatus(order_id, order_status);
+
     res.send({ ok: true, message: 'SUCCESS' });
 
     await onOrdersChange();
+    if (order_status === 'done') {
+        const order_number = getOrderNumber(order_id);
+        await onOrderStatusReady(order_number);
+    }
 });
 
 export default router;

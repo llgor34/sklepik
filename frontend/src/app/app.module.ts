@@ -90,7 +90,6 @@ import { TypedTemplateDirective } from './directives/typed-template.directive';
         BrowserAnimationsModule,
         ToastrModule.forRoot({
             autoDismiss: true,
-            positionClass: 'toast-bottom-right',
         }),
     ],
     providers: [
