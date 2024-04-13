@@ -1,11 +1,11 @@
-import { Component, DoCheck, ElementRef, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { Subscription, forkJoin, of, switchMap } from 'rxjs';
 import { LessonService } from 'src/app/services/lesson.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { LessonService } from 'src/app/services/lesson.service';
     templateUrl: './sell-products.component.html',
     styleUrls: ['./sell-products.component.css'],
 })
-export class SellProductsComponent implements DoCheck {
+export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     products: Product[] = [];
     productCode: number | null = null;
     paymentMethod: PaymentMethod | null = null;
@@ -29,6 +29,8 @@ export class SellProductsComponent implements DoCheck {
     @ViewChild('productCodeControl', { static: true })
     productCodeControl!: ElementRef;
 
+    subscription = new Subscription();
+
     constructor(
         private productsService: ProductsService,
         private orderService: OrderService,
@@ -37,8 +39,22 @@ export class SellProductsComponent implements DoCheck {
         private toastService: ToastService
     ) {}
 
+    ngOnInit(): void {
+        this.subscription.add(this.listenForReadyOrders());
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
     ngDoCheck(): void {
         this.calculateProductsSum();
+    }
+
+    listenForReadyOrders() {
+        this.orderService.orderReady$().subscribe((orderNumber) => {
+            this.toastService.showSuccess(`Zamówienie o numerze: ${orderNumber}, jest gotowe do wydania`);
+        });
     }
 
     submitSell() {

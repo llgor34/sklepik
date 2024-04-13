@@ -3,7 +3,6 @@ import { getLatestArticlesSellmentId } from './articles-sellment.mjs';
 import { Order } from './schema/order.mjs';
 import { OrderProduct } from './schema/order-product.mjs';
 import { OrderProductOption } from './schema/order-product-option.mjs';
-import { Lesson } from './schema/lesson.mjs';
 import { getLessonById } from './lesson.mjs';
 
 export async function createOrder(products, paymentMethod, lessonId, workerId, clientId = null) {
