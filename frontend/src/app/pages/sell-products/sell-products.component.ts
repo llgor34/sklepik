@@ -1,5 +1,5 @@
 import { Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Product } from 'src/app/interfaces/product.interface';
+import { NumeratedProduct } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
@@ -14,7 +14,7 @@ import { LessonService } from 'src/app/services/lesson.service';
     styleUrls: ['./sell-products.component.css'],
 })
 export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
-    products: Product[] = [];
+    products: NumeratedProduct[] = [];
     productCode: number | null = null;
     paymentMethod: PaymentMethod | null = null;
     productIdsWithDisabledAmount: number[] = [30];
@@ -139,7 +139,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         this.productCodeControl.nativeElement.focus();
     }
 
-    isProductDiscount(product: Product) {
+    isProductDiscount(product: NumeratedProduct) {
         return product.type === 'discount';
     }
 
@@ -164,11 +164,11 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         return this.products.some((product) => this.hasProductOptions(product));
     }
 
-    hasProductOptions(product: Product) {
+    hasProductOptions(product: NumeratedProduct) {
         return product.product_category_options.length > 0;
     }
 
-    addProduct(product: Product) {
+    addProduct(product: NumeratedProduct) {
         this.products.push(product);
     }
 

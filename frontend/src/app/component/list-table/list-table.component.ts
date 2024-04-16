@@ -34,17 +34,11 @@ export class ListTableComponent<T> implements OnInit {
         );
     }
 
-    removeRecordByIdx(idx: number) {
-        this.records = this.records
-            .filter((record) => record.idx != idx)
-            .map((record) => (record.idx >= idx ? { ...record, idx: record.idx - 1 } : record));
-    }
-
-    protected onAddNew() {
+    onAddNew() {
         this.addNew.emit();
     }
 
-    protected onPageChange(records: (T & NumeratedIdx)[]) {
+    onPageChange(records: (T & NumeratedIdx)[]) {
         this.records = records;
     }
 }

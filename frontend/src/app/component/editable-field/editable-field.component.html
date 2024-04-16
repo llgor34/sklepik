@@ -1,0 +1,20 @@
+<span *ngIf="!isInEditMode" (click)="toggleEditMode()">{{ originalValue }}</span>
+<input
+    *ngIf="isInEditMode && !isInListMode"
+    (blur)="onNewValueConfirm()"
+    (keyup.enter)="onNewValueConfirm()"
+    (keyup.escape)="onNewValueReset()"
+    [(ngModel)]="newValue"
+    class="form-control"
+    type="text"
+    name="value"
+/>
+<select
+    *ngIf="isInEditMode && isInListMode"
+    (blur)="onNewValueConfirm()"
+    [(ngModel)]="newValue"
+    class="form-select"
+    name="value"
+>
+    <option *ngFor="let value of list" [value]="value">{{ value }}</option>
+</select>

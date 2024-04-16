@@ -1,0 +1,18 @@
+<form #form="ngForm">
+    <tr *ngFor="let record of records; let i = index">
+        <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
+        <td><input [(ngModel)]="record.code" name="type" class="form-control" required /></td>
+        <td>
+            <select [(ngModel)]="record.type" name="code" class="form-select" required>
+                <option *ngFor="let value of getProductTypeList()" [value]="value">{{ value }}</option>
+            </select>
+        </td>
+        <td><input [(ngModel)]="record.short_name" name="short_name" type="text" class="form-control" required /></td>
+        <td><input [(ngModel)]="record.full_name" name="full_name" type="text" class="form-control" required /></td>
+        <td><input [(ngModel)]="record.price" name="price" type="text" class="form-control" required /></td>
+        <td class="buttons-container">
+            <button (click)="onAddRecord(record, i)" class="btn btn-primary" [disabled]="form.invalid">Dodaj</button>
+            <button (click)="onDeleteRecord(i)" class="btn btn-warning">Anuluj</button>
+        </td>
+    </tr>
+</form>

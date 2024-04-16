@@ -3,8 +3,9 @@ import { Company } from './company.interferface';
 import { ProductType } from './product-type.interface';
 import { ProductCategoryOption } from './product-category-option.interface';
 import { ProductCategorySelectedOption } from './product-category-selected-option.interface';
+import { NumeratedIdx } from './numerated.interface';
 
-export interface ProductRaw {
+export interface Product {
     id: number;
     type: ProductType;
     short_name: string;
@@ -16,11 +17,17 @@ export interface ProductRaw {
     maxDiscountAmount?: number;
 }
 
-export interface Product extends ProductRaw {
+export type NumeratedByIdxProduct = Product & NumeratedIdx;
+
+export interface NumeratedProduct extends Product {
     amount: number;
     selectedOptions: ProductCategorySelectedOption[];
 }
 
 export interface ProductResponse extends Response {
-    product: ProductRaw | null;
+    product: Product | null;
+}
+
+export interface ProductsResponse extends Response {
+    products: Product[];
 }

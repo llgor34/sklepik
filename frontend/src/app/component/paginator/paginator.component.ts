@@ -44,8 +44,12 @@ export class PaginatorComponent<T> implements OnInit {
         this.pages$
             .pipe(
                 take(1),
-                tap(() => itemsChanged && this.setCurrentPageNumber(1)),
                 tap((pages) => (this.maxPageNumber = pages.length)),
+                tap(() => {
+                    if (itemsChanged && this.currentPageNumber! > this.maxPageNumber!) {
+                        this.setCurrentPageNumber(1);
+                    }
+                }),
                 map((pages) => pages[this.currentPageNumber! - 1])
             )
             .subscribe((page) => this.pageChange.emit(page.items));

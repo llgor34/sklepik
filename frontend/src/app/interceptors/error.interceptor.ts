@@ -11,7 +11,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler) {
         return next.handle(request).pipe(
             catchError(({ error }) => {
-                console.log(error);
                 switch (error.message) {
                     case 'AUTH_TOKEN_NOT_PROVIDED':
                     case 'AUTH_TOKEN_EXPIRED':
@@ -54,6 +53,12 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                     case 'INVALID_DATA_FORMAT':
                         this.toastService.showError('Niepoprawny format danych');
+                        break;
+
+                    case 'DELETE_CONSTRAINT_CONFLICT_PRODUCT':
+                        this.toastService.showError(
+                            'Nie można usunąć produktu, ponieważ został sprzedany / zawarty w raporcie!'
+                        );
                         break;
 
                     default:
