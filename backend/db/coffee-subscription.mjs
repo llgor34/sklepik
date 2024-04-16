@@ -1,4 +1,5 @@
 import { query } from './db-functions.mjs';
+import { createLog } from './logs.mjs';
 
 export async function getAllCoffeeSubscriptions() {
     let coffeeSubscriptions = await query(`
@@ -43,15 +44,10 @@ export async function updateCoffeeSubscriptionByReceiveCoffee(client_id, worker_
     await updateCoffeeSubscription(client_id, worker_id, -1, operationType, operationDescription);
 }
 
-async function updateCoffeeSubscription(client_id, worker_id, amount, operationType, operationDescription) {
+async function updateCoffeeSubscription(client_id, worker_id, amount, type, description) {
     await query('UPDATE coffee_subscription SET coffees_left = coffees_left + ? WHERE client_id = ?', [
         amount,
         client_id,
     ]);
-    await query('INSERT INTO logs VALUES(null, ?, ?, ?, ?, null)', [
-        operationType,
-        operationDescription,
-        worker_id,
-        client_id,
-    ]);
+    await createLog(type, description, worker_id, client_id);
 }

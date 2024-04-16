@@ -10,6 +10,7 @@ import {
     updateArticle,
 } from '../db/articles.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
+import { createLog } from '../db/logs.mjs';
 
 const router = express.Router();
 
@@ -28,6 +29,7 @@ router.post(
 
         const articleId = await getLatestArticleId();
         res.send({ ok: true, message: 'SUCCESS', id: articleId });
+        await createLog('ARTICLE_CREATED', `Article with id ${articleId} has been created`, req.user.id);
     }
 );
 
@@ -47,7 +49,9 @@ router.put(
         const articleId = +req.params.id;
 
         await updateArticle(articleData, articleId);
+
         res.send({ ok: true, message: 'SUCCESS' });
+        await createLog('ARTICLE_MODIFIED', `Article with id ${articleId} has been modified`, req.user.id);
     }
 );
 
@@ -62,7 +66,9 @@ router.delete(
         } catch (error) {
             return sendErrorMessage(res, 409, 'DELETE_CONSTRAINT_CONFLICT_PRODUCT');
         }
+
         res.send({ ok: true, message: 'SUCCESS' });
+        await createLog('ARTICLE_DELETED', `Article with id ${articleId} has been deleted`, req.user.id);
     }
 );
 

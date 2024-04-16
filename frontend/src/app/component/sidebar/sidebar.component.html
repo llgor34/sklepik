@@ -27,12 +27,17 @@
             routerLink="/hours-settlement"
             routerLinkActive="active"
             title="Rozliczanie godzin pracy"
-            *allowedRoles="['admin']"
+            *allowedRoles="['superAdmin']"
         >
             <i class="bi bi-clock"></i>
             <span>Rozliczanie godzin</span>
         </li>
-        <li routerLink="/panel" routerLinkActive="active" title="Panel do zarządzania" *allowedRoles="['admin']">
+        <li
+            routerLink="/panel"
+            routerLinkActive="active"
+            title="Panel do zarządzania"
+            *allowedRoles="['admin', 'superAdmin']"
+        >
             <i class="bi bi-sliders2"></i>
             <span>Panel do zarządzania</span>
         </li>

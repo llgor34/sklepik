@@ -1,4 +1,5 @@
 import { query } from './db-functions.mjs';
+import { createLog } from './logs.mjs';
 
 export async function getActivities() {
     const activities = await query('SELECT * FROM activities');
@@ -14,4 +15,6 @@ export async function createActivity(activityId, adminId, workerId, amount, date
         description,
         date,
     ]);
+
+    await createLog('ACTIVITY_CREATED', `Hours with id ${activityId} and amount ${amount} has been by admin`, adminId);
 }

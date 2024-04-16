@@ -106,7 +106,7 @@ const routes: Routes = [
                     },
                 ],
                 data: {
-                    roles: ['admin'],
+                    roles: ['superAdmin'],
                 },
             },
             {
@@ -123,7 +123,7 @@ const routes: Routes = [
                     },
                 ],
                 data: {
-                    roles: ['admin'],
+                    roles: ['admin', 'superAdmin'],
                 },
             },
         ],
