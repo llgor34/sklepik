@@ -9,8 +9,9 @@ export class ConfirmButtonComponent {
     @Input() label!: string;
     @Input() confirmBtnClass!: string;
     @Input() cancelBtnClass!: string;
+    @Input() isInConfirmMode = false;
+
     @Output() confirm = new EventEmitter<void>();
-    isInConfirmMode = false;
 
     onConfirm() {
         if (!this.isInConfirmMode) {

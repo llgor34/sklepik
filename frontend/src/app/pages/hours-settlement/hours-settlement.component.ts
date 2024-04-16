@@ -1,10 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HoursSettlement, NumeratedHoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ListTableComponent } from 'src/app/component/list-table/list-table.component';
+import { BehaviorSubject, Observable, shareReplay, switchMap } from 'rxjs';
 import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
 
 @Component({
@@ -12,11 +11,9 @@ import { TableBodyContext } from 'src/app/interfaces/table-body-context.interfac
     templateUrl: './hours-settlement.component.html',
     styleUrls: ['./hours-settlement.component.css'],
 })
-export class HoursSettlementComponent {
-    @ViewChild(ListTableComponent, { static: true })
-    listTableComponent!: ListTableComponent<HoursSettlement>;
-
-    records$: Observable<HoursSettlement[]> = this.hoursSettlementService.getHoursSettlement();
+export class HoursSettlementComponent implements OnInit {
+    records$!: Observable<HoursSettlement[]>;
+    refreshRecords$ = new BehaviorSubject(null);
     tableBodyContext!: TableBodyContext<NumeratedHoursSettlement[]>;
 
     constructor(
@@ -25,14 +22,25 @@ export class HoursSettlementComponent {
         private router: Router
     ) {}
 
+    ngOnInit(): void {
+        this.records$ = this.refreshRecords$.pipe(
+            switchMap(() => this.hoursSettlementService.getHoursSettlement()),
+            shareReplay(1)
+        );
+    }
+
     addHoursSettlementRecord() {
         this.router.navigateByUrl('/hours-settlement/add');
     }
 
     deleteHoursSettlementRecord(record: NumeratedHoursSettlement) {
         this.hoursSettlementService.deleteHoursSettlement(record.id).subscribe(() => {
-            this.listTableComponent.removeRecordByIdx(record.idx);
+            this.refreshRecords();
             this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
         });
+    }
+
+    refreshRecords() {
+        this.refreshRecords$.next(null);
     }
 }

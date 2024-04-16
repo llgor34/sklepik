@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 
-import { Product } from '../interfaces/product.interface';
+import { NumeratedProduct } from '../interfaces/product.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
 import { OrderNumberResponse } from '../interfaces/order-number.interface';
 import { Order, OrderStatus } from '../interfaces/order.interface';
@@ -21,14 +21,12 @@ export class OrderService {
         this.listenersCount$.subscribe((count) => {
             if (count === 0) {
                 this.closeConnection();
-                console.log('closing connection');
             }
         });
     }
 
     private createConnection() {
         if (this.socket) return;
-        console.log('creating connection');
 
         this.socket = io(`${environment.wsAddress}/orders`, environment.wsConfig);
         this.listenersCount$.next(this.listenersCount$.value + 1);
@@ -45,7 +43,7 @@ export class OrderService {
         this.listenersCount$.next(this.listenersCount$.value - 1);
     }
 
-    createOrder$(products: Product[], paymentMethod: PaymentMethod, lessonId: number | null) {
+    createOrder$(products: NumeratedProduct[], paymentMethod: PaymentMethod, lessonId: number | null) {
         return this.http.post<OrderNumberResponse>('api/order/create', {
             products,
             paymentMethod,
@@ -57,7 +55,6 @@ export class OrderService {
         const observable = new Observable<Order[]>((observer) => {
             this.createConnection();
             this.socket!.on('connect', () => {
-                console.log('connected');
                 this.socket!.on('ordersChange', (orders: Order[]) => observer.next(orders));
                 this.socket!.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
             });

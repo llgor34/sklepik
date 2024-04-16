@@ -43,6 +43,10 @@ import { NumeratePipe } from './pipes/numerate.pipe';
 import { LessonTimePipe } from './pipes/lesson-time.pipe';
 import { ListTableComponent } from './component/list-table/list-table.component';
 import { TypedTemplateDirective } from './directives/typed-template.directive';
+import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
+import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
+import { EditableFieldComponent } from './component/editable-field/editable-field.component';
+import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
 
 @NgModule({
     declarations: [
@@ -80,6 +84,10 @@ import { TypedTemplateDirective } from './directives/typed-template.directive';
         LessonTimePipe,
         ListTableComponent,
         TypedTemplateDirective,
+        PanelDefaultComponent,
+        PanelProductsComponent,
+        EditableFieldComponent,
+        NewProductComponent,
     ],
     imports: [
         BrowserModule,

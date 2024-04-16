@@ -1,5 +1,10 @@
 import { query } from './db-functions.mjs';
 
+export async function getLatestArticleId() {
+    const res = await query(`SELECT id FROM articles ORDER BY id DESC LIMIT 1`);
+    return res[0].id;
+}
+
 export async function getArticleByCode(productCode) {
     const articles = await query(
         `
@@ -114,7 +119,7 @@ async function getArticleObj(article) {
 }
 
 export async function createArticle(price, code, type, short_name, full_name, comapanyId = null) {
-    return await query(`INSERT INTO articles VALUES null, ?, ?, ?, ?, ?, ?`, [
+    return await query(`INSERT INTO articles VALUES (null, ?, ?, ?, ?, ?, ?)`, [
         price,
         code,
         type,

@@ -18,6 +18,8 @@ import { RoleGuard } from './guards/role.guard';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
+import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
+import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
 
 const routes: Routes = [
     {
@@ -92,6 +94,7 @@ const routes: Routes = [
             },
             {
                 path: 'hours-settlement',
+                canActivateChild: [RoleGuard],
                 children: [
                     {
                         path: '',
@@ -102,7 +105,23 @@ const routes: Routes = [
                         component: AddHoursComponent,
                     },
                 ],
+                data: {
+                    roles: ['admin'],
+                },
+            },
+            {
+                path: 'panel',
                 canActivateChild: [RoleGuard],
+                children: [
+                    {
+                        path: '',
+                        component: PanelDefaultComponent,
+                    },
+                    {
+                        path: 'products',
+                        component: PanelProductsComponent,
+                    },
+                ],
                 data: {
                     roles: ['admin'],
                 },

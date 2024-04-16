@@ -28,7 +28,7 @@ button.open {
 }
 
 nav.open {
-    width: 10rem;
+    max-width: 15rem;
 }
 
 nav.open span {
@@ -36,11 +36,11 @@ nav.open span {
 }
 
 nav {
-    width: 2.5rem;
+    max-width: 2.5rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: 0.2s width ease-in-out;
+    transition: 0.2s max-width ease-in-out;
     white-space: nowrap;
     overflow-y: auto;
     scrollbar-width: none;
