@@ -47,6 +47,7 @@ import { PanelDefaultComponent } from './pages/panel-default/panel-default.compo
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
 import { EditableFieldComponent } from './component/editable-field/editable-field.component';
 import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
+import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
 
 @NgModule({
     declarations: [
@@ -88,6 +89,7 @@ import { NewProductComponent } from './pages/panel-products/new-product/new-prod
         PanelProductsComponent,
         EditableFieldComponent,
         NewProductComponent,
+        PanelUsersComponent,
     ],
     imports: [
         BrowserModule,

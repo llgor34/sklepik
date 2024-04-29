@@ -14,5 +14,11 @@ export class PanelDefaultComponent {
             imageUrl: 'assets/products-panel.png',
             url: 'products',
         },
+        {
+            title: 'Użytkownicy',
+            description: 'Panel do zarządzania użytkownikami',
+            imageUrl: 'assets/users-panel.svg',
+            url: 'users',
+        },
     ];
 }

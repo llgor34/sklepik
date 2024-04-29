@@ -20,6 +20,7 @@ import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-l
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
+import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
 
 const routes: Routes = [
     {
@@ -120,6 +121,10 @@ const routes: Routes = [
                     {
                         path: 'products',
                         component: PanelProductsComponent,
+                    },
+                    {
+                        path: 'users',
+                        component: PanelUsersComponent,
                     },
                 ],
                 data: {
