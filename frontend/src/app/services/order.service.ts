@@ -28,7 +28,7 @@ export class OrderService {
     private createConnection() {
         if (this.socket) return;
 
-        this.socket = io(`${environment.wsAddress}/orders`, environment.wsConfig);
+        this.socket = io(`/orders`, environment.wsConfig);
         this.listenersCount$.next(this.listenersCount$.value + 1);
     }
 
