@@ -1,5 +1,5 @@
 import { query } from './db-functions.mjs';
-import { getUserByPassword } from './auth.mjs';
+import { getUserByPassword } from './users.mjs';
 
 export async function getOwedDiscountByWorkerCode(workerCode, _workerId = null) {
     const workerId = _workerId ? _workerId : (await getUserByPassword(workerCode.toString())).id;

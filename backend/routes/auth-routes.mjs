@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { generateAccessToken, signJWTCookie } from '../general/auth-functions.mjs';
-import { getUserByPassword } from '../db/auth.mjs';
+import { getUserByPassword } from '../db/users.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
 
 const router = express.Router();
