@@ -1,5 +1,6 @@
 <span *ngIf="!isInEditMode" (click)="toggleEditMode()">{{ originalValue }}</span>
 <input
+    #input
     *ngIf="isInEditMode && !isInListMode"
     (blur)="onNewValueConfirm()"
     (keyup.enter)="onNewValueConfirm()"
@@ -10,6 +11,7 @@
     name="value"
 />
 <select
+    #select
     *ngIf="isInEditMode && isInListMode"
     (blur)="onNewValueConfirm()"
     [(ngModel)]="newValue"
