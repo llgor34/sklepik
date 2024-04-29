@@ -23,6 +23,5 @@ RUN npm install
 COPY --from=frontendBuilder /app/dist /app/dist
 
 EXPOSE 3000
-EXPOSE 3001
 
 CMD ["npm", "start"]
