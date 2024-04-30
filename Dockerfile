@@ -15,7 +15,7 @@ FROM node:alpine as backendBuilder
 WORKDIR /app
 COPY backend .
 
-RUN npm install
+RUN npm install --omit=dev
 
 
 # APP
