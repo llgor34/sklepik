@@ -64,6 +64,10 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
             return;
         }
 
+        if (this.lessonId === 'null') {
+            this.lessonId = null;
+        }
+
         this.orderService
             .createOrder$(this.products, this.paymentMethod, this.lessonId)
             .subscribe(({ orderNumber }) => {
