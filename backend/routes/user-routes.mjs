@@ -26,12 +26,12 @@ router.post(
 );
 
 router.delete(
-    '/',
+    '/:id',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { password } = req.body;
-        await deleteUser(password);
+        const { id } = req.params;
+        await deleteUser(id);
         return res.send({ ok: true, message: 'SUCCESS' });
     }
 );
@@ -41,11 +41,9 @@ router.put(
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { workerId, modifiedRoles } = req.body;
-        const user = await getUserById(workerId);
-
+        const { userId, modifiedRoles } = req.body;
+        const user = await getUserById(userId);
         await updateUserRoles(user.id, user.roles, modifiedRoles);
-
         res.send({ ok: true, message: 'SUCCESS' });
     }
 );

@@ -11,7 +11,10 @@ export async function createUser(name, surname, password) {
     ]);
 }
 
-export async function deleteUser(password) {
+export async function deleteUser(id) {
+    const user = await getUserById(id);
+    const { password } = user;
+
     await query(`DELETE FROM workers WHERE password = ?`, [password]);
     try {
         await query(`DELETE FROM articles WHERE code = ?`, [password]);
@@ -79,7 +82,7 @@ export async function getUserByPassword(password) {
 
 export async function getUserById(id) {
     const users = await getUsers();
-    return users.filter((user) => user.id === id)[0];
+    return users.filter((user) => user.id === +id)[0];
 }
 
 function getUserPermissions(permissions, userId) {
