@@ -7,72 +7,84 @@ import { ProductsService } from 'src/app/services/products.service';
 import { NewProductComponent } from './new-product/new-product.component';
 import { ProductRecord } from 'src/app/interfaces/product-record.interface';
 import { ToastService } from 'src/app/services/toast.service';
+import { PanelComponent } from 'src/app/component/panel/panel.component';
 
 @Component({
     selector: 'app-panel-products',
     templateUrl: './panel-products.component.html',
     styleUrls: ['./panel-products.component.css'],
 })
-export class PanelProductsComponent implements OnInit {
-    products$!: Observable<Product[]>;
-    productContext!: TableBodyContext<NumeratedByIdxProduct[]>;
-    refreshProducts$ = new BehaviorSubject(null);
+export class PanelProductsComponent extends PanelComponent<Product> implements OnInit {
+    // products$!: Observable<Product[]>;
+    // productContext!: TableBodyContext<NumeratedByIdxProduct[]>;
+    // refreshProducts$ = new BehaviorSubject(null);
 
     @ViewChild(NewProductComponent, { static: false }) newProductComponent!: NewProductComponent;
 
-    constructor(private productsService: ProductsService, private toastService: ToastService) {}
+    constructor(private productsService: ProductsService) {
+        super();
+    }
 
     ngOnInit(): void {
-        this.products$ = this.refreshProducts$.pipe(
-            switchMap(() => this.productsService.getProducts$()),
-            shareReplay(1)
+        super.initializeComponent(
+            this.productsService.getProducts$(),
+            this.productsService.updateProduct$,
+            this.productsService.deleteProduct$,
+            this.productsService.createProduct$
         );
     }
+
+    // ngOnInit(): void {
+    //     this.products$ = this.refreshProducts$.pipe(
+    //         switchMap(() => this.productsService.getProducts$()),
+    //         shareReplay(1)
+    //     );
+    // }
 
     getProductTypeList(): ProductType[] {
         return this.productsService.getProductTypeList();
     }
 
-    onFieldChange(product: NumeratedByIdxProduct, obj: { [key: string]: any }) {
-        const key: string = Object.keys(obj)[0];
+    // onFieldChange(product: NumeratedByIdxProduct, obj: { [key: string]: any }) {
+    //     const key: string = Object.keys(obj)[0];
 
-        this.productsService.updateProduct$(product.id, { [key]: obj[key] }).subscribe(() => {
-            (product as any)[key] = obj[key];
-            this.showUpdateSuccess(key);
-        });
-    }
+    //     this.productsService.updateProduct$(product.id, { [key]: obj[key] }).subscribe(() => {
+    //         (product as any)[key] = obj[key];
+    //         this.showUpdateSuccess(key);
+    //     });
+    // }
 
-    onDeleteProduct(id: number) {
-        this.productsService.deleteProduct$(id).subscribe(() => {
-            this.refreshProducts();
-            this.showDeleteSuccess(id);
-        });
-    }
+    // onDeleteProduct(id: number) {
+    //     this.productsService.deleteProduct$(id).subscribe(() => {
+    //         this.refreshProducts();
+    //         this.showDeleteSuccess(id);
+    //     });
+    // }
 
-    onCreateProduct(productRecord: ProductRecord) {
-        this.productsService.createProduct$(productRecord).subscribe(() => {
-            this.refreshProducts();
-            this.showCreateSuccess();
-        });
-    }
+    // onCreateProduct(productRecord: ProductRecord) {
+    //     this.productsService.createProduct$(productRecord).subscribe(() => {
+    //         this.refreshProducts();
+    //         this.showCreateSuccess();
+    //     });
+    // }
 
-    refreshProducts() {
-        this.refreshProducts$.next(null);
-    }
+    // refreshProducts() {
+    //     this.refreshProducts$.next(null);
+    // }
 
     onAddNewEmptyRecord() {
         this.newProductComponent.addRecord();
     }
 
-    showUpdateSuccess(propertyName: string) {
-        this.toastService.showSuccess(`Pomyślnie zaktualizowano ${propertyName} produktu`);
-    }
+    // showUpdateSuccess(propertyName: string) {
+    //     this.toastService.showSuccess(`Pomyślnie zaktualizowano ${propertyName} produktu`);
+    // }
 
-    showDeleteSuccess(id: number) {
-        this.toastService.showSuccess(`Pomyślnie usunięto produkt o id ${id}`);
-    }
+    // showDeleteSuccess(id: number) {
+    //     this.toastService.showSuccess(`Pomyślnie usunięto produkt o id ${id}`);
+    // }
 
-    showCreateSuccess() {
-        this.toastService.showSuccess(`Pomyślnie dodano nowy produkt`);
-    }
+    // showCreateSuccess() {
+    //     this.toastService.showSuccess(`Pomyślnie dodano nowy produkt`);
+    // }
 }

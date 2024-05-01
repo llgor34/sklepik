@@ -58,7 +58,7 @@ export class ProductsService {
         return this.http.get<ProductsResponse>('api/product').pipe(map((res) => res.products));
     }
 
-    updateProduct$(id: number, productData: Partial<Product>): Observable<Response> {
+    updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
         const productDataPrepared = {
             ...productData,
             company: undefined,
@@ -66,13 +66,13 @@ export class ProductsService {
         };
 
         return this.http.put<Response>(`api/product/${id}`, productDataPrepared);
-    }
+    };
 
-    deleteProduct$(id: number): Observable<Response> {
+    deleteProduct$ = (id: number): Observable<Response> => {
         return this.http.delete<Response>(`api/product/${id}`);
-    }
+    };
 
-    createProduct$(productRecord: ProductRecord): Observable<number> {
+    createProduct$ = (productRecord: ProductRecord): Observable<number> => {
         return this.http.post<IdResponse>('api/product', productRecord).pipe(map((res) => res.id));
-    }
+    };
 }
