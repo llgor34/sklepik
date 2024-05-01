@@ -17,7 +17,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     products: NumeratedProduct[] = [];
     productCode: number | null = null;
     paymentMethod: PaymentMethod | null = null;
-    productIdsWithDisabledAmount: number[] = [30];
+    productIdsWithDisabledAmount: number[] = this.productsService.getProductsIdWithDisabledAmount();
 
     lessons$ = this.lessonService.getLessons$();
     lessonId = null;
@@ -140,11 +140,11 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     }
 
     isProductDiscount(product: NumeratedProduct) {
-        return product.type === 'discount';
+        return this.productsService.isProductDisabled(product);
     }
 
-    isProductIdAmountDisabled(id: number) {
-        return this.productIdsWithDisabledAmount.some((productId) => productId === id);
+    productHasAmountDisabled(productId: number) {
+        return this.productsService.productHasDisabledAmount(productId);
     }
 
     isProductOptionsSelected() {
@@ -161,11 +161,11 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     }
 
     isOrder() {
-        return this.products.some((product) => this.hasProductOptions(product));
+        return this.productsService.isSellOrder(this.products);
     }
 
     hasProductOptions(product: NumeratedProduct) {
-        return product.product_category_options.length > 0;
+        return this.productsService.hasProductOptions(product);
     }
 
     addProduct(product: NumeratedProduct) {

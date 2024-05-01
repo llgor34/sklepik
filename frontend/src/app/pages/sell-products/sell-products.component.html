@@ -52,7 +52,7 @@
                             [(ngModel)]="product.amount"
                             min="1"
                             type="number"
-                            [disabled]="isProductIdAmountDisabled(+product.code)"
+                            [disabled]="productHasAmountDisabled(+product.code)"
                         />
                         <input
                             *ngIf="isProductDiscount(product)"

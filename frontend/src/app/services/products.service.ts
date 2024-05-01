@@ -17,6 +17,26 @@ export class ProductsService {
         return ['article', 'product', 'discount', 'promotion'];
     }
 
+    getProductsIdWithDisabledAmount(): number[] {
+        return [30];
+    }
+
+    productHasDisabledAmount(productId: number) {
+        return this.getProductsIdWithDisabledAmount().includes(productId);
+    }
+
+    isProductDisabled(product: Product) {
+        return product.type === 'discount';
+    }
+
+    isSellOrder(products: Product[]) {
+        return products.some((product) => this.hasProductOptions(product));
+    }
+
+    hasProductOptions(product: Product) {
+        return product.product_category_options.length > 0;
+    }
+
     getProductByCode$(code: number): Observable<NumeratedProduct | null> {
         return this.http.get<ProductResponse>(`api/product/${code}`).pipe(
             map((res) =>
