@@ -1,1 +1,85 @@
-<p>panel-users works!</p>
+<app-list-table
+    title="Zarządzanie użytkownikami"
+    [observable$]="users$"
+    [tableHeadTemplate]="tableHead"
+    [tableBodyTemplate]="tableBody"
+>
+    <ng-template #tableHead>
+        <th>Id</th>
+        <th>Imie</th>
+        <th>Nazwisko</th>
+        <th>Role</th>
+    </ng-template>
+    <ng-template #tableBody [typedTemplate]="userType" let-users>
+        <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.surname }}</td>
+            <td>{{ user.roles | json }}</td>
+        </tr>
+    </ng-template>
+</app-list-table>
+
+<!-- <app-list-table
+    title="Zarządzanie produktami"
+    [observable$]="products$"
+    [tableHeadTemplate]="tableHead"
+    [tableBodyTemplate]="tableBody"
+    (addNew)="onAddNewEmptyRecord()"
+>
+    <ng-template #tableHead>
+        <th>Id</th>
+        <th>Kod produktu</th>
+        <th>Typ produktu</th>
+        <th>Krótka nazwa</th>
+        <th>Pełna nazwa</th>
+        <th>Cena</th>
+        <th>Opcje</th>
+    </ng-template>
+    <ng-template #tableBody [typedTemplate]="productContext" let-products>
+        <app-new-product (productCreate)="onCreateProduct($event)"></app-new-product>
+        <tr *ngFor="let product of products">
+            <td>{{ product.id }}</td>
+            <td>
+                <app-editable-field
+                    [value]="product.code"
+                    (valueChange)="onFieldChange(product, { code: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [isInListMode]="true"
+                    [list]="getProductTypeList()"
+                    [value]="product.type"
+                    (valueChange)="onFieldChange(product, { type: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [value]="product.short_name"
+                    (valueChange)="onFieldChange(product, { short_name: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [value]="product.full_name"
+                    (valueChange)="onFieldChange(product, { full_name: $event })"
+                ></app-editable-field>
+            </td>
+            <td class="currency">
+                <app-editable-field
+                    [value]="product.price"
+                    (valueChange)="onFieldChange(product, { price: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-confirm-button
+                    label="Usuń"
+                    confirmBtnClass="btn-danger"
+                    cancelBtnClass="btn-info"
+                    (confirm)="onDeleteProduct(product.id)"
+                ></app-confirm-button>
+            </td>
+        </tr>
+    </ng-template>
+</app-list-table> -->
