@@ -61,6 +61,12 @@ export class ErrorInterceptor implements HttpInterceptor {
                         );
                         break;
 
+                    case 'CANNOT_DELETE_USER':
+                        this.toastService.showError(
+                            'Nie można usunąć użytkownika, ponieważ posiada włączoną usługę zniżek!'
+                        );
+                        break;
+
                     default:
                         this.toastService.showError('Wystąpił nieoczekiwany błąd');
                 }

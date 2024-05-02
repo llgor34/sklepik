@@ -52,7 +52,7 @@
                             [(ngModel)]="product.amount"
                             min="1"
                             type="number"
-                            [disabled]="productHasAmountDisabled(+product.code)"
+                            [disabled]="productHasAmountDisabled(+product.code!)"
                         />
                         <input
                             *ngIf="isProductDiscount(product)"
@@ -65,7 +65,7 @@
                         />
                     </td>
                     <td class="currency-addon">
-                        {{ product.price * product.amount | currency : ' ' }}
+                        {{ product.price! * product.amount | currency : ' ' }}
                     </td>
                     <td>
                         <button class="btn btn-danger" (click)="removeProduct(i)">usuń</button>

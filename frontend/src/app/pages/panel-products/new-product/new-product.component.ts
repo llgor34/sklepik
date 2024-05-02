@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ProductRecord } from 'src/app/interfaces/product-record.interface';
+import { Component, inject } from '@angular/core';
+import { NewRecordComponent } from 'src/app/component/new-record/new-record.component';
 import { ProductType } from 'src/app/interfaces/product-type.interface';
 import { Product } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
@@ -7,26 +7,17 @@ import { ProductsService } from 'src/app/services/products.service';
 @Component({
     selector: 'app-new-product',
     templateUrl: './new-product.component.html',
-    styleUrls: ['./new-product.component.css'],
+    styleUrls: ['./new-product.component.css', '../../panel-default/panel-new-record.component.css'],
 })
-export class NewProductComponent {
-    records: ProductRecord[] = [];
+export class NewProductComponent extends NewRecordComponent<Product> {
+    productsService: ProductsService = inject(ProductsService);
 
-    @Output() productCreate = new EventEmitter<Product>();
-
-    constructor(private productsService: ProductsService) {}
-
-    addRecord() {
-        this.records.push(new ProductRecord());
+    override addRecord() {
+        super.addRecord(new Product());
     }
 
-    protected onAddRecord(record: ProductRecord, idx: number) {
-        this.productCreate.emit({ ...record, price: +record.price! } as Product);
-        this.onDeleteRecord(idx);
-    }
-
-    protected onDeleteRecord(idx: number) {
-        this.records.splice(idx, 1);
+    protected override onAddConfirmRecord(record: Product, idx: number): void {
+        super.onAddConfirmRecord({ ...record, price: +record.price! }, idx);
     }
 
     protected getProductTypeList(): ProductType[] {

@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query, updateFieldQuery } from './db-functions.mjs';
 
 export async function createUser(name, surname, password) {
     await query(`INSERT INTO workers(id, name, surname, password) VALUES(null, ?, ?, ?)`, [name, surname, password]);
@@ -21,6 +21,10 @@ export async function deleteUser(id) {
     } catch (error) {
         console.log('Discount had been used - cannot delete due to dependencies with raports');
     }
+}
+
+export async function updateUser(userId, fieldData) {
+    await updateFieldQuery('workers', userId, fieldData);
 }
 
 export async function updateUserRoles(userId, currentRoles, modifiedRoles) {
@@ -83,6 +87,11 @@ export async function getUserByPassword(password) {
 export async function getUserById(id) {
     const users = await getUsers();
     return users.filter((user) => user.id === +id)[0];
+}
+
+export async function getLatestUser() {
+    const users = await getUsers();
+    return users[users.length - 1];
 }
 
 function getUserPermissions(permissions, userId) {

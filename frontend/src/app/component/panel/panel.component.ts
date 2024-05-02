@@ -39,12 +39,12 @@ export class PanelComponent<T extends Id> {
         this.createFn$ = createFn$;
     }
 
-    onFieldChange(item: T & NumeratedIdx, obj: updateObj) {
+    onFieldChange(item: T & NumeratedIdx, obj: Partial<T>) {
         const key: string = Object.keys(obj)[0];
 
-        this.updateFn$(item.id, { [key]: obj[key] }).subscribe(() => {
-            (item as any)[key] = obj[key];
-            this.showUpdateSuccess(key);
+        this.updateFn$(item.id!, { [key]: (obj as any)[key] }).subscribe(() => {
+            this.refreshProducts();
+            this.showUpdateSuccess(item.id!);
         });
     }
 
@@ -56,9 +56,9 @@ export class PanelComponent<T extends Id> {
     }
 
     onCreateItem(item: T) {
-        this.createFn$(item).subscribe(() => {
+        this.createFn$(item).subscribe((id) => {
             this.refreshProducts();
-            this.showCreateSuccess();
+            this.showCreateSuccess(id);
         });
     }
 
@@ -66,15 +66,15 @@ export class PanelComponent<T extends Id> {
         this.refreshProducts$.next(null);
     }
 
-    showUpdateSuccess(propertyName: string) {
-        this.toastService.showSuccess(`Pomyślnie zaktualizowano ${propertyName}`);
+    showUpdateSuccess(id: number) {
+        this.toastService.showSuccess(`Pomyślnie zaktualizowano element o id: ${id}`);
     }
 
     showDeleteSuccess(id: number) {
         this.toastService.showSuccess(`Pomyślnie usunięto element o id: ${id}`);
     }
 
-    showCreateSuccess() {
-        this.toastService.showSuccess(`Pomyślnie dodano nowy element`);
+    showCreateSuccess(id: number) {
+        this.toastService.showSuccess(`Pomyślnie dodano nowy element o id ${id}`);
     }
 }

@@ -1,21 +1,49 @@
 <app-list-table
     title="Zarządzanie użytkownikami"
-    [observable$]="users$"
+    [observable$]="observable$"
     [tableHeadTemplate]="tableHead"
     [tableBodyTemplate]="tableBody"
+    (addNew)="onAddNewEmptyRecord()"
 >
     <ng-template #tableHead>
         <th>Id</th>
         <th>Imie</th>
         <th>Nazwisko</th>
+        <th>Kod logowania</th>
         <th>Role</th>
+        <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="userType" let-users>
+        <app-new-user (recordCreate)="onCreateItem($event)"></app-new-user>
         <tr *ngFor="let user of users">
             <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.surname }}</td>
+            <td>
+                <app-editable-field
+                    [value]="user.name"
+                    (valueChange)="onFieldChange(user, { name: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [value]="user.surname"
+                    (valueChange)="onFieldChange(user, { surname: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [value]="user.password"
+                    (valueChange)="onFieldChange(user, { password: $event })"
+                ></app-editable-field>
+            </td>
             <td>{{ user.roles | json }}</td>
+            <td>
+                <app-confirm-button
+                    label="Usuń"
+                    confirmBtnClass="btn-danger"
+                    cancelBtnClass="btn-info"
+                    (confirm)="onDeleteItem(user.id!)"
+                ></app-confirm-button>
+            </td>
         </tr>
     </ng-template>
 </app-list-table>

@@ -79,7 +79,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     calculateProductsSum() {
         let newProductsSum = 0;
         for (const product of this.products) {
-            newProductsSum += product.price * product.amount;
+            newProductsSum += product.price! * product.amount;
         }
 
         if (this.sum === newProductsSum) return;
@@ -113,8 +113,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
                     this.isProductDiscount(product!)
                         ? forkJoin([
                               of(product),
-                              this.hoursSettlementService.getUsedDiscount(product!.code),
-                              this.hoursSettlementService.getOwedDiscount(product!.code),
+                              this.hoursSettlementService.getUsedDiscount(product!.code!),
+                              this.hoursSettlementService.getOwedDiscount(product!.code!),
                           ])
                         : of([product, null, null])
                 )

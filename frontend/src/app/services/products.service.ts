@@ -4,7 +4,6 @@ import { Observable, map } from 'rxjs';
 import { NumeratedProduct, Product, ProductResponse, ProductsResponse } from '../interfaces/product.interface';
 import { Response } from '../interfaces/response.interface';
 import { ProductType } from '../interfaces/product-type.interface';
-import { ProductRecord } from '../interfaces/product-record.interface';
 import { IdResponse } from '../interfaces/id-response.interface';
 
 @Injectable({
@@ -34,7 +33,7 @@ export class ProductsService {
     }
 
     hasProductOptions(product: Product) {
-        return product.product_category_options.length > 0;
+        return product.product_category_options!.length > 0;
     }
 
     getProductByCode$(code: number): Observable<NumeratedProduct | null> {
@@ -44,7 +43,7 @@ export class ProductsService {
                     ? ({
                           ...res.product,
                           amount: 1,
-                          selectedOptions: res.product.product_category_options.map((category) => ({
+                          selectedOptions: res.product.product_category_options!.map((category) => ({
                               category_id: category.category_id,
                               option_id: category.options[0].id,
                           })),
@@ -72,7 +71,7 @@ export class ProductsService {
         return this.http.delete<Response>(`api/product/${id}`);
     };
 
-    createProduct$ = (productRecord: ProductRecord): Observable<number> => {
-        return this.http.post<IdResponse>('api/product', productRecord).pipe(map((res) => res.id));
+    createProduct$ = (fieldData: Product): Observable<number> => {
+        return this.http.post<IdResponse>('api/product', fieldData).pipe(map((res) => res.id));
     };
 }

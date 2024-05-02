@@ -49,6 +49,8 @@ import { EditableFieldComponent } from './component/editable-field/editable-fiel
 import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
 import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
 import { PanelComponent } from './component/panel/panel.component';
+import { NewRecordComponent } from './component/new-record/new-record.component';
+import { NewUserComponent } from './pages/panel-users/new-user/new-user.component';
 
 @NgModule({
     declarations: [
@@ -92,6 +94,8 @@ import { PanelComponent } from './component/panel/panel.component';
         NewProductComponent,
         PanelUsersComponent,
         PanelComponent,
+        NewRecordComponent,
+        NewUserComponent,
     ],
     imports: [
         BrowserModule,

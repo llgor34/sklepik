@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query, updateFieldQuery } from './db-functions.mjs';
 
 export async function getLatestArticleId() {
     const res = await query(`SELECT id FROM articles ORDER BY id DESC LIMIT 1`);
@@ -129,33 +129,10 @@ export async function createArticle(price, code, type, short_name, full_name, co
     ]);
 }
 
-export async function updateArticle(articleData, articleId) {
-    let queryStrRaw = 'UPDATE articles SET ';
-    const params = [];
-
-    for (const key in articleData) {
-        if (articleData[key]) {
-            queryStrRaw += `${key} = ? `;
-            params.push(articleData[key]);
-        }
-    }
-
-    let preparedQuery = removeTrailingCommaFromQuery(queryStrRaw);
-    preparedQuery += ' WHERE id = ?';
-    params.push(articleId);
-
-    await query(preparedQuery, params);
+export async function updateArticle(articleId, fieldData) {
+    await updateFieldQuery('articles', articleId, fieldData);
 }
 
 export async function deleteArticle(id) {
     return await query(`DELETE FROM articles WHERE id = ?`, [id]);
-}
-
-function removeTrailingCommaFromQuery(queryStr) {
-    let newQuery = queryStr.split(',');
-    if (newQuery.length > 1) {
-        newQuery.length = newQuery.length - 1;
-    }
-    newQuery = newQuery.join(',');
-    return newQuery;
 }

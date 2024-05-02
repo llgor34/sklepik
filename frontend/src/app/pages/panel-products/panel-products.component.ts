@@ -5,9 +5,9 @@ import { NumeratedByIdxProduct, Product } from 'src/app/interfaces/product.inter
 import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { NewProductComponent } from './new-product/new-product.component';
-import { ProductRecord } from 'src/app/interfaces/product-record.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { PanelComponent } from 'src/app/component/panel/panel.component';
+import { Id } from 'src/app/interfaces/id.interface';
 
 @Component({
     selector: 'app-panel-products',

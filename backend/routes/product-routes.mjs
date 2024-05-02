@@ -45,10 +45,10 @@ router.put(
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const articleData = req.body;
+        const fieldData = req.body;
         const articleId = +req.params.id;
 
-        await updateArticle(articleData, articleId);
+        await updateArticle(articleId, fieldData);
 
         res.send({ ok: true, message: 'SUCCESS' });
         await createLog('ARTICLE_MODIFIED', `Article with id ${articleId} has been modified`, req.user.id);
