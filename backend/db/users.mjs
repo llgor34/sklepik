@@ -15,11 +15,20 @@ export async function deleteUser(id) {
     const user = await getUserById(id);
     const { password } = user;
 
-    await query(`DELETE FROM workers WHERE password = ?`, [password]);
     try {
         await query(`DELETE FROM articles WHERE code = ?`, [password]);
     } catch (error) {
-        console.log('Discount had been used - cannot delete due to dependencies with raports');
+        return 'DISCOUNT_CONFLICT';
+    }
+    try {
+        await updateUserRoles(user.id, user.roles, []);
+    } catch (error) {
+        return 'ROLES_CONFLICT';
+    }
+    try {
+        await query(`DELETE FROM workers WHERE password = ?`, [password]);
+    } catch (error) {
+        return 'USER_DELETE_CONFLICT';
     }
 }
 

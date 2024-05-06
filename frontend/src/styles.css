@@ -50,3 +50,8 @@ h1 {
     bottom: 15px;
     right: 20px;
 }
+
+.table-sticky {
+    table-layout: fixed;
+    width: 100%;
+}

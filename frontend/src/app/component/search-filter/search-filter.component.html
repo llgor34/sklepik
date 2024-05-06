@@ -2,6 +2,7 @@
     class="form-control"
     type="text"
     placeholder="Wyszukaj"
+    name="searchField"
     [ngModel]="searchValue"
     (ngModelChange)="searchValueChange.emit($event)"
 />

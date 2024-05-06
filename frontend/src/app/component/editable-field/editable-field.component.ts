@@ -14,6 +14,8 @@ export class EditableFieldComponent<T> {
     @Input() isInListMode = false;
     @Input() list!: string[];
 
+    @Input() isEncrypted = false;
+
     @Input() set value(value: T) {
         this.originalValue = value;
         this.newValue = value;

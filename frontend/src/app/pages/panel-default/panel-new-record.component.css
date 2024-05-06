@@ -9,6 +9,11 @@ form {
 tr {
     border: inherit;
     padding: inherit;
+    border-bottom: 1px solid #ddd;
+}
+
+tr.last {
+    border-bottom: 5px solid #9801d3;
 }
 
 td {

@@ -1,0 +1,32 @@
+<input
+    class="form-control"
+    type="text"
+    name="searchField"
+    [(ngModel)]="searchValue"
+    (keydown)="showDropdown()"
+    (keydown.Esc)="hideDropdown()"
+    (keydown.Tab)="hideDropdown()"
+    placeholder="Wyszukaj..."
+/>
+<ul class="dropdown-menu show" *ngIf="isDropdownShown">
+    <ng-container *ngIf="filteredAvailableValues.length > 0; else noSearchValues">
+        <li class="dropdown-item" *ngFor="let value of filteredAvailableValues" (click)="onAddValue(value)">
+            {{ value.label }}
+        </li>
+    </ng-container>
+    <ng-template #noSearchValues>
+        <li class="dropdown-item" (click)="hideDropdown()">{{ noSearchValuesLabel }}</li>
+    </ng-template>
+</ul>
+
+<h2 *ngIf="selectedValuesLabel">{{ selectedValuesLabel }}</h2>
+<ul class="list-group">
+    <ng-container *ngIf="values.length > 0; else noSelectedValues">
+        <li class="list-group-item" *ngFor="let value of values" (click)="onRemoveValue(value)">
+            <span>{{ value.label }}</span>
+        </li>
+    </ng-container>
+    <ng-template #noSelectedValues>
+        <li class="list-group-item">{{ noSelectedValuesLabel }}</li>
+    </ng-template>
+</ul>

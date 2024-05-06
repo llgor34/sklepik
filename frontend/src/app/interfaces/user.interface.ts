@@ -7,7 +7,7 @@ export class User {
         public name: string | null = null,
         public surname: string | null = null,
         public password: string | null = null,
-        public roles: Role[] | null = null
+        public roles: Role[] = []
     ) {}
 }
 

@@ -1,10 +1,18 @@
-<form #form="ngForm" *ngFor="let record of records; let i = index">
-    <tr>
+<form #form="ngForm" *ngFor="let record of records; let i = index; let isLast = last">
+    <tr [class.last]="isLast">
         <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
         <td><input [(ngModel)]="record.name" name="name" type="text" class="form-control" required /></td>
         <td><input [(ngModel)]="record.surname" name="surname" type="text" class="form-control" required /></td>
         <td><input [(ngModel)]="record.password" name="password" type="text" class="form-control" required /></td>
-        <td></td>
+        <td>
+            <app-multiple-select-field
+                *ngIf="roles$ | async as roles"
+                [(value)]="record.roles!"
+                [availableValues]="roles"
+                selectedValuesLabel="Posiadane role"
+                noSelectedValuesLabel="Brak ról"
+            ></app-multiple-select-field>
+        </td>
         <td class="buttons-container">
             <button (click)="onAddConfirmRecord(record, i)" class="btn btn-primary" [disabled]="form.invalid">
                 Dodaj

@@ -1,0 +1,24 @@
+.dropdown-menu li {
+    cursor: pointer;
+}
+
+.list-group li {
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.list-group-item:hover {
+    z-index: 2;
+    color: #000;
+    background-color: #f14e4e;
+    border-color: #f14e4e;
+    cursor: pointer;
+}
+
+h2 {
+    color: #9801d3;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 10px;
+}

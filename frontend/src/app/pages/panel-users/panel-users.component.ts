@@ -6,6 +6,8 @@ import { TableBodyContext } from 'src/app/interfaces/table-body-context.interfac
 import { User } from 'src/app/interfaces/user.interface';
 import { UserService } from 'src/app/services/user.service';
 import { NewUserComponent } from './new-user/new-user.component';
+import { RolesService } from 'src/app/services/roles.service';
+import { Role } from 'src/app/interfaces/role.interface';
 
 @Component({
     selector: 'app-panel-users',
@@ -14,8 +16,10 @@ import { NewUserComponent } from './new-user/new-user.component';
 })
 export class PanelUsersComponent extends PanelComponent<User> implements OnInit {
     userService: UserService = inject(UserService);
+    rolesService: RolesService = inject(RolesService);
     @ViewChild(NewUserComponent, { static: false }) newUserComponent!: NewUserComponent;
 
+    roles$: Observable<Role[]> = this.rolesService.getRoles$();
     users$: Observable<User[]> = this.userService.getUsers$();
     userType!: TableBodyContext<(User & NumeratedIdx)[]>;
 
@@ -30,5 +34,9 @@ export class PanelUsersComponent extends PanelComponent<User> implements OnInit 
 
     onAddNewEmptyRecord() {
         this.newUserComponent.addRecord();
+    }
+
+    onUserRolesChange(user: User, roles: Role[]) {
+        this.userService.updateUserRoles$(user.id!, roles).subscribe(() => this.showUpdateSuccess(user.id!));
     }
 }

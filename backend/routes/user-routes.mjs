@@ -29,13 +29,15 @@ router.post(
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { name, surname, password } = req.body;
+        const { name, surname, password, roles } = req.body;
 
         await createUser(name, surname, password);
-        const { id } = await getLatestUser();
+        const user = await getLatestUser();
 
-        res.send({ ok: true, message: 'SUCCESS', id });
-        await createLog('USER_CREATED', `New user with id: ${id} has been created`, req.user.id);
+        await updateUserRoles(user.id, user.roles, roles);
+
+        res.send({ ok: true, message: 'SUCCESS', id: user.id });
+        await createLog('USER_CREATED', `New user with id: ${user.id} has been created`, req.user.id);
     }
 );
 

@@ -1,5 +1,5 @@
-<form #form="ngForm" *ngFor="let record of records; let i = index">
-    <tr>
+<form #form="ngForm" *ngFor="let record of records; let i = index; let isLast = last">
+    <tr [class.last]="isLast">
         <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
         <td><input [(ngModel)]="record.code" name="type" class="form-control" required /></td>
         <td>
