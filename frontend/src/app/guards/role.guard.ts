@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot } from '@angular/router';
-import { Role } from '../interfaces/role.interface';
+import { Role, RoleLabel } from '../interfaces/role.interface';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
 
@@ -8,11 +8,7 @@ import { ToastService } from '../services/toast.service';
     providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild {
-    constructor(
-        private router: Router,
-        private authService: AuthService,
-        private toastService: ToastService
-    ) {}
+    constructor(private router: Router, private authService: AuthService, private toastService: ToastService) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.checkIfUserHasRequiredRoles(route);
@@ -23,10 +19,10 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     }
 
     checkIfUserHasRequiredRoles(route: ActivatedRouteSnapshot) {
-        const requiredRoles: Role[] = route.data['roles'];
+        const requiredRoles: RoleLabel[] = route.data['roles'];
         const userRoles = this.authService.getRoles();
 
-        if (requiredRoles.some((role) => userRoles.includes(role))) {
+        if (requiredRoles.some((RoleLabel) => userRoles.some((userRole) => userRole.label === RoleLabel))) {
             return true;
         }
 

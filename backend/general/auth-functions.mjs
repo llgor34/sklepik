@@ -45,5 +45,5 @@ export function hasRoleMiddleware(req, res, next, role) {
 }
 
 export function hasRole(userRoles, requiredRole) {
-    return userRoles?.includes(requiredRole);
+    return userRoles?.some((userRole) => userRole.label === requiredRole);
 }

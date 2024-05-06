@@ -1,0 +1,26 @@
+:host {
+    display: contents;
+}
+
+form {
+    display: contents;
+}
+
+tr {
+    border: inherit;
+    padding: inherit;
+    border-bottom: 1px solid #ddd;
+}
+
+tr.last {
+    border-bottom: 5px solid #9801d3;
+}
+
+td {
+    padding: inherit;
+}
+
+.buttons-container {
+    display: inline-flex;
+    column-gap: 5px;
+}

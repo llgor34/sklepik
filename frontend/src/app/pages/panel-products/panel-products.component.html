@@ -1,6 +1,6 @@
 <app-list-table
     title="Zarządzanie produktami"
-    [observable$]="products$"
+    [observable$]="observable$"
     [tableHeadTemplate]="tableHead"
     [tableBodyTemplate]="tableBody"
     (addNew)="onAddNewEmptyRecord()"
@@ -14,8 +14,8 @@
         <th>Cena</th>
         <th>Opcje</th>
     </ng-template>
-    <ng-template #tableBody [typedTemplate]="productContext" let-products>
-        <app-new-product (productCreate)="onCreateProduct($event)"></app-new-product>
+    <ng-template #tableBody [typedTemplate]="observableContext" let-products>
+        <app-new-product (recordCreate)="onCreateItem($event)"></app-new-product>
         <tr *ngFor="let product of products">
             <td>{{ product.id }}</td>
             <td>
@@ -55,7 +55,7 @@
                     label="Usuń"
                     confirmBtnClass="btn-danger"
                     cancelBtnClass="btn-info"
-                    (confirm)="onDeleteProduct(product.id)"
+                    (confirm)="onDeleteItem(product.id!)"
                 ></app-confirm-button>
             </td>
         </tr>

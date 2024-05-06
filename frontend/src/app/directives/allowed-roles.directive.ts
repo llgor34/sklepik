@@ -1,21 +1,19 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Role } from '../interfaces/role.interface';
+import { Role, RoleLabel } from '../interfaces/role.interface';
 
 @Directive({
     selector: '[allowedRoles]',
 })
 export class AllowedRolesDirective implements OnInit {
-    @Input() allowedRoles!: Role[];
-    userRoles: Role[];
+    @Input() allowedRoles!: RoleLabel[];
+    userRoles: Role[] = this.authService.getRoles();
 
     constructor(
-        authService: AuthService,
+        private authService: AuthService,
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef
-    ) {
-        this.userRoles = authService.getRoles() ?? [];
-    }
+    ) {}
 
     ngOnInit(): void {
         if (this.hasPermission()) {
@@ -27,6 +25,8 @@ export class AllowedRolesDirective implements OnInit {
     }
 
     hasPermission() {
-        return this.allowedRoles.some((allowedRole) => this.userRoles.includes(allowedRole));
+        return this.allowedRoles.some((allowedRole) =>
+            this.userRoles.some((userRole) => userRole.label === allowedRole)
+        );
     }
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
 import { ArchiveComponent } from './pages/archive/archive.component';
@@ -20,8 +20,10 @@ import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-l
 import { AuthenticatedLayoutComponent } from './component/authenticated-layout/authenticated-layout.component';
 import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
+import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
+import { TypedRoutes } from './interfaces/typed-routes.interface';
 
-const routes: Routes = [
+const routes: TypedRoutes = [
     {
         path: '',
         component: NotAuthenticatedLayoutComponent,
@@ -120,6 +122,10 @@ const routes: Routes = [
                     {
                         path: 'products',
                         component: PanelProductsComponent,
+                    },
+                    {
+                        path: 'users',
+                        component: PanelUsersComponent,
                     },
                 ],
                 data: {

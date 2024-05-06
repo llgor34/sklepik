@@ -47,6 +47,12 @@ import { PanelDefaultComponent } from './pages/panel-default/panel-default.compo
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
 import { EditableFieldComponent } from './component/editable-field/editable-field.component';
 import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
+import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
+import { PanelComponent } from './component/panel/panel.component';
+import { NewRecordComponent } from './component/new-record/new-record.component';
+import { NewUserComponent } from './pages/panel-users/new-user/new-user.component';
+import { MultipleSelectFieldComponent } from './component/multiple-select-field/multiple-select-field.component';
+import { EncryptPipe } from './pipes/encrypt.pipe';
 
 @NgModule({
     declarations: [
@@ -88,6 +94,12 @@ import { NewProductComponent } from './pages/panel-products/new-product/new-prod
         PanelProductsComponent,
         EditableFieldComponent,
         NewProductComponent,
+        PanelUsersComponent,
+        PanelComponent,
+        NewRecordComponent,
+        NewUserComponent,
+        MultipleSelectFieldComponent,
+        EncryptPipe,
     ],
     imports: [
         BrowserModule,
