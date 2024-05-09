@@ -22,11 +22,13 @@ describe('ActivitiesService', () => {
         httpController.verify();
     });
 
-    describe('#getActivities', () => {
-        it('should GET request on "api/activities/get"', () => {
+    describe('getActivities', () => {
+        const url = 'api/activities/get';
+
+        it(`should GET request on "${url}"`, () => {
             service.getActivities().subscribe();
 
-            const testRequest = httpController.expectOne('api/activities/get');
+            const testRequest = httpController.expectOne(url);
 
             expect(testRequest.request.method).toEqual('GET');
         });
@@ -42,12 +44,13 @@ describe('ActivitiesService', () => {
                 expect(activities).toEqual(mockData.activities);
             });
 
-            const testRequest = httpController.expectOne('api/activities/get');
+            const testRequest = httpController.expectOne(url);
             testRequest.flush(mockData);
         });
     });
 
-    describe('#createActivity', () => {
+    describe('createActivity', () => {
+        const url = 'api/activities/create';
         const mockData: ActivityCreateForm = {
             activityId: 1,
             amount: 1,
@@ -57,10 +60,10 @@ describe('ActivitiesService', () => {
         };
         const mockResponse: Response = { ok: true, message: 'SUCCESS' };
 
-        it('should POST request on "api/activities/create"', () => {
+        it(`should POST request on "${url}"`, () => {
             service.createActivity(mockData).subscribe();
 
-            const testRequest = httpController.expectOne('api/activities/create');
+            const testRequest = httpController.expectOne(url);
 
             expect(testRequest.request.method).toEqual('POST');
         });
@@ -70,7 +73,7 @@ describe('ActivitiesService', () => {
                 expect(res).toEqual(mockResponse);
             });
 
-            const testRequest = httpController.expectOne('api/activities/create');
+            const testRequest = httpController.expectOne(url);
             testRequest.flush(mockResponse);
         });
     });
