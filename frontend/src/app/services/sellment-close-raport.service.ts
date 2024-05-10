@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SellmentCloseDataResponse } from '../interfaces/sellment-close-product.interface';
+import { SellmentCloseDataResponse, SellmentCloseRaport } from '../interfaces/sellment-close-product.interface';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -8,11 +9,13 @@ import { SellmentCloseDataResponse } from '../interfaces/sellment-close-product.
 export class SellmentCloseRaportService {
     constructor(private http: HttpClient) {}
 
-    getProducts() {
-        return this.http.get<SellmentCloseDataResponse>('api/raports/sellment-close/latest-raport-preview');
+    getProducts$(): Observable<SellmentCloseRaport> {
+        return this.http
+            .get<SellmentCloseDataResponse>('api/raports/sellment-close/latest-raport-preview')
+            .pipe(map((res) => res.data));
     }
 
-    generateRaport() {
+    generateRaport$(): Observable<Blob> {
         return this.http.get('api/raports/sellment-close/generate-raport', {
             responseType: 'blob',
         });
