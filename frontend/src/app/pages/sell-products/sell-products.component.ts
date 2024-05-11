@@ -5,8 +5,9 @@ import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
-import { Subscription, forkJoin, of, switchMap } from 'rxjs';
+import { Observable, Subscription, forkJoin, of, switchMap } from 'rxjs';
 import { LessonService } from 'src/app/services/lesson.service';
+import { Lesson } from 'src/app/interfaces/lesson.interface';
 
 @Component({
     selector: 'app-sell-products',
@@ -19,8 +20,10 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     paymentMethod: PaymentMethod | null = null;
     productIdsWithDisabledAmount: number[] = this.productsService.getProductsIdWithDisabledAmount();
 
-    lessons$ = this.lessonService.getLessons$();
+    lessons$: Observable<Lesson[]> = this.lessonService.getLessons$();
     lessonId = null;
+
+    currentOrderNumber$: Observable<number> = this.orderService.getCurrentOrderNumber$();
 
     sum = 0;
     amountPayed = 0;

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 
@@ -83,5 +83,9 @@ export class OrderService {
 
     updateOrderStatus$(orderId: number, orderStatus: OrderStatus): Observable<Response> {
         return this.http.put<Response>('api/order/update-status', { orderId, orderStatus });
+    }
+
+    getCurrentOrderNumber$(): Observable<number> {
+        return this.http.get<OrderNumberResponse>('api/order/current-order-number').pipe(map((res) => res.orderNumber));
     }
 }

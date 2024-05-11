@@ -4,10 +4,16 @@ import { verifyAccessToken, hasRole } from '../general/auth-functions.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
 import { getUsedDiscountByWorkerCode } from '../db/used-discount.mjs';
 import { getOwedDiscountByWorkerCode } from '../db/owed-discount.mjs';
-import { createOrder, getOrderNumber, updateOrderStatus } from '../db/order.mjs';
+import { createOrder, getLatestOrderId, getOrderNumber, updateOrderStatus } from '../db/order.mjs';
 import { onOrdersChange, onOrderStatusReady } from '../ws-events/orders.mjs';
 
 const router = express.Router();
+
+router.get('/current-order-number', verifyAccessToken, async (req, res) => {
+    const orderId = await getLatestOrderId();
+    const orderNumber = getOrderNumber(orderId + 1);
+    res.send({ ok: true, message: 'SUCCESS', orderNumber: orderNumber });
+});
 
 router.post('/create', verifyAccessToken, async (req, res) => {
     const { products, paymentMethod, lessonId } = req.body;

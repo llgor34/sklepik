@@ -29,3 +29,7 @@
     display: flex;
     column-gap: 20px;
 }
+
+.order-number {
+    border-left: #997404 5px solid;
+}
