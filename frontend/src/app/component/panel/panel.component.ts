@@ -18,7 +18,7 @@ export class PanelComponent<T extends Id> {
 
     observable$!: Observable<T[]>;
     observableContext!: TableBodyContext<(T & NumeratedIdx)[]>;
-    refreshProducts$ = new BehaviorSubject(null);
+    refreshItems$ = new BehaviorSubject(null);
 
     updateFn$!: UpdateFn;
     deleteFn$!: DeleteFn;
@@ -30,7 +30,7 @@ export class PanelComponent<T extends Id> {
         deleteFn$: DeleteFn,
         createFn$: CreateFn<T>
     ): void {
-        this.observable$ = this.refreshProducts$.pipe(
+        this.observable$ = this.refreshItems$.pipe(
             switchMap(() => observable$),
             shareReplay(1)
         );
@@ -43,27 +43,27 @@ export class PanelComponent<T extends Id> {
         const key: string = Object.keys(obj)[0];
 
         this.updateFn$(item.id!, { [key]: (obj as any)[key] }).subscribe(() => {
-            this.refreshProducts();
+            this.refreshItems();
             this.showUpdateSuccess(item.id!);
         });
     }
 
     onDeleteItem(id: number) {
         this.deleteFn$(id).subscribe(() => {
-            this.refreshProducts();
+            this.refreshItems();
             this.showDeleteSuccess(id);
         });
     }
 
     onCreateItem(item: T) {
         this.createFn$(item).subscribe((id) => {
-            this.refreshProducts();
+            this.refreshItems();
             this.showCreateSuccess(id);
         });
     }
 
-    refreshProducts() {
-        this.refreshProducts$.next(null);
+    refreshItems() {
+        this.refreshItems$.next(null);
     }
 
     showUpdateSuccess(id: number) {

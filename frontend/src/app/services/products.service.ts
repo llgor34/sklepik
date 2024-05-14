@@ -58,14 +58,7 @@ export class ProductsService {
     }
 
     updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
-        // TODO: ADD PROPER BACKEND VERIFICATION, AND REMOVE THIS CODE
-        const productDataPrepared = {
-            ...productData,
-            company: undefined,
-            company_id: productData.company?.id,
-        };
-
-        return this.http.put<Response>(`api/product/${id}`, productDataPrepared);
+        return this.http.put<Response>(`api/product/${id}`, productData);
     };
 
     deleteProduct$ = (id: number): Observable<Response> => {

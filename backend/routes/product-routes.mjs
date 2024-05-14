@@ -48,6 +48,12 @@ router.put(
         const fieldData = req.body;
         const articleId = +req.params.id;
 
+        const preparedData = {
+            ...fieldData,
+            company_id: fieldData.company?.id,
+            company: undefined,
+        };
+
         await updateArticle(articleId, fieldData);
 
         res.send({ ok: true, message: 'SUCCESS' });
