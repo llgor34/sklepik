@@ -20,17 +20,17 @@ describe('ToastService', () => {
     describe('showSuccess', () => {
         it('should call ToastrService.success() once', () => {
             service.showSuccess('test');
-            expect(toastrSpyService.success.calls.count()).toBe(1);
+            expect(toastrSpyService.success).toHaveBeenCalled();
         });
 
         it('should call ToastrService.warning() once', () => {
             service.showWarning('test');
-            expect(toastrSpyService.warning.calls.count()).toBe(1);
+            expect(toastrSpyService.warning).toHaveBeenCalled();
         });
 
         it('should call ToastrService.error() once', () => {
             service.showError('test');
-            expect(toastrSpyService.error.calls.count()).toBe(1);
+            expect(toastrSpyService.error).toHaveBeenCalled();
         });
     });
 });

@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ActivitiesService } from './activities.service';
 import { ActivityCreateForm, ActivityResponse } from '../interfaces/activity.interface';
 import { Response } from '../interfaces/response.interface';
+import { testRequestType } from '../testing/generic.spec';
 
 describe('ActivitiesService', () => {
     let service: ActivitiesService;
@@ -26,11 +27,7 @@ describe('ActivitiesService', () => {
         const url = 'api/activities/get';
 
         it(`should GET request on "${url}"`, () => {
-            service.getActivities().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getActivities(), httpController);
         });
 
         it('should return Activity[] data', () => {
@@ -51,24 +48,25 @@ describe('ActivitiesService', () => {
 
     describe('createActivity', () => {
         const url = 'api/activities/create';
-        const mockData: ActivityCreateForm = {
-            activityId: 1,
-            amount: 1,
-            date: '2020-01-01',
-            description: 'some description',
-            workerId: 1,
-        };
-        const mockResponse: Response = { ok: true, message: 'SUCCESS' };
+        let mockData: ActivityCreateForm;
+
+        beforeEach(() => {
+            mockData = {
+                activityId: 1,
+                amount: 1,
+                date: '2020-01-01',
+                description: 'some description',
+                workerId: 1,
+            };
+        });
 
         it(`should POST request on "${url}"`, () => {
-            service.createActivity(mockData).subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('POST');
+            testRequestType(url, 'POST', () => service.createActivity(mockData), httpController);
         });
 
         it('should return Response data', () => {
+            const mockResponse: Response = { ok: true, message: 'SUCCESS' };
+
             service.createActivity(mockData).subscribe((res) => {
                 expect(res).toEqual(mockResponse);
             });

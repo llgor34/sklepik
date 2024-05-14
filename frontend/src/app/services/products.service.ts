@@ -58,6 +58,7 @@ export class ProductsService {
     }
 
     updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
+        // TODO: ADD PROPER BACKEND VERIFICATION, AND REMOVE THIS CODE
         const productDataPrepared = {
             ...productData,
             company: undefined,

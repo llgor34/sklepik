@@ -5,6 +5,7 @@ import { WorkersResponse } from '../interfaces/worker.interface';
 import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
 import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
 import { WorkedHoursResponse } from '../interfaces/worked-hours.interface';
+import { testRequestType } from '../testing/generic.spec';
 
 describe('WorkersService', () => {
     let service: WorkersService;
@@ -28,11 +29,7 @@ describe('WorkersService', () => {
         const url = 'api/workers/get';
 
         it(`should GET request on "${url}"`, () => {
-            service.getWorkers$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getWorkers$(), httpController);
         });
 
         it('should return Worker[]', () => {
@@ -55,11 +52,7 @@ describe('WorkersService', () => {
         const url = 'api/workers/get-owed-discount-by-id';
 
         it(`should GET request on "${url}"`, () => {
-            service.getWorkerOwedDiscount$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getWorkerOwedDiscount$(), httpController);
         });
 
         it('should return number', () => {
@@ -82,11 +75,7 @@ describe('WorkersService', () => {
         const url = 'api/workers/get-used-discount-by-id';
 
         it(`should GET request on "${url}"`, () => {
-            service.getWorkerUsedDiscount$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getWorkerUsedDiscount$(), httpController);
         });
 
         it('should return number', () => {
@@ -109,11 +98,7 @@ describe('WorkersService', () => {
         const url = 'api/workers/get-worked-hours';
 
         it(`should GET request on "${url}"`, () => {
-            service.getWorkerWorkedHours$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getWorkerWorkedHours$(), httpController);
         });
 
         it('should return number', () => {

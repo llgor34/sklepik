@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RolesService } from './roles.service';
 import { RoleResponse } from '../interfaces/role.interface';
+import { testRequestType } from '../testing/generic.spec';
 
 describe('RolesService', () => {
     let service: RolesService;
@@ -25,11 +26,7 @@ describe('RolesService', () => {
         const url = 'api/roles';
 
         it(`should GET "${url}"`, () => {
-            service.getRoles$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getRoles$(), httpController);
         });
 
         it('should return Role[]', () => {

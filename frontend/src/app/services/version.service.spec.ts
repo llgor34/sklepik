@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { VersionService } from './version.service';
 import { VersionResponse } from '../interfaces/version.interface';
+import { testRequestType } from '../testing/generic.spec';
 
 describe('VersionService', () => {
     let service: VersionService;
@@ -25,11 +26,7 @@ describe('VersionService', () => {
         const url = 'api/version';
 
         it(`should GET request "${url}"`, () => {
-            service.getVersion$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getVersion$(), httpController);
         });
 
         it('should return Version', () => {

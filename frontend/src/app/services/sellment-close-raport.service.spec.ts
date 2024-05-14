@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SellmentCloseRaportService } from './sellment-close-raport.service';
 import { SellmentCloseDataResponse } from '../interfaces/sellment-close-product.interface';
+import { testRequestType } from '../testing/generic.spec';
 
 describe('SellmentCloseRaportService', () => {
     let service: SellmentCloseRaportService;
@@ -25,11 +26,7 @@ describe('SellmentCloseRaportService', () => {
         const url = 'api/raports/sellment-close/latest-raport-preview';
 
         it(`should GET request "${url}"`, () => {
-            service.getProducts$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.getProducts$(), httpController);
         });
 
         it('should return SellmentCloseRaport', () => {
@@ -63,11 +60,7 @@ describe('SellmentCloseRaportService', () => {
         const url = 'api/raports/sellment-close/generate-raport';
 
         it(`should GET request "${url}"`, () => {
-            service.generateRaport$().subscribe();
-
-            const testRequest = httpController.expectOne(url);
-
-            expect(testRequest.request.method).toEqual('GET');
+            testRequestType(url, 'GET', () => service.generateRaport$(), httpController);
         });
 
         it('should return Blob', () => {
