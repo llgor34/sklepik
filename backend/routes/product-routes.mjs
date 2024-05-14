@@ -54,7 +54,7 @@ router.put(
             company: undefined,
         };
 
-        await updateArticle(articleId, fieldData);
+        await updateArticle(articleId, preparedData);
 
         res.send({ ok: true, message: 'SUCCESS' });
         await createLog('ARTICLE_MODIFIED', `Article with id ${articleId} has been modified`, req.user.id);
