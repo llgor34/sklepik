@@ -4,10 +4,10 @@ import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
-import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { Observable, Subscription, forkJoin, of, switchMap } from 'rxjs';
 import { LessonService } from 'src/app/services/lesson.service';
 import { Lesson } from 'src/app/interfaces/lesson.interface';
+import { DiscountService } from 'src/app/services/discount.service';
 
 @Component({
     selector: 'app-sell-products',
@@ -37,7 +37,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     constructor(
         private productsService: ProductsService,
         private orderService: OrderService,
-        private hoursSettlementService: HoursSettlementService,
+        private discountService: DiscountService,
         private lessonService: LessonService,
         private toastService: ToastService
     ) {}
@@ -120,8 +120,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
                     this.isProductDiscount(product!)
                         ? forkJoin([
                               of(product),
-                              this.hoursSettlementService.getUsedDiscount(product!.code!),
-                              this.hoursSettlementService.getOwedDiscount(product!.code!),
+                              this.discountService.getUsedDiscountByWorkerCode$(product!.code!),
+                              this.discountService.getOwedDiscountByWorkerCode$(product!.code!),
                           ])
                         : of([product, null, null])
                 )

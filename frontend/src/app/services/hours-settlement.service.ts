@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
-import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
 import { HoursSettlement, HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
 import { DateService } from './date.service';
@@ -13,18 +11,6 @@ import { HoursSettlementForm } from '../interfaces/activity.interface';
 })
 export class HoursSettlementService {
     constructor(private http: HttpClient, private dateService: DateService) {}
-
-    getUsedDiscount(workerCode: string): Observable<number> {
-        return this.http
-            .get<UsedDiscountResponse>(`api/workers/get-used-discount/${workerCode}`)
-            .pipe(map((res) => res.usedDiscount));
-    }
-
-    getOwedDiscount(workerCode: string): Observable<number> {
-        return this.http
-            .get<OwedDiscountResponse>(`api/workers/get-owed-discount/${workerCode}`)
-            .pipe(map((res) => res.owedDiscount));
-    }
 
     getHoursSettlement(): Observable<HoursSettlement[]> {
         return this.http.get<HoursSettlementResponse>('api/hours-settlement').pipe(

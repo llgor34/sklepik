@@ -14,7 +14,7 @@ router.get('/current-order-number', verifyAccessToken, async (req, res) => {
     res.send({ ok: true, message: 'SUCCESS', orderNumber: orderNumber });
 });
 
-router.post('/create', verifyAccessToken, async (req, res) => {
+router.post('/', verifyAccessToken, async (req, res) => {
     const { products, paymentMethod, lessonId } = req.body;
 
     let totalPrice = 0;

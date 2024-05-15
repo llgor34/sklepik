@@ -44,7 +44,7 @@ export class OrderService {
     }
 
     createOrder$(products: NumeratedProduct[], paymentMethod: PaymentMethod, lessonId: number | null) {
-        return this.http.post<OrderNumberResponse>('api/order/create', {
+        return this.http.post<OrderNumberResponse>('api/order', {
             products,
             paymentMethod,
             lessonId,
