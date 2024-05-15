@@ -2,8 +2,7 @@ import express from 'express';
 
 import { verifyAccessToken, hasRole } from '../general/auth-functions.mjs';
 import { sendErrorMessage } from '../general/messages.mjs';
-import { getUsedDiscountByWorkerCode } from '../db/used-discount.mjs';
-import { getOwedDiscountByWorkerCode } from '../db/owed-discount.mjs';
+import { getUsedDiscountByWorkerCode, getOwedDiscountByWorkerCode } from '../db/worked-hours.mjs';
 import { createOrder, getLatestOrderId, getOrderNumber, updateOrderStatus } from '../db/order.mjs';
 import { onOrdersChange, onOrderStatusReady } from '../ws-events/orders.mjs';
 

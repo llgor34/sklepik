@@ -2,8 +2,12 @@ import express from 'express';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
 import { getWorkedHoursByWorkerId, getWorkers } from '../db/workers.mjs';
-import { getUsedDiscountByWorkerCode, getUsedDiscountByWorkerId } from '../db/used-discount.mjs';
-import { getOwedDiscountByWorkerCode, getOwedDiscountByWorkerId } from '../db/owed-discount.mjs';
+import {
+    getUsedDiscountByWorkerCode,
+    getUsedDiscountByWorkerId,
+    getOwedDiscountByWorkerCode,
+    getOwedDiscountByWorkerId,
+} from '../db/worked-hours.mjs';
 
 const router = express.Router();
 
