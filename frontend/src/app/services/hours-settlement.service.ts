@@ -6,6 +6,7 @@ import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
 import { HoursSettlement, HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
 import { DateService } from './date.service';
+import { HoursSettlementForm } from '../interfaces/activity.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -26,7 +27,7 @@ export class HoursSettlementService {
     }
 
     getHoursSettlement(): Observable<HoursSettlement[]> {
-        return this.http.get<HoursSettlementResponse>('api/hours-settlement/get').pipe(
+        return this.http.get<HoursSettlementResponse>('api/hours-settlement').pipe(
             map((res) => res.hoursSettlement),
             map((hoursSettlement) =>
                 hoursSettlement.map((hourSettlement) => ({
@@ -38,6 +39,10 @@ export class HoursSettlementService {
     }
 
     deleteHoursSettlement(id: number): Observable<Response> {
-        return this.http.get<Response>(`api/hours-settlement/delete/${id}`);
+        return this.http.delete<Response>(`api/hours-settlement/${id}`);
+    }
+
+    createHoursSettlement(form: HoursSettlementForm): Observable<Response> {
+        return this.http.post<Response>('api/hours-settlement', form);
     }
 }

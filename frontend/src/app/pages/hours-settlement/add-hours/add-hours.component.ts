@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Activity } from 'src/app/interfaces/activity.interface';
 import { Worker } from 'src/app/interfaces/worker.interface';
 import { ActivitiesService } from 'src/app/services/activities.service';
+import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WorkersService } from 'src/app/services/workers.service';
 
@@ -23,6 +24,7 @@ export class AddHoursComponent implements OnInit {
     constructor(
         private workersService: WorkersService,
         private activitiesService: ActivitiesService,
+        private hoursSettlementService: HoursSettlementService,
         private toastService: ToastService
     ) {}
 
@@ -58,7 +60,7 @@ export class AddHoursComponent implements OnInit {
             activityId: +activityId,
         };
 
-        this.activitiesService.createActivity(formValue).subscribe(() => {
+        this.hoursSettlementService.createHoursSettlement(formValue).subscribe(() => {
             this.toastService.showSuccess('Dodano godziny robocze');
         });
     }

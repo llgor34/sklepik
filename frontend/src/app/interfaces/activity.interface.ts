@@ -9,7 +9,7 @@ export interface Activity {
     name: string;
 }
 
-export interface ActivityCreateForm {
+export interface HoursSettlementForm {
     workerId: number;
     activityId: number;
     amount: number;
