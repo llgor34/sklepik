@@ -24,7 +24,7 @@ describe('WorkersService', () => {
     });
 
     describe('getWorkers$()', () => {
-        const url = 'api/workers/get';
+        const url = 'api/workers';
 
         it(`should GET request on "${url}"`, () => {
             testRequestType(url, 'GET', () => service.getWorkers$(), httpController);
