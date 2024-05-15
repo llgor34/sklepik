@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { User, UsersResponse } from '../interfaces/user.interface';
+import { User } from '../interfaces/user.interface';
 import { Role } from '../interfaces/role.interface';
 import { Response } from '../interfaces/response.interface';
-import { IdResponse } from '../interfaces/id-response.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -13,11 +12,11 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     getUsers$ = (): Observable<User[]> => {
-        return this.http.get<UsersResponse>('api/users').pipe(map((res) => res.users));
+        return this.http.get<Response<User[]>>('api/users').pipe(map((res) => res.data));
     };
 
     createUser$ = (user: User): Observable<number> => {
-        return this.http.post<IdResponse>('api/users', user).pipe(map((res) => res.id));
+        return this.http.post<Response<number>>('api/users', user).pipe(map((res) => res.data));
     };
 
     deleteUser$ = (userId: number): Observable<Response> => {

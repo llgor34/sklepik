@@ -8,6 +8,7 @@ import {
     getOwedDiscountByWorkerCode,
     getOwedDiscountByWorkerId,
 } from '../db/worked-hours.mjs';
+import { sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get(
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const workers = await getWorkers();
-        res.send({ ok: true, message: 'SUCCESS', workers });
+        sendSuccessMessage(res, workers);
     }
 );
 
@@ -25,35 +26,35 @@ router.get('/used-discount/:workerCode', verifyAccessToken, async (req, res) => 
     const workerCode = +req.params.workerCode;
     const usedDiscount = await getUsedDiscountByWorkerCode(workerCode);
 
-    res.send({ ok: true, message: 'SUCCESS', usedDiscount });
+    sendSuccessMessage(res, usedDiscount);
 });
 
 router.get('/current-user-used-discount', verifyAccessToken, async (req, res) => {
     const workerdId = req.user.id;
     const usedDiscount = await getUsedDiscountByWorkerId(workerdId);
 
-    res.send({ ok: true, message: 'SUCCESS', usedDiscount });
+    sendSuccessMessage(res, usedDiscount);
 });
 
 router.get('/owed-discount/:workerCode', verifyAccessToken, async (req, res) => {
     const workerCode = +req.params.workerCode;
     const owedDiscount = await getOwedDiscountByWorkerCode(workerCode);
 
-    res.send({ ok: true, message: 'SUCCESS', owedDiscount });
+    sendSuccessMessage(res, owedDiscount);
 });
 
 router.get('/current-user-owed-discount', verifyAccessToken, async (req, res) => {
     const workerId = req.user.id;
     const owedDiscount = await getOwedDiscountByWorkerId(workerId);
 
-    res.send({ ok: true, message: 'SUCCESS', owedDiscount });
+    sendSuccessMessage(res, owedDiscount);
 });
 
 router.get('/current-user-worked-hours', verifyAccessToken, async (req, res) => {
     const workerId = req.user.id;
     const workedHoursAmount = await getWorkedHoursByWorkerId(workerId);
 
-    res.send({ ok: true, message: 'SUCCESS', workedHoursAmount });
+    sendSuccessMessage(res, workedHoursAmount);
 });
 
 export default router;

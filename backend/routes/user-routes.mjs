@@ -10,7 +10,7 @@ import {
     updateUserRoles,
 } from '../db/users.mjs';
 import { createLog } from '../db/logs.mjs';
-import { sendErrorMessage } from '../general/messages.mjs';
+import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get(
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const users = await getUsers();
-        return res.send({ ok: true, message: 'SUCCESS', users });
+        sendSuccessMessage(res, users);
     }
 );
 
@@ -36,7 +36,7 @@ router.post(
 
         await updateUserRoles(user.id, user.roles, roles);
 
-        res.send({ ok: true, message: 'SUCCESS', id: user.id });
+        sendSuccessMessage(res, user.id);
         await createLog('USER_CREATED', `New user with id: ${user.id} has been created`, req.user.id);
     }
 );
@@ -52,7 +52,7 @@ router.put(
         const user = await getUserById(userId);
         await updateUserRoles(user.id, user.roles, modifiedRoles);
 
-        res.send({ ok: true, message: 'SUCCESS' });
+        sendSuccessMessage(res);
         await createLog('USER_ROLES_MODIFIED', `User roles with id: ${userId} has been modified`, req.user.id);
     }
 );
@@ -66,8 +66,8 @@ router.put(
         const userId = +req.params.id;
 
         await updateUser(userId, fieldData);
-        res.send({ ok: true, message: 'SUCCESS' });
 
+        sendSuccessMessage(res);
         await createLog('USER_DATA_MODIFIED', `User data with id: ${userId} has been modified`, req.user.id);
     }
 );
@@ -85,8 +85,7 @@ router.delete(
             return sendErrorMessage(res, 409, 'CANNOT_DELETE_USER');
         }
 
-        res.send({ ok: true, message: 'SUCCESS' });
-
+        sendSuccessMessage(res);
         await createLog('USER_DELETED', `Userwith id: ${id} has been deleted`, req.user.id);
     }
 );

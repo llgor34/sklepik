@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { WorkersService } from './workers.service';
-import { WorkersResponse } from '../interfaces/worker.interface';
-import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
-import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
-import { WorkedHoursResponse } from '../interfaces/worked-hours.interface';
 import { testRequestType } from '../testing/generic.spec';
+import { Response } from '../interfaces/response.interface';
+import { Worker } from '../interfaces/worker.interface';
 
 describe('WorkersService', () => {
     let service: WorkersService;
@@ -33,83 +31,14 @@ describe('WorkersService', () => {
         });
 
         it('should return Worker[]', () => {
-            const mockResponse: WorkersResponse = {
+            const mockResponse: Response<Worker[]> = {
                 ok: true,
                 message: 'SUCCESS',
-                workers: [{ id: 1, name: 'adam', surname: 'williams' }],
+                data: [{ id: 1, name: 'adam', surname: 'williams' }],
             };
 
             service.getWorkers$().subscribe((workers) => {
-                expect(workers).toEqual(mockResponse.workers);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
-
-    describe('getWorkerOwedDiscount$()', () => {
-        const url = 'api/workers/get-owed-discount-by-id';
-
-        it(`should GET request on "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getWorkerOwedDiscount$(), httpController);
-        });
-
-        it('should return number', () => {
-            const mockResponse: OwedDiscountResponse = {
-                ok: true,
-                message: 'SUCCESS',
-                owedDiscount: 100,
-            };
-
-            service.getWorkerOwedDiscount$().subscribe((owedDiscount) => {
-                expect(owedDiscount).toEqual(mockResponse.owedDiscount);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
-
-    describe('getWorkerUsedDiscount$()', () => {
-        const url = 'api/workers/get-used-discount-by-id';
-
-        it(`should GET request on "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getWorkerUsedDiscount$(), httpController);
-        });
-
-        it('should return number', () => {
-            const mockResponse: UsedDiscountResponse = {
-                ok: true,
-                message: 'SUCCESS',
-                usedDiscount: 100,
-            };
-
-            service.getWorkerUsedDiscount$().subscribe((usedDiscount) => {
-                expect(usedDiscount).toEqual(mockResponse.usedDiscount);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
-
-    describe('getWorkerWorkedHours$()', () => {
-        const url = 'api/workers/get-worked-hours';
-
-        it(`should GET request on "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getWorkerWorkedHours$(), httpController);
-        });
-
-        it('should return number', () => {
-            const mockResponse: WorkedHoursResponse = {
-                ok: true,
-                message: 'SUCCESS',
-                workedHoursAmount: 100,
-            };
-
-            service.getWorkerWorkedHours$().subscribe((workedHours) => {
-                expect(workedHours).toEqual(mockResponse.workedHoursAmount);
+                expect(workers).toEqual(mockResponse.data);
             });
 
             const testRequest = httpController.expectOne(url);

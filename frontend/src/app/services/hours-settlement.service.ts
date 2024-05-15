@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { HoursSettlement, HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
+import { HoursSettlement } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
 import { DateService } from './date.service';
 import { HoursSettlementForm } from '../interfaces/activity.interface';
@@ -13,8 +13,8 @@ export class HoursSettlementService {
     constructor(private http: HttpClient, private dateService: DateService) {}
 
     getHoursSettlement(): Observable<HoursSettlement[]> {
-        return this.http.get<HoursSettlementResponse>('api/hours-settlement').pipe(
-            map((res) => res.hoursSettlement),
+        return this.http.get<Response<HoursSettlement[]>>('api/hours-settlement').pipe(
+            map((res) => res.data),
             map((hoursSettlement) =>
                 hoursSettlement.map((hourSettlement) => ({
                     ...hourSettlement,

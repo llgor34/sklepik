@@ -71,16 +71,14 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
             this.lessonId = null;
         }
 
-        this.orderService
-            .createOrder$(this.products, this.paymentMethod, this.lessonId)
-            .subscribe(({ orderNumber }) => {
-                this.resetProductCodeControl();
-                this.focusProductCodeControl();
-                this.resetProducts();
-                this.resetSums();
+        this.orderService.createOrder$(this.products, this.paymentMethod, this.lessonId).subscribe((orderNumber) => {
+            this.resetProductCodeControl();
+            this.focusProductCodeControl();
+            this.resetProducts();
+            this.resetSums();
 
-                this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
-            });
+            this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
+        });
     }
 
     calculateProductsSum() {

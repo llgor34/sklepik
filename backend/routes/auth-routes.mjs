@@ -2,7 +2,7 @@ import express from 'express';
 
 import { generateAccessToken, signJWTCookie } from '../general/auth-functions.mjs';
 import { getUserByPassword } from '../db/users.mjs';
-import { sendErrorMessage } from '../general/messages.mjs';
+import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
 
@@ -21,11 +21,7 @@ router.post('/login', async (req, res) => {
     signJWTCookie(res, token);
 
     const { name, surname, roles } = user;
-    return res.send({
-        ok: true,
-        message: 'USER_LOGGED_IN',
-        user: { name, surname, roles },
-    });
+    return sendSuccessMessage(res, { name, surname, roles });
 });
 
 export default router;

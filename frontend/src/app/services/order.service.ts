@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 
 import { NumeratedProduct } from '../interfaces/product.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
-import { OrderNumberResponse } from '../interfaces/order-number.interface';
 import { Order, OrderStatus } from '../interfaces/order.interface';
 import { Response } from '../interfaces/response.interface';
 
@@ -43,12 +42,18 @@ export class OrderService {
         this.listenersCount$.next(this.listenersCount$.value - 1);
     }
 
-    createOrder$(products: NumeratedProduct[], paymentMethod: PaymentMethod, lessonId: number | null) {
-        return this.http.post<OrderNumberResponse>('api/order', {
-            products,
-            paymentMethod,
-            lessonId,
-        });
+    createOrder$(
+        products: NumeratedProduct[],
+        paymentMethod: PaymentMethod,
+        lessonId: number | null
+    ): Observable<number> {
+        return this.http
+            .post<Response<number>>('api/order', {
+                products,
+                paymentMethod,
+                lessonId,
+            })
+            .pipe(map((res) => res.data));
     }
 
     getOrders$(): Observable<Order[]> {
@@ -86,6 +91,6 @@ export class OrderService {
     }
 
     getCurrentOrderNumber$(): Observable<number> {
-        return this.http.get<OrderNumberResponse>('api/order/current-order-number').pipe(map((res) => res.orderNumber));
+        return this.http.get<Response<number>>('api/order/current-order-number').pipe(map((res) => res.data));
     }
 }

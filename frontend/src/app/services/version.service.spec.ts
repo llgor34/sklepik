@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { VersionService } from './version.service';
-import { VersionResponse } from '../interfaces/version.interface';
 import { testRequestType } from '../testing/generic.spec';
+import { Response } from '../interfaces/response.interface';
+import { Version } from '../interfaces/version.interface';
 
 describe('VersionService', () => {
     let service: VersionService;
@@ -30,17 +31,17 @@ describe('VersionService', () => {
         });
 
         it('should return Version', () => {
-            const mockResponse: VersionResponse = {
+            const mockResponse: Response<Version> = {
                 ok: true,
                 message: 'SUCCESS',
-                version: {
+                data: {
                     features: ['feature 1', 'feature 2'],
                     number: '1.0.0',
                 },
             };
 
             service.getVersion$().subscribe((version) => {
-                expect(version).toEqual(mockResponse.version);
+                expect(version).toEqual(mockResponse.data);
             });
 
             const testRequest = httpController.expectOne(url);

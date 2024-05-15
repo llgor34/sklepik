@@ -2,9 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ProductsService } from './products.service';
 import { ProductType } from '../interfaces/product-type.interface';
-import { NumeratedProduct, Product, ProductResponse, ProductsResponse } from '../interfaces/product.interface';
+import { NumeratedProduct, Product } from '../interfaces/product.interface';
 import { Response } from '../interfaces/response.interface';
-import { IdResponse } from '../interfaces/id-response.interface';
 import { testRequestType } from '../testing/generic.spec';
 
 describe('ProductsService', () => {
@@ -156,13 +155,13 @@ describe('ProductsService', () => {
         });
 
         it('should return NumeratedProduct if product was received from backend', () => {
-            const mockResponse: ProductResponse = {
+            const mockResponse: Response<Product> = {
                 ok: true,
                 message: 'SUCCESS',
-                product: getProduct(),
+                data: getProduct(),
             };
             ``;
-            const expectedNumeratedProduct = convertProductToNumeratedProduct(mockResponse.product!);
+            const expectedNumeratedProduct = convertProductToNumeratedProduct(mockResponse.data);
 
             service.getProductByCode$(code).subscribe((numeratedProduct) => {
                 expect(numeratedProduct).toEqual(expectedNumeratedProduct);
@@ -173,10 +172,10 @@ describe('ProductsService', () => {
         });
 
         it('should return return null if product was not received from backend', () => {
-            const mockResponse: ProductResponse = {
+            const mockResponse: Response = {
                 ok: true,
                 message: 'SUCCESS',
-                product: null,
+                data: null,
             };
 
             service.getProductByCode$(code).subscribe((numeratedProduct) => {
@@ -196,14 +195,14 @@ describe('ProductsService', () => {
         });
 
         it('should return Product[]', () => {
-            const mockResponse: ProductsResponse = {
+            const mockResponse: Response<Product[]> = {
                 ok: true,
                 message: 'SUCCESS',
-                products: getProducts(),
+                data: getProducts(),
             };
 
             service.getProducts$().subscribe((products) => {
-                expect(products).toEqual(mockResponse.products);
+                expect(products).toEqual(mockResponse.data);
             });
 
             const testRequest = httpController.expectOne(url);
@@ -229,6 +228,7 @@ describe('ProductsService', () => {
             const mockResponse: Response = {
                 ok: true,
                 message: 'SUCCESS',
+                data: null,
             };
 
             service.updateProduct$(id, productData).subscribe((response) => {
@@ -252,6 +252,7 @@ describe('ProductsService', () => {
             const mockResponse: Response = {
                 ok: true,
                 message: 'SUCCESS',
+                data: null,
             };
 
             service.deleteProduct$(id).subscribe((response) => {
@@ -276,14 +277,14 @@ describe('ProductsService', () => {
         });
 
         it('should return IdResponse', () => {
-            const mockResponse: IdResponse = {
+            const mockResponse: Response<number> = {
                 ok: true,
                 message: 'SUCCESS',
-                id: 0,
+                data: 0,
             };
 
             service.createProduct$(product).subscribe((id) => {
-                expect(id).toEqual(mockResponse.id);
+                expect(id).toEqual(mockResponse.data);
             });
 
             const testRequest = httpController.expectOne(url);

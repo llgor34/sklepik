@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SellmentCloseRaportService } from './sellment-close-raport.service';
-import { SellmentCloseDataResponse } from '../interfaces/sellment-close-product.interface';
 import { testRequestType } from '../testing/generic.spec';
+import { SellmentCloseRaport } from '../interfaces/sellment-close-product.interface';
+import { Response } from '../interfaces/response.interface';
 
 describe('SellmentCloseRaportService', () => {
     let service: SellmentCloseRaportService;
@@ -30,7 +31,7 @@ describe('SellmentCloseRaportService', () => {
         });
 
         it('should return SellmentCloseRaport', () => {
-            const mockResponse: SellmentCloseDataResponse = {
+            const mockResponse: Response<SellmentCloseRaport> = {
                 ok: true,
                 message: 'SUCCESS',
                 data: {

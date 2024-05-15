@@ -2,6 +2,7 @@ import express from 'express';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
 import { createHoursSettlement, deleteHoursSettlement, getHoursSettlement } from '../db/hours-settlement.mjs';
+import { sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router.get(
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const hoursSettlement = await getHoursSettlement();
-        res.send({ ok: true, message: 'SUCCESS', hoursSettlement });
+        return sendSuccessMessage(res, hoursSettlement);
     }
 );
 
@@ -22,7 +23,7 @@ router.post(
     async (req, res) => {
         const { workerId, activityId, description, date, amount } = req.body;
         await createHoursSettlement(activityId, req.user.id, workerId, amount, date, description);
-        res.send({ ok: true, message: 'SUCCESS' });
+        return sendSuccessMessage(res);
     }
 );
 
@@ -33,7 +34,7 @@ router.delete(
     async (req, res) => {
         const hoursSettlementId = +req.params.id;
         await deleteHoursSettlement(hoursSettlementId);
-        res.send({ ok: true, message: 'SUCCESS' });
+        return sendSuccessMessage(res);
     }
 );
 

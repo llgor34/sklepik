@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { verifyAccessToken, hasRole } from '../general/auth-functions.mjs';
-import { sendErrorMessage } from '../general/messages.mjs';
+import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 import { getUsedDiscountByWorkerCode, getOwedDiscountByWorkerCode } from '../db/worked-hours.mjs';
 import { createOrder, getLatestOrderId, getOrderNumber, updateOrderStatus } from '../db/order.mjs';
 import { onOrdersChange, onOrderStatusReady } from '../ws-events/orders.mjs';
@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/current-order-number', verifyAccessToken, async (req, res) => {
     const orderId = await getLatestOrderId();
     const orderNumber = getOrderNumber(orderId + 1);
-    res.send({ ok: true, message: 'SUCCESS', orderNumber: orderNumber });
+    return sendSuccessMessage(res, orderNumber);
 });
 
 router.post('/', verifyAccessToken, async (req, res) => {
@@ -43,7 +43,7 @@ router.post('/', verifyAccessToken, async (req, res) => {
     }
 
     const orderNumber = await createOrder(products, paymentMethod, lessonId, req.user.id);
-    res.send({ ok: true, message: 'SELL_CREATED', orderNumber });
+    sendSuccessMessage(res, orderNumber, 'SELL_CREATED');
 
     await onOrdersChange();
 });
@@ -52,7 +52,7 @@ router.put('/update-status', verifyAccessToken, async (req, res) => {
     const { orderId: order_id, orderStatus: order_status } = req.body;
     await updateOrderStatus(order_id, order_status);
 
-    res.send({ ok: true, message: 'SUCCESS' });
+    sendSuccessMessage(res);
 
     await onOrdersChange();
     if (order_status === 'done') {

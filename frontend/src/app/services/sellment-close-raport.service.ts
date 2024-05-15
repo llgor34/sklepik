@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SellmentCloseDataResponse, SellmentCloseRaport } from '../interfaces/sellment-close-product.interface';
+import { SellmentCloseRaport } from '../interfaces/sellment-close-product.interface';
 import { Observable, map } from 'rxjs';
+import { Response } from '../interfaces/response.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +12,7 @@ export class SellmentCloseRaportService {
 
     getProducts$(): Observable<SellmentCloseRaport> {
         return this.http
-            .get<SellmentCloseDataResponse>('api/raports/sellment-close/latest-raport-preview')
+            .get<Response<SellmentCloseRaport>>('api/raports/sellment-close/latest-raport-preview')
             .pipe(map((res) => res.data));
     }
 

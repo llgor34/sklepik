@@ -1,9 +1,4 @@
 import { NumeratedIdx } from './numerated.interface';
-import { Response } from './response.interface';
-
-export interface HoursSettlementResponse extends Response {
-    hoursSettlement: HoursSettlement[];
-}
 
 export interface HoursSettlement {
     id: number;

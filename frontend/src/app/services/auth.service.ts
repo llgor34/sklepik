@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { LoginResponse } from '../interfaces/loginResponse.interface';
+import { Observable, map, tap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
+import { Response } from '../interfaces/response.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -13,13 +13,14 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    login(password: string): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>('api/login', { password }).pipe(
-            tap((res) => {
-                if (!res.user) {
+    login(password: string): Observable<User | null> {
+        return this.http.post<Response<User | null>>('api/login', { password }).pipe(
+            map((res) => res.data),
+            tap((user) => {
+                if (!user) {
                     return;
                 }
-                this.user = res.user;
+                this.user = user;
                 localStorage.setItem('user', JSON.stringify(this.user!));
             })
         );

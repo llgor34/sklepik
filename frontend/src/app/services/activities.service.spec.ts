@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ActivitiesService } from './activities.service';
-import { ActivityResponse } from '../interfaces/activity.interface';
 import { testRequestType } from '../testing/generic.spec';
+import { Response } from '../interfaces/response.interface';
+import { Activity } from '../interfaces/activity.interface';
 
 describe('ActivitiesService', () => {
     let service: ActivitiesService;
@@ -30,14 +31,14 @@ describe('ActivitiesService', () => {
         });
 
         it('should return Activity[] data', () => {
-            const mockData: ActivityResponse = {
+            const mockData: Response<Activity[]> = {
                 ok: true,
                 message: 'SUCCESS',
-                activities: [{ id: 1, name: 'test' }],
+                data: [{ id: 1, name: 'test' }],
             };
 
             service.getActivities().subscribe((activities) => {
-                expect(activities).toEqual(mockData.activities);
+                expect(activities).toEqual(mockData.data);
             });
 
             const testRequest = httpController.expectOne(url);

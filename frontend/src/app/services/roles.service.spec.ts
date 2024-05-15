@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RolesService } from './roles.service';
-import { RoleResponse } from '../interfaces/role.interface';
 import { testRequestType } from '../testing/generic.spec';
+import { Response } from '../interfaces/response.interface';
+import { Role } from '../interfaces/role.interface';
 
 describe('RolesService', () => {
     let service: RolesService;
@@ -30,14 +31,14 @@ describe('RolesService', () => {
         });
 
         it('should return Role[]', () => {
-            const mockResponse: RoleResponse = {
+            const mockResponse: Response<Role[]> = {
                 ok: true,
                 message: 'SUCCESS',
-                roles: [{ id: 1, label: 'admin' }],
+                data: [{ id: 1, label: 'admin' }],
             };
 
             service.getRoles$().subscribe((roles) => {
-                expect(roles).toEqual(mockResponse.roles);
+                expect(roles).toEqual(mockResponse.data);
             });
 
             const testRequest = httpController.expectOne(url);
