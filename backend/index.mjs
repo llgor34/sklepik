@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import { createServer } from 'http';
-import { getHttpServerPort, getWsServerPort } from './general/server-port.mjs';
 import { Server } from 'socket.io';
 import { emitOrdersFor } from './ws-events/orders.mjs';
 
@@ -24,8 +23,6 @@ import rolesRoutes from './routes/roles-routes.mjs';
 dotenv.config();
 
 // server config
-const websocketPort = getWsServerPort();
-const serverPort = getHttpServerPort();
 const app = express();
 app.use(cors({ origin: ['http://localhost:4200'] }));
 app.use(express.json());
@@ -71,6 +68,7 @@ app.get('*', function (req, res) {
 });
 
 // start server
+const serverPort = process.env.PORT;
 server.listen(serverPort, () => {
     console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
 });
