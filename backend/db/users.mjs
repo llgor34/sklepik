@@ -1,4 +1,4 @@
-import { query, updateFieldQuery } from './db-functions.mjs';
+import { query, updateFieldQuery } from '../general/db-functions.mjs';
 
 export async function createUser(name, surname, password) {
     await query(`INSERT INTO workers(id, name, surname, password) VALUES(null, ?, ?, ?)`, [name, surname, password]);

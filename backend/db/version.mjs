@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 import { Version } from './schema/version.mjs';
 
 export async function getVersion() {

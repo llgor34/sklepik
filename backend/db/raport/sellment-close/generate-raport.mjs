@@ -1,4 +1,4 @@
-import { query } from '../../db-functions.mjs';
+import { query } from '../../../general/db-functions.mjs';
 
 export async function generateRaport(workerId) {
     const raports = await query('SELECT * FROM sellment_close ORDER BY id DESC LIMIT 1');

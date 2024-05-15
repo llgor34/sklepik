@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 
 export async function getWorkers() {
     const workers = await query('SELECT id, name, surname FROM workers');

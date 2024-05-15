@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 import { Lesson } from './schema/lesson.mjs';
 
 export async function getLessons() {

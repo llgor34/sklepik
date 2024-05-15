@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 import { getLatestArticlesSellmentId } from './articles-sellment.mjs';
 import { Order } from './schema/order.mjs';
 import { OrderProduct } from './schema/order-product.mjs';

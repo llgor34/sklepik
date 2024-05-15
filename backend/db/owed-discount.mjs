@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 import { getUserByPassword } from './users.mjs';
 
 export async function getOwedDiscountByWorkerCode(workerCode, _workerId = null) {
