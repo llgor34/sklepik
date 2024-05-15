@@ -9,7 +9,6 @@ import { Server } from 'socket.io';
 import { emitOrdersFor } from './ws-events/orders.mjs';
 
 import authRoutes from './routes/auth-routes.mjs';
-import coffeeSubscribersRouter from './routes/coffee-subscribers-routes.mjs';
 import productRoutes from './routes/product-routes.mjs';
 import orderRoutes from './routes/order-routes.mjs';
 import raportsRoutes from './routes/raports-routes.mjs';
@@ -52,7 +51,6 @@ const router = express.Router();
 app.use('/api', router);
 
 router.use('/', authRoutes);
-router.use('/coffee-subscribers', coffeeSubscribersRouter);
 router.use('/product', productRoutes);
 router.use('/order', orderRoutes);
 router.use('/raports', raportsRoutes);

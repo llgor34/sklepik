@@ -20,7 +20,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
-import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
 import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
@@ -68,7 +67,6 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         ClosementProtocolComponent,
         SellDefaultComponent,
         CardTableComponent,
-        SellCoffeeSubscribersComponent,
         firstElementOfArray,
         EditByValueFieldComponent,
         FilterPipe,
