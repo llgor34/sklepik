@@ -36,7 +36,7 @@ nav.open span {
 }
 
 nav {
-    max-width: 2.5rem;
+    max-width: 3.5rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -58,4 +58,9 @@ nav.open ul li span {
 
 nav ul {
     flex-grow: 1;
+}
+
+nav ul li {
+    padding-left: 20px;
+    padding-right: 20px;
 }
