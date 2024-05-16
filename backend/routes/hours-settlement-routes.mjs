@@ -1,7 +1,12 @@
 import express from 'express';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
-import { createHoursSettlement, deleteHoursSettlement, getHoursSettlement } from '../db/hours-settlement.mjs';
+import {
+    createHoursSettlement,
+    deleteHoursSettlement,
+    getHoursSettlement,
+    updateHoursSettlement,
+} from '../db/hours-settlement.mjs';
 import { sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
@@ -13,6 +18,19 @@ router.get(
     async (req, res) => {
         const hoursSettlement = await getHoursSettlement();
         return sendSuccessMessage(res, hoursSettlement);
+    }
+);
+
+router.put(
+    '/',
+    verifyAccessToken,
+    (...args) => hasRoleMiddleware(...args, 'admin'),
+    async (req, res) => {
+        const { id, activity_id, worker_id, amount, description, work_date } = req.body;
+        const admin_id = +req.user.id;
+        await updateHoursSettlement(id, { activity_id, worker_id, admin_id, amount, description, work_date });
+
+        return sendSuccessMessage(res);
     }
 );
 
