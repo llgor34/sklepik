@@ -90,23 +90,6 @@ const routes: TypedRoutes = [
                 component: ArchiveComponent,
             },
             {
-                path: 'hours-settlement',
-                canActivateChild: [RoleGuard],
-                children: [
-                    {
-                        path: '',
-                        component: HoursSettlementComponent,
-                    },
-                    {
-                        path: 'add',
-                        component: AddHoursComponent,
-                    },
-                ],
-                data: {
-                    roles: ['superAdmin'],
-                },
-            },
-            {
                 path: 'panel',
                 canActivateChild: [RoleGuard],
                 children: [
@@ -121,6 +104,14 @@ const routes: TypedRoutes = [
                     {
                         path: 'users',
                         component: PanelUsersComponent,
+                    },
+                    {
+                        path: 'hours-settlement',
+                        component: HoursSettlementComponent,
+                        canActivate: [RoleGuard],
+                        data: {
+                            roles: ['superAdmin'],
+                        },
                     },
                 ],
                 data: {

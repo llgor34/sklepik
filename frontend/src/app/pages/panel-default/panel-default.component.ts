@@ -20,5 +20,11 @@ export class PanelDefaultComponent {
             imageUrl: 'assets/users-panel.svg',
             url: 'users',
         },
+        {
+            title: 'Godziny pracy',
+            description: 'Panel do zarządzania godzinami pracy',
+            imageUrl: 'assets/hours-settlement-panel.svg',
+            url: 'hours-settlement',
+        },
     ];
 }
