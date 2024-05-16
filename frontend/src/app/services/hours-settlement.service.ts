@@ -12,7 +12,7 @@ import { HoursSettlementForm } from '../interfaces/activity.interface';
 export class HoursSettlementService {
     constructor(private http: HttpClient, private dateService: DateService) {}
 
-    getHoursSettlement(): Observable<HoursSettlement[]> {
+    getHoursSettlement$(): Observable<HoursSettlement[]> {
         return this.http.get<Response<HoursSettlement[]>>('api/hours-settlement').pipe(
             map((res) => res.data),
             map((hoursSettlement) =>
@@ -24,11 +24,15 @@ export class HoursSettlementService {
         );
     }
 
-    deleteHoursSettlement(id: number): Observable<Response> {
+    deleteHoursSettlement$(id: number): Observable<Response> {
         return this.http.delete<Response>(`api/hours-settlement/${id}`);
     }
 
-    createHoursSettlement(form: HoursSettlementForm): Observable<Response> {
+    createHoursSettlement$(form: HoursSettlementForm): Observable<Response> {
         return this.http.post<Response>('api/hours-settlement', form);
+    }
+
+    updateHoursSettlement$(hoursSettlement: HoursSettlement): Observable<Response> {
+        return this.http.put<Response>(`api/hours-settlement/${hoursSettlement.id}`, hoursSettlement);
     }
 }

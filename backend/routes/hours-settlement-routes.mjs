@@ -22,13 +22,22 @@ router.get(
 );
 
 router.put(
-    '/',
+    '/:id',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { id, activity_id, worker_id, amount, description, work_date } = req.body;
+        const { activity_id, worker_id, amount, description, work_date } = req.body;
+        const hours_settlement_id = +req.params.id;
         const admin_id = +req.user.id;
-        await updateHoursSettlement(id, { activity_id, worker_id, admin_id, amount, description, work_date });
+
+        await updateHoursSettlement(hours_settlement_id, {
+            activity_id,
+            worker_id,
+            admin_id,
+            amount,
+            description,
+            work_date,
+        });
 
         return sendSuccessMessage(res);
     }

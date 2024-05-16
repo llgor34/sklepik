@@ -24,7 +24,7 @@ export class HoursSettlementComponent implements OnInit {
 
     ngOnInit(): void {
         this.records$ = this.refreshRecords$.pipe(
-            switchMap(() => this.hoursSettlementService.getHoursSettlement()),
+            switchMap(() => this.hoursSettlementService.getHoursSettlement$()),
             shareReplay(1)
         );
     }
@@ -34,7 +34,7 @@ export class HoursSettlementComponent implements OnInit {
     }
 
     deleteHoursSettlementRecord(record: NumeratedHoursSettlement) {
-        this.hoursSettlementService.deleteHoursSettlement(record.id).subscribe(() => {
+        this.hoursSettlementService.deleteHoursSettlement$(record.id).subscribe(() => {
             this.refreshRecords();
             this.toastService.showSuccess(`Pomyślnie usunięto rekord!`);
         });

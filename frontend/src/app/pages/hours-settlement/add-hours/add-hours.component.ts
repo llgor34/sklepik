@@ -60,7 +60,7 @@ export class AddHoursComponent implements OnInit {
             activityId: +activityId,
         };
 
-        this.hoursSettlementService.createHoursSettlement(formValue).subscribe(() => {
+        this.hoursSettlementService.createHoursSettlement$(formValue).subscribe(() => {
             this.toastService.showSuccess('Dodano godziny robocze');
         });
     }
