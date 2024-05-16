@@ -32,3 +32,8 @@ export async function createHoursSettlement(activityId, adminId, workerId, amoun
 export async function updateHoursSettlement(id, fieldData) {
     await updateFieldQuery('worked_hours', id, fieldData);
 }
+
+export async function getLatestHoursSettlementId() {
+    const res = await query('SELECT id FROM worked_hours ORDER BY id DESC LIMIT 1');
+    return res[0].id;
+}

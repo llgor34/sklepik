@@ -5,6 +5,7 @@ import {
     createHoursSettlement,
     deleteHoursSettlement,
     getHoursSettlement,
+    getLatestHoursSettlementId,
     updateHoursSettlement,
 } from '../db/hours-settlement.mjs';
 import { sendSuccessMessage } from '../general/messages.mjs';
@@ -49,8 +50,11 @@ router.post(
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const { activity_id, worker_id, amount, description, work_date } = req.body;
+
         await createHoursSettlement(activity_id, req.user.id, worker_id, amount, work_date, description);
-        return sendSuccessMessage(res);
+        const hoursSettlementId = await getLatestHoursSettlementId();
+
+        return sendSuccessMessage(res.hoursSettlementId);
     }
 );
 

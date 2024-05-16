@@ -1,9 +1,8 @@
 <app-list-table
     title="Rozliczanie godzin"
-    [observable$]="records$"
+    [observable$]="observable$"
     [tableBodyTemplate]="tableBodyTemplate"
     [tableHeadTemplate]="tableHeadTemplate"
-    (addNew)="addHoursSettlementRecord()"
 >
     <ng-template #tableHeadTemplate>
         <th>Lp.</th>
@@ -14,18 +13,18 @@
         <th colspan="2">Liczba godzin</th>
     </ng-template>
     <ng-template #tableBodyTemplate [typedTemplate]="tableBodyContext" let-records>
-        <tr *ngFor="let record of records">
-            <td>{{ record.idx }}</td>
-            <td>{{ record.work_date }}</td>
-            <td>{{ record.worker_name }} {{ record.worker_surname }}</td>
-            <td>{{ record.activity_name }}</td>
-            <td>{{ record.description }}</td>
-            <td>{{ record.amount }}</td>
+        <tr *ngFor="let hourSettlement of records">
+            <td>{{ hourSettlement.idx }}</td>
+            <td>{{ hourSettlement.work_date }}</td>
+            <td>{{ hourSettlement.worker_name }} {{ hourSettlement.worker_surname }}</td>
+            <td>{{ hourSettlement.activity_name }}</td>
+            <td>{{ hourSettlement.description }}</td>
+            <td>{{ hourSettlement.amount }}</td>
             <td class="d-flex justify-content-end">
                 <app-confirm-button
                     label="Usuń"
                     confirmBtnClass="btn-danger"
-                    (confirm)="deleteHoursSettlementRecord(record)"
+                    (confirm)="onDeleteItem(hourSettlement.id)"
                 ></app-confirm-button>
             </td>
         </tr>

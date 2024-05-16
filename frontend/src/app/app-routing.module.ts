@@ -11,7 +11,7 @@ import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
-import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
+import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { RoleGuard } from './guards/role.guard';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
@@ -106,7 +106,7 @@ const routes: TypedRoutes = [
                     },
                     {
                         path: 'hours-settlement',
-                        component: HoursSettlementComponent,
+                        component: PanelHoursSettlementComponent,
                         canActivate: [RoleGuard],
                         data: {
                             roles: ['superAdmin'],
