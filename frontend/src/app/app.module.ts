@@ -52,6 +52,7 @@ import { NewUserComponent } from './pages/panel-users/new-user/new-user.componen
 import { MultipleSelectFieldComponent } from './component/multiple-select-field/multiple-select-field.component';
 import { EncryptPipe } from './pipes/encrypt.pipe';
 import { NewHoursSettlementComponent } from './pages/panel-hours-settlement/new-hours-settlement/new-hours-settlement.component';
+import { DefaultValuePipe } from './pipes/default-value.pipe';
 
 @NgModule({
     declarations: [
@@ -98,6 +99,7 @@ import { NewHoursSettlementComponent } from './pages/panel-hours-settlement/new-
         MultipleSelectFieldComponent,
         EncryptPipe,
         NewHoursSettlementComponent,
+        DefaultValuePipe,
     ],
     imports: [
         BrowserModule,

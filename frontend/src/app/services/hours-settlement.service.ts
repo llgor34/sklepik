@@ -3,24 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HoursSettlement } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
-import { DateService } from './date.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HoursSettlementService {
-    constructor(private http: HttpClient, private dateService: DateService) {}
+    constructor(private http: HttpClient) {}
 
     getHoursSettlement$ = (): Observable<HoursSettlement[]> => {
-        return this.http.get<Response<HoursSettlement[]>>('api/hours-settlement').pipe(
-            map((res) => res.data),
-            map((hoursSettlement) =>
-                hoursSettlement.map((hourSettlement) => ({
-                    ...hourSettlement,
-                    work_date: this.dateService.formateDate(hourSettlement.work_date!, 'DD.MM.yyyy'),
-                }))
-            )
-        );
+        return this.http.get<Response<HoursSettlement[]>>('api/hours-settlement').pipe(map((res) => res.data));
     };
 
     createHoursSettlement$ = (hoursSettlement: HoursSettlement): Observable<number> => {

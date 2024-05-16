@@ -27,18 +27,15 @@ router.put(
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { activity_id, worker_id, amount, description, work_date } = req.body;
         const hours_settlement_id = +req.params.id;
-        const admin_id = +req.user.id;
+        const fieldData = req.body;
 
-        await updateHoursSettlement(hours_settlement_id, {
-            activity_id,
-            worker_id,
-            admin_id,
-            amount,
-            description,
-            work_date,
-        });
+        delete fieldData.activity_name;
+        delete fieldData.id;
+        delete fieldData.worker_name;
+        delete fieldData.worker_surname;
+
+        await updateHoursSettlement(hours_settlement_id, fieldData);
 
         return sendSuccessMessage(res);
     }

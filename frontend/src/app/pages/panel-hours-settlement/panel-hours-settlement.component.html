@@ -6,7 +6,7 @@
     (addNew)="onAddNewEmptyRecord()"
 >
     <ng-template #tableHeadTemplate>
-        <th>Lp.</th>
+        <th>Id</th>
         <th>Data</th>
         <th>Imie i nazwisko</th>
         <th>Nazwa aktywności</th>
@@ -16,12 +16,27 @@
     <ng-template #tableBodyTemplate [typedTemplate]="tableBodyContext" let-records>
         <app-new-hours-settlement></app-new-hours-settlement>
         <tr *ngFor="let hourSettlement of records">
-            <td>{{ hourSettlement.idx }}</td>
-            <td>{{ hourSettlement.work_date }}</td>
+            <td>{{ hourSettlement.id }}</td>
+            <td>
+                <app-editable-field
+                    [value]="hourSettlement.work_date | date : 'yyyy-MM-dd'"
+                    (valueChange)="onFieldChange(hourSettlement, { work_date: $event })"
+                ></app-editable-field>
+            </td>
             <td>{{ hourSettlement.worker_name }} {{ hourSettlement.worker_surname }}</td>
             <td>{{ hourSettlement.activity_name }}</td>
-            <td>{{ hourSettlement.description }}</td>
-            <td>{{ hourSettlement.amount }}</td>
+            <td>
+                <app-editable-field
+                    [value]="hourSettlement.description | defaultValue"
+                    (valueChange)="onFieldChange(hourSettlement, { description: $event })"
+                ></app-editable-field>
+            </td>
+            <td>
+                <app-editable-field
+                    [value]="hourSettlement.amount"
+                    (valueChange)="onFieldChange(hourSettlement, { amount: $event })"
+                ></app-editable-field>
+            </td>
             <td class="d-flex justify-content-end">
                 <app-confirm-button
                     label="Usuń"
