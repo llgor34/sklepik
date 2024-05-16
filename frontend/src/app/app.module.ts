@@ -51,6 +51,7 @@ import { NewRecordComponent } from './component/new-record/new-record.component'
 import { NewUserComponent } from './pages/panel-users/new-user/new-user.component';
 import { MultipleSelectFieldComponent } from './component/multiple-select-field/multiple-select-field.component';
 import { EncryptPipe } from './pipes/encrypt.pipe';
+import { NewHoursSettlementComponent } from './pages/panel-hours-settlement/new-hours-settlement/new-hours-settlement.component';
 
 @NgModule({
     declarations: [
@@ -96,6 +97,7 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         NewUserComponent,
         MultipleSelectFieldComponent,
         EncryptPipe,
+        NewHoursSettlementComponent,
     ],
     imports: [
         BrowserModule,

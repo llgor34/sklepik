@@ -3,6 +3,7 @@
     [observable$]="observable$"
     [tableBodyTemplate]="tableBodyTemplate"
     [tableHeadTemplate]="tableHeadTemplate"
+    (addNew)="onAddNewEmptyRecord()"
 >
     <ng-template #tableHeadTemplate>
         <th>Lp.</th>
@@ -13,6 +14,7 @@
         <th colspan="2">Liczba godzin</th>
     </ng-template>
     <ng-template #tableBodyTemplate [typedTemplate]="tableBodyContext" let-records>
+        <app-new-hours-settlement></app-new-hours-settlement>
         <tr *ngFor="let hourSettlement of records">
             <td>{{ hourSettlement.idx }}</td>
             <td>{{ hourSettlement.work_date }}</td>
@@ -24,7 +26,7 @@
                 <app-confirm-button
                     label="Usuń"
                     confirmBtnClass="btn-danger"
-                    (confirm)="onDeleteItem(hourSettlement.id)"
+                    (confirm)="onDeleteItem(hourSettlement.id!)"
                 ></app-confirm-button>
             </td>
         </tr>

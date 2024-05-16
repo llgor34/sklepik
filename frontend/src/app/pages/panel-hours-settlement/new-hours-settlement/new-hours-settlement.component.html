@@ -1,0 +1,16 @@
+<form #form="ngForm" *ngFor="let record of records; let i = index; let isLast = last">
+    <tr [class.last]="isLast">
+        <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
+        <td><input [(ngModel)]="record.work_date" type="date" class="form-control" /></td>
+        <td>user</td>
+        <td>activity type</td>
+        <td><input [(ngModel)]="record.description" type="text" class="form-control" /></td>
+        <td><input [(ngModel)]="record.amount" type="text" class="form-control" /></td>
+        <td class="buttons-container">
+            <button (click)="onAddConfirmRecord(record, i)" class="btn btn-primary" [disabled]="form.invalid">
+                Dodaj
+            </button>
+            <button (click)="onDeleteRecord(i)" class="btn btn-warning">Anuluj</button>
+        </td>
+    </tr>
+</form>

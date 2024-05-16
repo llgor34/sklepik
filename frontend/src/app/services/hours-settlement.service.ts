@@ -17,7 +17,7 @@ export class HoursSettlementService {
             map((hoursSettlement) =>
                 hoursSettlement.map((hourSettlement) => ({
                     ...hourSettlement,
-                    work_date: this.dateService.formateDate(hourSettlement.work_date, 'DD.MM.yyyy'),
+                    work_date: this.dateService.formateDate(hourSettlement.work_date!, 'DD.MM.yyyy'),
                 }))
             )
         );
