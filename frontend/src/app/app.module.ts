@@ -25,7 +25,6 @@ import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
-import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
 import { FiltersComponent } from './component/filters/filters.component';
@@ -71,7 +70,6 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         EditByValueFieldComponent,
         FilterPipe,
         HoursSettlementComponent,
-        AddHoursComponent,
         ConfirmButtonComponent,
         TableStickyComponent,
         FiltersComponent,

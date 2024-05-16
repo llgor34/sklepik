@@ -48,8 +48,8 @@ router.post(
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
-        const { workerId, activityId, description, date, amount } = req.body;
-        await createHoursSettlement(activityId, req.user.id, workerId, amount, date, description);
+        const { activity_id, worker_id, amount, description, work_date } = req.body;
+        await createHoursSettlement(activity_id, req.user.id, worker_id, amount, work_date, description);
         return sendSuccessMessage(res);
     }
 );

@@ -4,7 +4,6 @@ import { Observable, map } from 'rxjs';
 import { HoursSettlement } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
 import { DateService } from './date.service';
-import { HoursSettlementForm } from '../interfaces/activity.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -24,15 +23,15 @@ export class HoursSettlementService {
         );
     }
 
+    createHoursSettlement$(hoursSettlement: HoursSettlement): Observable<Response> {
+        return this.http.post<Response>('api/hours-settlement', hoursSettlement);
+    }
+
     deleteHoursSettlement$(id: number): Observable<Response> {
         return this.http.delete<Response>(`api/hours-settlement/${id}`);
     }
 
-    createHoursSettlement$(form: HoursSettlementForm): Observable<Response> {
-        return this.http.post<Response>('api/hours-settlement', form);
-    }
-
-    updateHoursSettlement$(hoursSettlement: HoursSettlement): Observable<Response> {
-        return this.http.put<Response>(`api/hours-settlement/${hoursSettlement.id}`, hoursSettlement);
+    updateHoursSettlement$(id: number, fieldData: Partial<HoursSettlement>): Observable<Response> {
+        return this.http.put<Response>(`api/hours-settlement/${id}`, fieldData);
     }
 }
