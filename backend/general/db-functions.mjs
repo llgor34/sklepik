@@ -14,6 +14,10 @@ export async function updateFieldQuery(tableName, elementId, fieldData) {
     const params = [];
 
     for (const key in fieldData) {
+        if (fieldData[key] === undefined) {
+            continue;
+        }
+
         queryStrRaw += `${key} = ?, `;
         params.push(fieldData[key]);
     }

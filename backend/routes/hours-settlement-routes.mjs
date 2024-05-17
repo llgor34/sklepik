@@ -28,14 +28,17 @@ router.put(
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const hours_settlement_id = +req.params.id;
-        const fieldData = req.body;
+        const admin_id = req.user.id;
+        const { activity_id, worker_id, amount, description, work_date } = req.body;
 
-        delete fieldData.activity_name;
-        delete fieldData.id;
-        delete fieldData.worker_name;
-        delete fieldData.worker_surname;
-
-        await updateHoursSettlement(hours_settlement_id, fieldData);
+        await updateHoursSettlement(hours_settlement_id, {
+            activity_id,
+            worker_id,
+            amount,
+            description,
+            work_date,
+            admin_id,
+        });
 
         return sendSuccessMessage(res);
     }
@@ -51,7 +54,7 @@ router.post(
         await createHoursSettlement(activity_id, req.user.id, worker_id, amount, work_date, description);
         const hoursSettlementId = await getLatestHoursSettlementId();
 
-        return sendSuccessMessage(res.hoursSettlementId);
+        return sendSuccessMessage(res.hoursSettlementId, hoursSettlementId);
     }
 );
 

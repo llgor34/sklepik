@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isInEditMode">
-    <span *ngIf="!isEncrypted" (click)="toggleEditMode()">{{ originalValue }}</span>
-    <span *ngIf="isEncrypted" (click)="toggleEditMode()">{{ originalValue | encrypt }}</span>
+    <span *ngIf="!isEncrypted" (click)="showEditMode()">{{ originalValue | defaultValue }}</span>
+    <span *ngIf="isEncrypted" (click)="showEditMode()">{{ originalValue | encrypt }}</span>
 </ng-container>
 <ng-container *ngIf="isInEditMode">
     <input

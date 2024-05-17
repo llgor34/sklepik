@@ -27,7 +27,7 @@
             <td>{{ hourSettlement.activity_name }}</td>
             <td>
                 <app-editable-field
-                    [value]="hourSettlement.description | defaultValue"
+                    [value]="hourSettlement.description"
                     (valueChange)="onFieldChange(hourSettlement, { description: $event })"
                 ></app-editable-field>
             </td>

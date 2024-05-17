@@ -27,8 +27,8 @@ export class EditableFieldComponent<T> {
     @ViewChildren('select', { read: ElementRef }) selectElementQueryList!: QueryList<ElementRef<HTMLSelectElement>>;
 
     onNewValueConfirm() {
-        if (this.newValue !== this.originalValue) {
-            this.valueChange.emit(this.newValue);
+        if (this.isNewValueDifferentThanOriginal()) {
+            this.emitNewValue();
         }
         this.toggleEditMode();
         this.resetNewValue();
@@ -39,30 +39,48 @@ export class EditableFieldComponent<T> {
         this.resetNewValue();
     }
 
+    showEditMode() {
+        this.toggleEditMode();
+        this.toggleElementFocus();
+    }
+
+    isNewValueDifferentThanOriginal(): boolean {
+        return this.newValue !== this.originalValue;
+    }
+
+    emitNewValue() {
+        this.valueChange.emit(this.newValue);
+    }
+
     toggleEditMode() {
         this.isInEditMode = !this.isInEditMode;
-        if (this.isInEditMode) {
-            this.toggleElementFocus();
-        }
-    }
-
-    toggleElementFocus() {
-        if (this.isInListMode) {
-            this.selectElementQueryList.changes
-                .pipe(first())
-                .subscribe((elements: QueryList<ElementRef<HTMLSelectElement>>) => this.focusElement(elements.first));
-        } else {
-            this.inputElementQueryList.changes
-                .pipe(first())
-                .subscribe((elements: QueryList<ElementRef<HTMLInputElement>>) => this.focusElement(elements.first));
-        }
-    }
-
-    focusElement(element: ElementRef<HTMLSelectElement | HTMLInputElement>) {
-        element.nativeElement.focus();
     }
 
     resetNewValue() {
         this.newValue = this.originalValue;
+    }
+
+    toggleElementFocus() {
+        if (this.isInListMode) {
+            this.focusSelectElement();
+        } else {
+            this.focusInputElement();
+        }
+    }
+
+    focusSelectElement() {
+        this.selectElementQueryList.changes
+            .pipe(first())
+            .subscribe((elements: QueryList<ElementRef<HTMLSelectElement>>) => this.focusElement(elements.first));
+    }
+
+    focusInputElement() {
+        this.inputElementQueryList.changes
+            .pipe(first())
+            .subscribe((elements: QueryList<ElementRef<HTMLInputElement>>) => this.focusElement(elements.first));
+    }
+
+    focusElement(element: ElementRef<HTMLSelectElement | HTMLInputElement>) {
+        element.nativeElement.focus();
     }
 }

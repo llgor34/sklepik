@@ -21,7 +21,6 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
-import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
@@ -69,7 +68,6 @@ import { DefaultValuePipe } from './pipes/default-value.pipe';
         SellDefaultComponent,
         CardTableComponent,
         firstElementOfArray,
-        EditByValueFieldComponent,
         FilterPipe,
         PanelHoursSettlementComponent,
         ConfirmButtonComponent,
