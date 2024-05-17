@@ -19,36 +19,35 @@
         <tr *ngFor="let product of products">
             <td>{{ product.id }}</td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="product.code"
                     (valueChange)="onFieldChange(product, { code: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
-                <app-editable-field
-                    [isInListMode]="true"
-                    [list]="getProductTypeList()"
-                    [value]="product.type"
-                    (valueChange)="onFieldChange(product, { type: $event })"
-                ></app-editable-field>
+                <app-editable-list-field
+                    [list]="getProductEditableTypeList()"
+                    [value]="getProductEditableTypeByProductType(product.type!)"
+                    (valueChange)="onFieldChange(product, { type: getProductEditableTypeById($event.id) })"
+                ></app-editable-list-field>
             </td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="product.short_name"
                     (valueChange)="onFieldChange(product, { short_name: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="product.full_name"
                     (valueChange)="onFieldChange(product, { full_name: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td class="currency">
-                <app-editable-field
+                <app-editable-value-field
                     [value]="product.price"
                     (valueChange)="onFieldChange(product, { price: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
                 <app-confirm-button

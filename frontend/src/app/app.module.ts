@@ -42,7 +42,7 @@ import { ListTableComponent } from './component/list-table/list-table.component'
 import { TypedTemplateDirective } from './directives/typed-template.directive';
 import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
-import { EditableFieldComponent } from './component/editable-field/editable-field.component';
+import { EditableValueFieldComponent } from './component/editable-value-field/editable-value-field.component';
 import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
 import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
 import { PanelComponent } from './component/panel/panel.component';
@@ -52,6 +52,9 @@ import { MultipleSelectFieldComponent } from './component/multiple-select-field/
 import { EncryptPipe } from './pipes/encrypt.pipe';
 import { NewHoursSettlementComponent } from './pages/panel-hours-settlement/new-hours-settlement/new-hours-settlement.component';
 import { DefaultValuePipe } from './pipes/default-value.pipe';
+import { EditableListFieldComponent } from './component/editable-list-field/editable-list-field.component';
+import { EditableFieldComponent } from './component/editable-field/editable-field.component';
+import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
 
 @NgModule({
     declarations: [
@@ -88,7 +91,7 @@ import { DefaultValuePipe } from './pipes/default-value.pipe';
         TypedTemplateDirective,
         PanelDefaultComponent,
         PanelProductsComponent,
-        EditableFieldComponent,
+        EditableValueFieldComponent,
         NewProductComponent,
         PanelUsersComponent,
         PanelComponent,
@@ -98,6 +101,9 @@ import { DefaultValuePipe } from './pipes/default-value.pipe';
         EncryptPipe,
         NewHoursSettlementComponent,
         DefaultValuePipe,
+        EditableListFieldComponent,
+        EditableFieldComponent,
+        FocusWhenDisplayedDirective,
     ],
     imports: [
         BrowserModule,

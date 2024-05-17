@@ -18,24 +18,24 @@
         <tr *ngFor="let hourSettlement of records">
             <td>{{ hourSettlement.id }}</td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="hourSettlement.work_date | date : 'yyyy-MM-dd'"
                     (valueChange)="onFieldChange(hourSettlement, { work_date: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>{{ hourSettlement.worker_name }} {{ hourSettlement.worker_surname }}</td>
             <td>{{ hourSettlement.activity_name }}</td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="hourSettlement.description"
                     (valueChange)="onFieldChange(hourSettlement, { description: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="hourSettlement.amount"
                     (valueChange)="onFieldChange(hourSettlement, { amount: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td class="d-flex justify-content-end">
                 <app-confirm-button

@@ -18,23 +18,23 @@
         <tr *ngFor="let user of users">
             <td>{{ user.id }}</td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="user.name"
                     (valueChange)="onFieldChange(user, { name: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [value]="user.surname"
                     (valueChange)="onFieldChange(user, { surname: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
-                <app-editable-field
+                <app-editable-value-field
                     [isEncrypted]="true"
                     [value]="user.password"
                     (valueChange)="onFieldChange(user, { password: $event })"
-                ></app-editable-field>
+                ></app-editable-value-field>
             </td>
             <td>
                 <app-multiple-select-field

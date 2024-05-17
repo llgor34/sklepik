@@ -1,5 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
-import { first } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'app-editable-field',
@@ -11,22 +10,10 @@ export class EditableFieldComponent<T> {
     newValue!: T;
     isInEditMode = false;
 
-    @Input() isInListMode = false;
-    @Input() list!: string[];
-
-    @Input() isEncrypted = false;
-
-    @Input() set value(value: T) {
-        this.originalValue = value;
-        this.newValue = value;
-    }
-
+    @Input() set value(value: T) {}
     @Output() valueChange = new EventEmitter<T>();
 
-    @ViewChildren('input', { read: ElementRef }) inputElementQueryList!: QueryList<ElementRef<HTMLInputElement>>;
-    @ViewChildren('select', { read: ElementRef }) selectElementQueryList!: QueryList<ElementRef<HTMLSelectElement>>;
-
-    onNewValueConfirm() {
+    onNewValueConfirm(): void {
         if (this.isNewValueDifferentThanOriginal()) {
             this.emitNewValue();
         }
@@ -34,53 +21,20 @@ export class EditableFieldComponent<T> {
         this.resetNewValue();
     }
 
-    onNewValueReset() {
+    onNewValueReset(): void {
         this.toggleEditMode();
         this.resetNewValue();
     }
 
-    showEditMode() {
-        this.toggleEditMode();
-        this.toggleElementFocus();
-    }
-
-    isNewValueDifferentThanOriginal(): boolean {
-        return this.newValue !== this.originalValue;
-    }
-
-    emitNewValue() {
-        this.valueChange.emit(this.newValue);
-    }
-
-    toggleEditMode() {
+    toggleEditMode(): void {
         this.isInEditMode = !this.isInEditMode;
     }
 
-    resetNewValue() {
-        this.newValue = this.originalValue;
+    isNewValueDifferentThanOriginal(): boolean {
+        return true;
     }
 
-    toggleElementFocus() {
-        if (this.isInListMode) {
-            this.focusSelectElement();
-        } else {
-            this.focusInputElement();
-        }
-    }
+    emitNewValue(): void {}
 
-    focusSelectElement() {
-        this.selectElementQueryList.changes
-            .pipe(first())
-            .subscribe((elements: QueryList<ElementRef<HTMLSelectElement>>) => this.focusElement(elements.first));
-    }
-
-    focusInputElement() {
-        this.inputElementQueryList.changes
-            .pipe(first())
-            .subscribe((elements: QueryList<ElementRef<HTMLInputElement>>) => this.focusElement(elements.first));
-    }
-
-    focusElement(element: ElementRef<HTMLSelectElement | HTMLInputElement>) {
-        element.nativeElement.focus();
-    }
+    resetNewValue(): void {}
 }
