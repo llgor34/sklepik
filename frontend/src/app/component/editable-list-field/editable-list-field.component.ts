@@ -7,10 +7,14 @@ import { EditableFieldComponent } from '../editable-field/editable-field.compone
     templateUrl: './editable-list-field.component.html',
     styleUrls: ['./editable-list-field.component.css'],
 })
-export class EditableListFieldComponent extends EditableFieldComponent<EditableItem> {
-    @Input() list!: EditableItem[];
+export class EditableListFieldComponent extends EditableFieldComponent<EditableItem | null> {
+    @Input() list: EditableItem[] | null = [];
 
-    @Input() override set value(value: EditableItem) {
+    @Input() override set value(value: EditableItem | null) {
+        if (!value) {
+            return;
+        }
+
         if (this.isOriginalValueSameAs(value)) {
             return;
         }
@@ -20,15 +24,15 @@ export class EditableListFieldComponent extends EditableFieldComponent<EditableI
     }
 
     override emitNewValue() {
-        this.valueChange.emit(this.newValue);
+        this.valueChange.emit(this.newValue!);
     }
 
     override resetNewValue() {
-        this.newValue = { ...this.originalValue };
+        this.newValue = { ...this.originalValue! };
     }
 
     override isNewValueDifferentThanOriginal(): boolean {
-        return this.newValue.id !== this.originalValue.id;
+        return this.newValue!.id !== this.originalValue!.id;
     }
 
     isOriginalValueSameAs(value: EditableItem): boolean {
@@ -41,6 +45,6 @@ export class EditableListFieldComponent extends EditableFieldComponent<EditableI
     }
 
     getItemById(id: number) {
-        return this.list.filter((item) => item.id === id)[0];
+        return this.list!.filter((item) => item.id === id)[0];
     }
 }

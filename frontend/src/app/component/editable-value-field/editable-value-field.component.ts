@@ -21,7 +21,7 @@ export class EditableValueFieldComponent<T> extends EditableFieldComponent<T> {
     }
 
     override emitNewValue() {
-        this.valueChange.emit(this.newValue);
+        this.valueChange.emit(this.newValue!);
     }
 
     override resetNewValue() {

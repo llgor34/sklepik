@@ -1,10 +1,10 @@
 <ng-container *ngIf="!isInEditMode">
-    <span (click)="toggleEditMode()">{{ originalValue.label | defaultValue }}</span>
+    <span (click)="toggleEditMode()">{{ originalValue?.label | defaultValue }}</span>
 </ng-container>
 <ng-container *ngIf="isInEditMode">
     <select
         (blur)="onNewValueConfirm()"
-        [ngModel]="newValue.id"
+        [ngModel]="newValue?.id"
         (ngModelChange)="onNewValueChange($event)"
         appFocusWhenDisplayed
         class="form-select"

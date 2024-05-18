@@ -11,7 +11,7 @@ export class EditableFieldComponent<T> {
     isInEditMode = false;
 
     @Input() set value(value: T) {}
-    @Output() valueChange = new EventEmitter<T>();
+    @Output() valueChange = new EventEmitter<NonNullable<T>>();
 
     onNewValueConfirm(): void {
         if (this.isNewValueDifferentThanOriginal()) {
