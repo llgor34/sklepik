@@ -5,7 +5,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { NewProductComponent } from './new-product/new-product.component';
 import { PanelComponent } from 'src/app/component/panel/panel.component';
 import { EditableItem } from 'src/app/interfaces/editable-item.interface';
-import { ProductTypeService } from 'src/app/services/product-type.service';
+import { ProductEditableService } from 'src/app/services/product-editable.service';
 
 @Component({
     selector: 'app-panel-products',
@@ -14,9 +14,9 @@ import { ProductTypeService } from 'src/app/services/product-type.service';
 })
 export class PanelProductsComponent extends PanelComponent<Product> implements OnInit {
     productsService: ProductsService = inject(ProductsService);
-    productTypeService: ProductTypeService = inject(ProductTypeService);
+    productEditableService: ProductEditableService = inject(ProductEditableService);
 
-    productEditableTypeList: EditableItem<ProductType>[] = this.productTypeService.getProductEditableTypeList();
+    productEditableTypeList: EditableItem<ProductType>[] = this.productEditableService.getProductEditableTypeList();
 
     @ViewChild(NewProductComponent, { static: false })
     newProductComponent!: NewProductComponent;
@@ -31,11 +31,11 @@ export class PanelProductsComponent extends PanelComponent<Product> implements O
     }
 
     getProductEditableTypeById(id: number): ProductType {
-        return this.productTypeService.getProductEditableTypeById(id);
+        return this.productEditableService.getProductEditableTypeById(id);
     }
 
     getProductEditableTypeByProductType(type: ProductType): EditableItem<ProductType> {
-        return this.productTypeService.getProductEditableTypeByProductType(type);
+        return this.productEditableService.getProductEditableTypeByProductType(type);
     }
 
     onAddNewEmptyRecord() {

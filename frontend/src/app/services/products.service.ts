@@ -12,6 +12,10 @@ import { EditableItem } from '../interfaces/editable-item.interface';
 export class ProductsService {
     constructor(private http: HttpClient) {}
 
+    getProductTypeList(): ProductType[] {
+        return ['article', 'product', 'discount', 'promotion'];
+    }
+
     getProductsIdWithDisabledAmount(): number[] {
         return [30];
     }
