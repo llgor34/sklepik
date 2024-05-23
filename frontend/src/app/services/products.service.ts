@@ -4,16 +4,13 @@ import { Observable, map } from 'rxjs';
 import { NumeratedProduct, Product } from '../interfaces/product.interface';
 import { Response } from '../interfaces/response.interface';
 import { ProductType } from '../interfaces/product-type.interface';
+import { EditableItem } from '../interfaces/editable-item.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ProductsService {
     constructor(private http: HttpClient) {}
-
-    getProductTypeList(): ProductType[] {
-        return ['article', 'product', 'discount', 'promotion'];
-    }
 
     getProductsIdWithDisabledAmount(): number[] {
         return [30];

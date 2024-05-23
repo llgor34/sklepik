@@ -26,7 +26,7 @@
             </td>
             <td>
                 <app-editable-list-field
-                    [list]="getProductEditableTypeList()"
+                    [list]="productEditableTypeList"
                     [value]="getProductEditableTypeByProductType(product.type!)"
                     (valueChange)="onFieldChange(product, { type: getProductEditableTypeById($event.id) })"
                 ></app-editable-list-field>
