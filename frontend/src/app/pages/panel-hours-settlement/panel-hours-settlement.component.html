@@ -25,14 +25,14 @@
             </td>
             <td>
                 <app-editable-list-field
-                    [value]="getWorkerEditableById$(hourSettlement.worker_id!) | async"
+                    [value]="getUserEditableById$(hourSettlement.worker_id!) | async"
                     (valueChange)="onFieldChange(hourSettlement, { worker_id: $event.id })"
                     [list]="users$ | async"
                 ></app-editable-list-field>
             </td>
             <td>
                 <app-editable-list-field
-                    [value]="getActivityById$(hourSettlement.activity_id!) | async"
+                    [value]="getActivityEditableById$(hourSettlement.activity_id!) | async"
                     (valueChange)="onFieldChange(hourSettlement, { activity_id: $event.id })"
                     [list]="activities$ | async"
                 ></app-editable-list-field>
