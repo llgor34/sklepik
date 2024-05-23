@@ -17,26 +17,31 @@ export class AuthService {
         return this.http.post<Response<User | null>>('api/login', { password }).pipe(
             map((res) => res.data),
             tap((user) => {
-                if (!user) {
-                    return;
-                }
-                this.user = user;
-                localStorage.setItem('user', JSON.stringify(this.user!));
+                if (!user) return;
+
+                this.setUser(user);
+                this.addUserToLocalStorage();
             })
         );
     }
 
     logout() {
-        this.user = null;
-        localStorage.removeItem('user');
-        this.router.navigate(['/login']);
+        this.resetUser();
+        this.removeUserFromLocalStorage();
+        this.navigateToLoginPage();
     }
 
     restoreSession() {
-        const user = localStorage.getItem('user');
-        if (user) {
-            this.user = JSON.parse(user);
-        }
+        const user = this.getUserFromLocalStorage();
+        this.setUser(user);
+    }
+
+    setUser(user: User | null) {
+        this.user = user;
+    }
+
+    resetUser(): void {
+        this.user = null;
     }
 
     getRoles() {
@@ -55,5 +60,26 @@ export class AuthService {
             return '';
         }
         return `${this.user.name![0].toUpperCase()}${this.user.surname![0].toUpperCase()}`;
+    }
+
+    private removeUserFromLocalStorage(): void {
+        localStorage.removeItem('user');
+    }
+
+    private addUserToLocalStorage(): void {
+        localStorage.setItem('user', JSON.stringify(this.user));
+    }
+
+    private getUserFromLocalStorage(): User | null {
+        const userString = localStorage.getItem('user');
+
+        if (userString) {
+            return JSON.parse(userString);
+        }
+        return null;
+    }
+
+    private navigateToLoginPage(): void {
+        this.router.navigate(['/login']);
     }
 }
