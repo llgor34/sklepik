@@ -27,7 +27,7 @@ describe('ActivitiesService', () => {
         const url = 'api/activities';
 
         it(`should GET request on "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getActivities(), httpController);
+            testRequestType(url, 'GET', () => service.getActivities$(), httpController);
         });
 
         it('should return Activity[] data', () => {
@@ -37,7 +37,7 @@ describe('ActivitiesService', () => {
                 data: [{ id: 1, name: 'test' }],
             };
 
-            service.getActivities().subscribe((activities) => {
+            service.getActivities$().subscribe((activities) => {
                 expect(activities).toEqual(mockData.data);
             });
 
