@@ -32,7 +32,7 @@ export class EditableListFieldComponent extends EditableFieldComponent<EditableI
     }
 
     override isNewValueDifferentThanOriginal(): boolean {
-        return this.newValue!.id !== this.originalValue!.id;
+        return this.newValue?.id !== this.originalValue?.id;
     }
 
     isOriginalValueSameAs(value: EditableItem): boolean {

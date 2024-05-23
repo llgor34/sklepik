@@ -10,7 +10,7 @@ import { ActivitiesService } from './activities.service';
 export class ActivitiesEditableService {
     activitiesService: ActivitiesService = inject(ActivitiesService);
 
-    getActivitiesEditable(): Observable<EditableItem[]> {
+    getActivitiesEditable$(): Observable<EditableItem[]> {
         return this.activitiesService.getActivities$().pipe(map(this.mapActivitiesToEditable));
     }
 

@@ -54,7 +54,7 @@ router.post(
         await createHoursSettlement(activity_id, req.user.id, worker_id, amount, work_date, description);
         const hoursSettlementId = await getLatestHoursSettlementId();
 
-        return sendSuccessMessage(res.hoursSettlementId, hoursSettlementId);
+        return sendSuccessMessage(res, hoursSettlementId);
     }
 );
 

@@ -26,7 +26,7 @@ export class PanelHoursSettlementComponent extends PanelComponent<HoursSettlemen
 
     users$: Observable<EditableItem[]> = this.userEditableService.getUsersEditable$().pipe(shareReplay(1));
     activities$: Observable<EditableItem[]> = this.activitiesEditableService
-        .getActivitiesEditable()
+        .getActivitiesEditable$()
         .pipe(shareReplay(1));
 
     ngOnInit(): void {
