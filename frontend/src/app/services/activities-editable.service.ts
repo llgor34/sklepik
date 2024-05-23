@@ -14,10 +14,6 @@ export class ActivitiesEditableService {
         return this.activitiesService.getActivities$().pipe(map(this.mapActivitiesToEditable));
     }
 
-    getActivityEditableById$(activitiesEditable$: Observable<EditableItem[]>, id: number) {
-        return activitiesEditable$.pipe(map((activities) => activities.filter((activity) => activity.id === id)[0]));
-    }
-
     private mapActivitiesToEditable = (activities: Activity[]): EditableItem[] => {
         return activities.map<EditableItem>((activity) => ({ id: activity.id, label: activity.name }));
     };

@@ -10,10 +10,6 @@ import { User } from '../interfaces/user.interface';
 export class UserEditableService {
     private userService = inject(UserService);
 
-    getUserEditableById$(usersEditable$: Observable<EditableItem[]>, id: number): Observable<EditableItem> {
-        return usersEditable$.pipe(map((users) => users.filter((user) => user.id === id)[0]));
-    }
-
     getUsersEditable$ = (): Observable<EditableItem[]> => {
         return this.userService.getUsers$().pipe(map(this.mapUsersToEditable));
     };

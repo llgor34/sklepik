@@ -38,14 +38,6 @@ export class PanelHoursSettlementComponent extends PanelComponent<HoursSettlemen
         );
     }
 
-    getUserEditableById$(id: number): Observable<EditableItem> {
-        return this.userEditableService.getUserEditableById$(this.users$, id);
-    }
-
-    getActivityEditableById$(id: number): Observable<EditableItem> {
-        return this.activitiesEditableService.getActivityEditableById$(this.activities$, id);
-    }
-
     onAddNewEmptyRecord() {
         this.newHoursSettlementComponent.addRecord();
     }

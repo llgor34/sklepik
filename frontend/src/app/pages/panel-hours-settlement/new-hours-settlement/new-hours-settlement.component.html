@@ -3,18 +3,16 @@
         <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
         <td><input [(ngModel)]="record.work_date" name="work_date" type="date" class="form-control" required /></td>
         <td>
-            <app-editable-list-field
-                [value]="getUserEditableById$(record.worker_id!) | async"
-                (valueChange)="onWorkerIdChange(record, $event.id)"
-                [list]="usersEditable$ | async"
-            ></app-editable-list-field>
+            <select [(ngModel)]="record.worker_id" class="form-select" name="worker_id">
+                <option *ngFor="let option of usersEditable$ | async" [ngValue]="option.id">{{ option.label }}</option>
+            </select>
         </td>
         <td>
-            <app-editable-list-field
-                [value]="getActivityEditableById$(record.activity_id!) | async"
-                (valueChange)="onActivityIdChange(record, $event.id)"
-                [list]="activitiesEditable$ | async"
-            ></app-editable-list-field>
+            <select [(ngModel)]="record.activity_id" class="form-select" name="activity_id">
+                <option *ngFor="let option of activitiesEditable$ | async" [ngValue]="option.id">
+                    {{ option.label }}
+                </option>
+            </select>
         </td>
         <td>
             <input

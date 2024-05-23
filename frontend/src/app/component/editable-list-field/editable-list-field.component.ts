@@ -7,20 +7,12 @@ import { EditableFieldComponent } from '../editable-field/editable-field.compone
     templateUrl: './editable-list-field.component.html',
     styleUrls: ['./editable-list-field.component.css'],
 })
-export class EditableListFieldComponent extends EditableFieldComponent<EditableItem | null> {
+export class EditableListFieldComponent extends EditableFieldComponent<number | null> {
     @Input() list: EditableItem[] | null = [];
 
-    @Input() override set value(value: EditableItem | null) {
-        if (!value) {
-            return;
-        }
-
-        if (this.isOriginalValueSameAs(value)) {
-            return;
-        }
-
+    @Input() override set value(value: number | null) {
         this.originalValue = value;
-        this.newValue = { ...value };
+        this.newValue = value;
     }
 
     override emitNewValue() {
@@ -28,23 +20,28 @@ export class EditableListFieldComponent extends EditableFieldComponent<EditableI
     }
 
     override resetNewValue() {
-        this.newValue = { ...this.originalValue! };
+        this.newValue = this.originalValue;
     }
 
     override isNewValueDifferentThanOriginal(): boolean {
-        return this.newValue?.id !== this.originalValue?.id;
+        return !this.isOriginalValueSameAsNewValue();
     }
 
-    isOriginalValueSameAs(value: EditableItem): boolean {
-        return this.originalValue?.id === value.id && this.originalValue.label === value.label;
+    isOriginalValueSameAsNewValue(): boolean {
+        return this.originalValue === this.newValue;
     }
 
-    onNewValueChange(id: number) {
-        const item = this.getItemById(id);
-        this.newValue = { ...item };
+    getItemById(id: number): EditableItem | null {
+        if (!this.list) {
+            return null;
+        }
+        return this.list.filter((item) => item.id === id)[0];
     }
 
-    getItemById(id: number) {
-        return this.list!.filter((item) => item.id === id)[0];
+    getItemLabelById(id: number | null): string | null {
+        if (!id) {
+            return null;
+        }
+        return this.getItemById(id)?.label ?? null;
     }
 }

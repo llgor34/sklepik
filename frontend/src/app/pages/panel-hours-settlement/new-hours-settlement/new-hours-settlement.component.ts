@@ -25,22 +25,6 @@ export class NewHoursSettlementComponent extends NewRecordComponent<HoursSettlem
         super.addRecord(new HoursSettlement());
     }
 
-    onWorkerIdChange(record: HoursSettlement, id: number) {
-        record.worker_id = id;
-    }
-
-    onActivityIdChange(record: HoursSettlement, id: number) {
-        record.activity_id = id;
-    }
-
-    getUserEditableById$(id: number): Observable<EditableItem> {
-        return this.userEditableService.getUserEditableById$(this.usersEditable$, id);
-    }
-
-    getActivityEditableById$(id: number): Observable<EditableItem> {
-        return this.activitiesEditableService.getActivityEditableById$(this.activitiesEditable$, id);
-    }
-
     isActivityDescriptionDisabled(id: number): boolean {
         return !this.activitiesService.isActivitityDescriptionEnabled(id);
     }
