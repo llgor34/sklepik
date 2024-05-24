@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { HoursSettlement, NumeratedHoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
+import { HoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
-import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
 import { PanelComponent } from 'src/app/component/panel/panel.component';
 import { NewHoursSettlementComponent } from './new-hours-settlement/new-hours-settlement.component';
 import { Observable, shareReplay } from 'rxjs';
@@ -18,8 +17,6 @@ export class PanelHoursSettlementComponent extends PanelComponent<HoursSettlemen
     hoursSettlementService: HoursSettlementService = inject(HoursSettlementService);
     userEditableService: UserEditableService = inject(UserEditableService);
     activitiesEditableService: ActivitiesEditableService = inject(ActivitiesEditableService);
-
-    tableBodyContext!: TableBodyContext<NumeratedHoursSettlement[]>;
 
     @ViewChild(NewHoursSettlementComponent, { static: false })
     newHoursSettlementComponent!: NewHoursSettlementComponent;

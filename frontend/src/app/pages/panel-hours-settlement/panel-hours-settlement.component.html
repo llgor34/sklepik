@@ -13,7 +13,7 @@
         <th>Opis</th>
         <th colspan="2">Liczba godzin</th>
     </ng-template>
-    <ng-template #tableBodyTemplate [typedTemplate]="tableBodyContext" let-records>
+    <ng-template #tableBodyTemplate [typedTemplate]="observableContext" let-records>
         <app-new-hours-settlement (recordCreate)="onCreateItem($event)"></app-new-hours-settlement>
         <tr *ngFor="let hourSettlement of records">
             <td>{{ hourSettlement.id }}</td>

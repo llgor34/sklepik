@@ -1,5 +1,3 @@
-import { NumeratedIdx } from './numerated.interface';
-
 export class HoursSettlement {
     constructor(
         public id: number | null = null,
@@ -13,5 +11,3 @@ export class HoursSettlement {
         public amount: number | null = null
     ) {}
 }
-
-export type NumeratedHoursSettlement = HoursSettlement & NumeratedIdx;

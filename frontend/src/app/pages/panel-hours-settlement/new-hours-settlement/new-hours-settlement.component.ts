@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable, shareReplay } from 'rxjs';
+import { shareReplay } from 'rxjs';
 import { NewRecordComponent } from 'src/app/component/new-record/new-record.component';
-import { EditableItem } from 'src/app/interfaces/editable-item.interface';
 import { HoursSettlement } from 'src/app/interfaces/hours-settlement.interface';
 import { ActivitiesEditableService } from 'src/app/services/activities-editable.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
