@@ -14,7 +14,7 @@
         <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="userType" let-users>
-        <app-new-user (recordCreate)="onCreateItem($event)"></app-new-user>
+        <app-new-user></app-new-user>
         <tr *ngFor="let user of users">
             <td>{{ user.id }}</td>
             <td>

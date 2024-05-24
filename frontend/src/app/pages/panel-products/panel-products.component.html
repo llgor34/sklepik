@@ -15,7 +15,7 @@
         <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="observableContext" let-products>
-        <app-new-product (recordCreate)="onCreateItem($event)"></app-new-product>
+        <app-new-product></app-new-product>
         <tr *ngFor="let product of products">
             <td>{{ product.id }}</td>
             <td>

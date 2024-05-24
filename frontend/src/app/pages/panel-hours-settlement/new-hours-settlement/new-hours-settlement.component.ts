@@ -20,10 +20,6 @@ export class NewHoursSettlementComponent extends NewRecordComponent<HoursSettlem
     usersEditable$ = this.userEditableService.getUsersEditable$().pipe(shareReplay(1));
     activitiesEditable$ = this.activitiesEditableService.getActivitiesEditable$().pipe(shareReplay(1));
 
-    override addRecord(): void {
-        super.addRecord(new HoursSettlement());
-    }
-
     isActivityDescriptionDisabled(id: number): boolean {
         return !this.activitiesService.isActivitityDescriptionEnabled(id);
     }

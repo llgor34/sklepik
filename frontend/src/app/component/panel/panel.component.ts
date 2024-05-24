@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, shareReplay, switchMap } from 'rxjs';
 import { CreateFn } from 'src/app/interfaces/create-fn.interface';
 import { DeleteFn } from 'src/app/interfaces/delete-fn.interface';
 import { Id } from 'src/app/interfaces/id.interface';
 import { NumeratedIdx } from 'src/app/interfaces/numerated.interface';
 import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
-import { UpdateFn, updateObj } from 'src/app/interfaces/update-fn.interface';
+import { UpdateFn } from 'src/app/interfaces/update-fn.interface';
+import { NewRecordService } from 'src/app/services/new-record.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -14,29 +15,31 @@ import { ToastService } from 'src/app/services/toast.service';
     styleUrls: ['./panel.component.css'],
 })
 export class PanelComponent<T extends Id> {
+    private subscription = new Subscription();
+    private refreshItems$ = new BehaviorSubject(null);
+
+    private updateFn$!: UpdateFn;
+    private deleteFn$!: DeleteFn;
+    private createFn$!: CreateFn<T>;
+
     toastService: ToastService = inject(ToastService);
+    newRecordService: NewRecordService<T> = inject(NewRecordService);
 
     observable$!: Observable<T[]>;
     observableContext!: TableBodyContext<(T & NumeratedIdx)[]>;
-    refreshItems$ = new BehaviorSubject(null);
 
-    updateFn$!: UpdateFn;
-    deleteFn$!: DeleteFn;
-    createFn$!: CreateFn<T>;
+    onCreateItem(item: T) {
+        this.createFn$(item).subscribe((id) => {
+            this.refreshItems();
+            this.showCreateSuccess(id);
+        });
+    }
 
-    initializeComponent(
-        observable$: Observable<T[]>,
-        updateFn$: UpdateFn,
-        deleteFn$: DeleteFn,
-        createFn$: CreateFn<T>
-    ): void {
-        this.observable$ = this.refreshItems$.pipe(
-            switchMap(() => observable$),
-            shareReplay(1)
-        );
-        this.updateFn$ = updateFn$;
-        this.deleteFn$ = deleteFn$;
-        this.createFn$ = createFn$;
+    onDeleteItem(id: number) {
+        this.deleteFn$(id).subscribe(() => {
+            this.refreshItems();
+            this.showDeleteSuccess(id);
+        });
     }
 
     onFieldChange(item: T & NumeratedIdx, obj: Partial<T>) {
@@ -48,18 +51,12 @@ export class PanelComponent<T extends Id> {
         });
     }
 
-    onDeleteItem(id: number) {
-        this.deleteFn$(id).subscribe(() => {
-            this.refreshItems();
-            this.showDeleteSuccess(id);
-        });
+    onAddNewEmptyRecord(): void {
+        this.newRecordService.addRecord(this.getEmptyRecord());
     }
 
-    onCreateItem(item: T) {
-        this.createFn$(item).subscribe((id) => {
-            this.refreshItems();
-            this.showCreateSuccess(id);
-        });
+    getEmptyRecord(): T {
+        return null as unknown as T;
     }
 
     refreshItems() {
@@ -76,5 +73,45 @@ export class PanelComponent<T extends Id> {
 
     showCreateSuccess(id: number) {
         this.toastService.showSuccess(`Pomyślnie dodano nowy element o id ${id}`);
+    }
+
+    protected initializeComponent(
+        observable$: Observable<T[]>,
+        updateFn$: UpdateFn,
+        deleteFn$: DeleteFn,
+        createFn$: CreateFn<T>
+    ): void {
+        this.createRefreshObservable(observable$);
+        this.bindHttpFunctions(updateFn$, deleteFn$, createFn$);
+        this.listenForRecordSubmitEvent();
+    }
+
+    private createRefreshObservable(observable$: Observable<T[]>): void {
+        this.observable$ = this.refreshItems$.pipe(
+            switchMap(() => observable$),
+            shareReplay(1)
+        );
+    }
+
+    private bindHttpFunctions(updateFn$: UpdateFn, deleteFn$: DeleteFn, createFn$: CreateFn<T>): void {
+        this.bindUpdateFn(updateFn$);
+        this.bindDeleteFn(deleteFn$);
+        this.bindCreateFn(createFn$);
+    }
+
+    private bindUpdateFn(updateFn$: UpdateFn) {
+        this.updateFn$ = updateFn$;
+    }
+
+    private bindDeleteFn(deleteFn$: DeleteFn) {
+        this.deleteFn$ = deleteFn$;
+    }
+
+    private bindCreateFn(createFn$: CreateFn<T>) {
+        this.createFn$ = createFn$;
+    }
+
+    private listenForRecordSubmitEvent(): void {
+        this.subscription.add(this.newRecordService.onRecordCreate$.subscribe((record) => this.onCreateItem(record)));
     }
 }

@@ -6,11 +6,13 @@ import { NewProductComponent } from './new-product/new-product.component';
 import { PanelComponent } from 'src/app/component/panel/panel.component';
 import { EditableItem } from 'src/app/interfaces/editable-item.interface';
 import { ProductEditableService } from 'src/app/services/product-editable.service';
+import { NewRecordService } from 'src/app/services/new-record.service';
 
 @Component({
     selector: 'app-panel-products',
     templateUrl: './panel-products.component.html',
     styleUrls: ['./panel-products.component.css'],
+    providers: [NewRecordService],
 })
 export class PanelProductsComponent extends PanelComponent<Product> implements OnInit {
     productsService: ProductsService = inject(ProductsService);
@@ -38,7 +40,7 @@ export class PanelProductsComponent extends PanelComponent<Product> implements O
         return this.productEditableService.getProductEditableTypeByProductType(type);
     }
 
-    onAddNewEmptyRecord() {
-        this.newProductComponent.addRecord();
+    override getEmptyRecord(): Product {
+        return new Product();
     }
 }

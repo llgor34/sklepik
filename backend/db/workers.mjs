@@ -6,7 +6,7 @@ export async function getWorkers() {
 }
 
 export async function getWorkedHoursByWorkerId(id) {
-    const { hours_amount } = (
+    const res = (
         await query(
             `
     SELECT 
@@ -20,5 +20,5 @@ export async function getWorkedHoursByWorkerId(id) {
             [id]
         )
     )[0];
-    return hours_amount;
+    return res ? res.hours_amount : 0;
 }

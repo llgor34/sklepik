@@ -14,8 +14,4 @@ export class NewUserComponent extends NewRecordComponent<User> {
     rolesService: RolesService = inject(RolesService);
 
     roles$: Observable<Role[]> = this.rolesService.getRoles$();
-
-    override addRecord() {
-        super.addRecord(new User());
-    }
 }

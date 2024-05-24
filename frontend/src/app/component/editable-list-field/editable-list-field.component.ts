@@ -39,9 +39,10 @@ export class EditableListFieldComponent extends EditableFieldComponent<number | 
     }
 
     getItemLabelById(id: number | null): string | null {
-        if (!id) {
+        if (id === null) {
             return null;
         }
+
         return this.getItemById(id)?.label ?? null;
     }
 }

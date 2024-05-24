@@ -1,4 +1,4 @@
-<form #form="ngForm" *ngFor="let record of records; let i = index; let isLast = last">
+<form #form="ngForm" *ngFor="let record of records$ | async; let idx = index; let isLast = last">
     <tr [class.last]="isLast">
         <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
         <td><input [(ngModel)]="record.work_date" name="work_date" type="date" class="form-control" required /></td>
@@ -26,14 +26,10 @@
         </td>
         <td><input [(ngModel)]="record.amount" name="amount" type="number" class="form-control" required /></td>
         <td class="buttons-container">
-            <button
-                class="btn btn-primary"
-                (click)="onAddConfirmRecord(record, i)"
-                [disabled]="isFormInvalid(form, record)"
-            >
+            <button class="btn btn-primary" (click)="submitRecord(idx)" [disabled]="isFormInvalid(form, record)">
                 Dodaj
             </button>
-            <button (click)="onDeleteRecord(i)" class="btn btn-warning">Anuluj</button>
+            <button (click)="deleteRecord(idx)" class="btn btn-warning">Anuluj</button>
         </td>
     </tr>
 </form>

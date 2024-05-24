@@ -5,11 +5,11 @@ export function sendErrorMessage(res, code, message) {
 export function sendSuccessMessage(res, data = null, successMessage = null) {
     const resObj = { ok: true, message: 'SUCCESS', data: null };
 
-    if (data) {
+    if (data !== null) {
         resObj.data = data;
     }
 
-    if (successMessage) {
+    if (successMessage !== null) {
         resObj.message = successMessage;
     }
 

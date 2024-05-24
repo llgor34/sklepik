@@ -12,14 +12,6 @@ import { ProductsService } from 'src/app/services/products.service';
 export class NewProductComponent extends NewRecordComponent<Product> {
     productService: ProductsService = inject(ProductsService);
 
-    override addRecord() {
-        super.addRecord(new Product());
-    }
-
-    protected override onAddConfirmRecord(record: Product, idx: number): void {
-        super.onAddConfirmRecord({ ...record, price: +record.price! }, idx);
-    }
-
     protected getProductTypeList(): ProductType[] {
         return this.productService.getProductTypeList();
     }
