@@ -1,43 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { UsedDiscountResponse } from '../interfaces/used-discount.interface';
-import { OwedDiscountResponse } from '../interfaces/owed-discount.interface';
-import { HoursSettlement, HoursSettlementResponse } from '../interfaces/hours-settlement.interface';
+import { HoursSettlement } from '../interfaces/hours-settlement.interface';
 import { Response } from '../interfaces/response.interface';
-import { DateService } from './date.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HoursSettlementService {
-    constructor(private http: HttpClient, private dateService: DateService) {}
+    constructor(private http: HttpClient) {}
 
-    getUsedDiscount(workerCode: string): Observable<number> {
-        return this.http
-            .get<UsedDiscountResponse>(`api/workers/get-used-discount/${workerCode}`)
-            .pipe(map((res) => res.usedDiscount));
-    }
+    getHoursSettlement$ = (): Observable<HoursSettlement[]> => {
+        return this.http.get<Response<HoursSettlement[]>>('api/hours-settlement').pipe(map((res) => res.data));
+    };
 
-    getOwedDiscount(workerCode: string): Observable<number> {
-        return this.http
-            .get<OwedDiscountResponse>(`api/workers/get-owed-discount/${workerCode}`)
-            .pipe(map((res) => res.owedDiscount));
-    }
+    createHoursSettlement$ = (hoursSettlement: HoursSettlement): Observable<number> => {
+        return this.http.post<Response<number>>('api/hours-settlement', hoursSettlement).pipe(map((res) => res.data));
+    };
 
-    getHoursSettlement(): Observable<HoursSettlement[]> {
-        return this.http.get<HoursSettlementResponse>('api/hours-settlement/get').pipe(
-            map((res) => res.hoursSettlement),
-            map((hoursSettlement) =>
-                hoursSettlement.map((hourSettlement) => ({
-                    ...hourSettlement,
-                    work_date: this.dateService.formateDate(hourSettlement.work_date, 'DD.MM.yyyy'),
-                }))
-            )
-        );
-    }
+    deleteHoursSettlement$ = (id: number): Observable<Response> => {
+        return this.http.delete<Response>(`api/hours-settlement/${id}`);
+    };
 
-    deleteHoursSettlement(id: number): Observable<Response> {
-        return this.http.get<Response>(`api/hours-settlement/delete/${id}`);
-    }
+    updateHoursSettlement$ = (id: number, fieldData: Partial<HoursSettlement>): Observable<Response> => {
+        return this.http.put<Response>(`api/hours-settlement/${id}`, fieldData);
+    };
 }

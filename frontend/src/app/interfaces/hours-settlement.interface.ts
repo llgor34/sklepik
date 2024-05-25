@@ -1,18 +1,13 @@
-import { NumeratedIdx } from './numerated.interface';
-import { Response } from './response.interface';
-
-export interface HoursSettlementResponse extends Response {
-    hoursSettlement: HoursSettlement[];
+export class HoursSettlement {
+    constructor(
+        public id: number | null = null,
+        public activity_name: string | null = null,
+        public activity_id: number | null = null,
+        public work_date: string | null = null,
+        public worker_name: string | null = null,
+        public worker_surname: string | null = null,
+        public worker_id: number | null = null,
+        public description: string | null = null,
+        public amount: number | null = null
+    ) {}
 }
-
-export interface HoursSettlement {
-    id: number;
-    activity_name: string;
-    work_date: string;
-    name: string;
-    surname: string;
-    description: string | null;
-    amount: number;
-}
-
-export type NumeratedHoursSettlement = HoursSettlement & NumeratedIdx;

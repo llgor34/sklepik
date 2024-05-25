@@ -16,11 +16,5 @@ export class SellDefaultComponent {
             description: 'Sprzedaż towarów, produktów, usług.',
             url: 'products',
         },
-        {
-            imageUrl: 'assets/coffee.jpg',
-            title: 'Kawonament',
-            description: 'Sprzedaż i obsługa abonamentów na kawe.',
-            url: 'coffee-subscribers',
-        },
     ];
 }

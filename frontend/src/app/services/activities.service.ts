@@ -1,18 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivityCreateForm, ActivityResponse } from '../interfaces/activity.interface';
-import { map } from 'rxjs';
+import { Activity } from '../interfaces/activity.interface';
+import { Observable, map } from 'rxjs';
 import { Response } from '../interfaces/response.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ActivitiesService {
+    private ENABLED_ACTIVITY_DESCRIPTION_IDS: number[] = [1];
+
     constructor(private http: HttpClient) {}
 
-    getActivities() {
-        return this.http.get<ActivityResponse>('api/activities/get').pipe(map((res) => res.activities));
+    getActivities$(): Observable<Activity[]> {
+        return this.http.get<Response<Activity[]>>('api/activities').pipe(map((res) => res.data));
     }
 
-    createActivity(form: ActivityCreateForm) {
-        return this.http.post<Response>('api/activities/create', form);
+    isActivitityDescriptionEnabled(id: number) {
+        return this.ENABLED_ACTIVITY_DESCRIPTION_IDS.includes(id);
     }
 }

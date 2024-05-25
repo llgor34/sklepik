@@ -9,14 +9,14 @@ import {
     getLatestArticleId,
     updateArticle,
 } from '../db/articles.mjs';
-import { sendErrorMessage } from '../general/messages.mjs';
+import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 import { createLog } from '../db/logs.mjs';
 
 const router = express.Router();
 
 router.get('/', verifyAccessToken, async (req, res) => {
     const articles = await getArticles();
-    res.send({ ok: true, message: 'SUCCESS', products: articles });
+    sendSuccessMessage(res, articles);
 });
 
 router.post(
@@ -28,7 +28,8 @@ router.post(
         await createArticle(price, code, type, short_name, full_name);
 
         const articleId = await getLatestArticleId();
-        res.send({ ok: true, message: 'SUCCESS', id: articleId });
+        sendSuccessMessage(res, articleId);
+
         await createLog('ARTICLE_CREATED', `Article with id ${articleId} has been created`, req.user.id);
     }
 );
@@ -37,7 +38,7 @@ router.get('/:code', verifyAccessToken, async (req, res) => {
     const productCode = req.params.code;
     const product = await getArticleByCode(productCode);
 
-    return res.send({ ok: true, message: 'SUCCESS', product: product });
+    sendSuccessMessage(res, product);
 });
 
 router.put(
@@ -48,9 +49,15 @@ router.put(
         const fieldData = req.body;
         const articleId = +req.params.id;
 
-        await updateArticle(articleId, fieldData);
+        const preparedData = {
+            ...fieldData,
+            company_id: fieldData.company?.id,
+            company: undefined,
+        };
 
-        res.send({ ok: true, message: 'SUCCESS' });
+        await updateArticle(articleId, preparedData);
+        sendSuccessMessage(res);
+
         await createLog('ARTICLE_MODIFIED', `Article with id ${articleId} has been modified`, req.user.id);
     }
 );
@@ -66,8 +73,8 @@ router.delete(
         } catch (error) {
             return sendErrorMessage(res, 409, 'DELETE_CONSTRAINT_CONFLICT_PRODUCT');
         }
+        sendSuccessMessage(res);
 
-        res.send({ ok: true, message: 'SUCCESS' });
         await createLog('ARTICLE_DELETED', `Article with id ${articleId} has been deleted`, req.user.id);
     }
 );

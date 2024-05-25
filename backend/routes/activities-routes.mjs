@@ -1,28 +1,18 @@
 import express from 'express';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
-import { getActivities, createActivity } from '../db/activities.mjs';
+import { getActivities } from '../db/activities.mjs';
+import { sendSuccessMessage } from '../general/messages.mjs';
 
 const router = express.Router();
 
 router.get(
-    '/get',
+    '/',
     verifyAccessToken,
     (...args) => hasRoleMiddleware(...args, 'admin'),
     async (req, res) => {
         const activities = await getActivities();
-        res.send({ ok: true, message: 'SUCCESS', activities });
-    }
-);
-
-router.post(
-    '/create',
-    verifyAccessToken,
-    (...args) => hasRoleMiddleware(...args, 'admin'),
-    async (req, res) => {
-        const { workerId, activityId, description, date, amount } = req.body;
-        await createActivity(activityId, req.user.id, workerId, amount, date, description);
-        res.send({ ok: true, message: 'SUCCESS' });
+        return sendSuccessMessage(res, activities);
     }
 );
 

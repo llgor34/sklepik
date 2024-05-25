@@ -20,13 +20,10 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
-import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
-import { EditByValueFieldComponent } from './component/edit-by-value-field/edit-by-value-field.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
-import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
-import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
+import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
 import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
 import { FiltersComponent } from './component/filters/filters.component';
@@ -45,7 +42,7 @@ import { ListTableComponent } from './component/list-table/list-table.component'
 import { TypedTemplateDirective } from './directives/typed-template.directive';
 import { PanelDefaultComponent } from './pages/panel-default/panel-default.component';
 import { PanelProductsComponent } from './pages/panel-products/panel-products.component';
-import { EditableFieldComponent } from './component/editable-field/editable-field.component';
+import { EditableValueFieldComponent } from './component/editable-value-field/editable-value-field.component';
 import { NewProductComponent } from './pages/panel-products/new-product/new-product.component';
 import { PanelUsersComponent } from './pages/panel-users/panel-users.component';
 import { PanelComponent } from './component/panel/panel.component';
@@ -53,6 +50,11 @@ import { NewRecordComponent } from './component/new-record/new-record.component'
 import { NewUserComponent } from './pages/panel-users/new-user/new-user.component';
 import { MultipleSelectFieldComponent } from './component/multiple-select-field/multiple-select-field.component';
 import { EncryptPipe } from './pipes/encrypt.pipe';
+import { NewHoursSettlementComponent } from './pages/panel-hours-settlement/new-hours-settlement/new-hours-settlement.component';
+import { DefaultValuePipe } from './pipes/default-value.pipe';
+import { EditableListFieldComponent } from './component/editable-list-field/editable-list-field.component';
+import { EditableFieldComponent } from './component/editable-field/editable-field.component';
+import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
 
 @NgModule({
     declarations: [
@@ -68,12 +70,9 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         ClosementProtocolComponent,
         SellDefaultComponent,
         CardTableComponent,
-        SellCoffeeSubscribersComponent,
         firstElementOfArray,
-        EditByValueFieldComponent,
         FilterPipe,
-        HoursSettlementComponent,
-        AddHoursComponent,
+        PanelHoursSettlementComponent,
         ConfirmButtonComponent,
         TableStickyComponent,
         FiltersComponent,
@@ -92,7 +91,7 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         TypedTemplateDirective,
         PanelDefaultComponent,
         PanelProductsComponent,
-        EditableFieldComponent,
+        EditableValueFieldComponent,
         NewProductComponent,
         PanelUsersComponent,
         PanelComponent,
@@ -100,6 +99,11 @@ import { EncryptPipe } from './pipes/encrypt.pipe';
         NewUserComponent,
         MultipleSelectFieldComponent,
         EncryptPipe,
+        NewHoursSettlementComponent,
+        DefaultValuePipe,
+        EditableListFieldComponent,
+        EditableFieldComponent,
+        FocusWhenDisplayedDirective,
     ],
     imports: [
         BrowserModule,

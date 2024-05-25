@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { NumeratedProduct, Product, ProductResponse, ProductsResponse } from '../interfaces/product.interface';
+import { NumeratedProduct, Product } from '../interfaces/product.interface';
 import { Response } from '../interfaces/response.interface';
 import { ProductType } from '../interfaces/product-type.interface';
-import { IdResponse } from '../interfaces/id-response.interface';
+import { EditableItem } from '../interfaces/editable-item.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -37,34 +37,28 @@ export class ProductsService {
     }
 
     getProductByCode$(code: number): Observable<NumeratedProduct | null> {
-        return this.http.get<ProductResponse>(`api/product/${code}`).pipe(
+        return this.http.get<Response<NumeratedProduct | null>>(`api/product/${code}`).pipe(
             map((res) =>
-                res.product
+                res.data
                     ? ({
-                          ...res.product,
+                          ...res.data,
                           amount: 1,
-                          selectedOptions: res.product.product_category_options!.map((category) => ({
+                          selectedOptions: res.data.product_category_options!.map((category) => ({
                               category_id: category.category_id,
                               option_id: category.options[0].id,
                           })),
                       } as NumeratedProduct)
-                    : res.product
+                    : null
             )
         );
     }
 
     getProducts$(): Observable<Product[]> {
-        return this.http.get<ProductsResponse>('api/product').pipe(map((res) => res.products));
+        return this.http.get<Response<Product[]>>('api/product').pipe(map((res) => res.data));
     }
 
     updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
-        const productDataPrepared = {
-            ...productData,
-            company: undefined,
-            company_id: productData.company?.id,
-        };
-
-        return this.http.put<Response>(`api/product/${id}`, productDataPrepared);
+        return this.http.put<Response>(`api/product/${id}`, productData);
     };
 
     deleteProduct$ = (id: number): Observable<Response> => {
@@ -72,6 +66,6 @@ export class ProductsService {
     };
 
     createProduct$ = (fieldData: Product): Observable<number> => {
-        return this.http.post<IdResponse>('api/product', fieldData).pipe(map((res) => res.id));
+        return this.http.post<Response<number>>('api/product', fieldData).pipe(map((res) => res.data));
     };
 }

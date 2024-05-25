@@ -1,0 +1,16 @@
+<ng-container *ngIf="!isInEditMode">
+    <span *ngIf="!isEncrypted" (click)="toggleEditMode()">{{ originalValue | defaultValue }}</span>
+    <span *ngIf="isEncrypted" (click)="toggleEditMode()">{{ originalValue | encrypt }}</span>
+</ng-container>
+<ng-container *ngIf="isInEditMode">
+    <input
+        (blur)="onNewValueConfirm()"
+        (keyup.enter)="onNewValueConfirm()"
+        (keyup.escape)="onNewValueReset()"
+        [(ngModel)]="newValue"
+        appFocusWhenDisplayed
+        class="form-control"
+        type="text"
+        name="value"
+    />
+</ng-container>

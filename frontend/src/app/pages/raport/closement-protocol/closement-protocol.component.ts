@@ -29,7 +29,7 @@ export class ClosementProtocolComponent {
 
     generateRaport() {
         this.isLoading = true;
-        this.sellmentCloseService.generateRaport().subscribe({
+        this.sellmentCloseService.generateRaport$().subscribe({
             next: (file) => {
                 this.isLoading = false;
                 this.raportGenerated = true;

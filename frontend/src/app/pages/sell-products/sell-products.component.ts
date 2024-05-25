@@ -4,9 +4,10 @@ import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
-import { HoursSettlementService } from 'src/app/services/hours-settlement.service';
-import { Subscription, forkJoin, of, switchMap } from 'rxjs';
+import { Observable, Subscription, forkJoin, of, switchMap } from 'rxjs';
 import { LessonService } from 'src/app/services/lesson.service';
+import { Lesson } from 'src/app/interfaces/lesson.interface';
+import { DiscountService } from 'src/app/services/discount.service';
 
 @Component({
     selector: 'app-sell-products',
@@ -19,8 +20,10 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     paymentMethod: PaymentMethod | null = null;
     productIdsWithDisabledAmount: number[] = this.productsService.getProductsIdWithDisabledAmount();
 
-    lessons$ = this.lessonService.getLessons$();
+    lessons$: Observable<Lesson[]> = this.lessonService.getLessons$();
     lessonId = null;
+
+    currentOrderNumber$: Observable<number> = this.orderService.getCurrentOrderNumber$();
 
     sum = 0;
     amountPayed = 0;
@@ -34,7 +37,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     constructor(
         private productsService: ProductsService,
         private orderService: OrderService,
-        private hoursSettlementService: HoursSettlementService,
+        private discountService: DiscountService,
         private lessonService: LessonService,
         private toastService: ToastService
     ) {}
@@ -68,16 +71,14 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
             this.lessonId = null;
         }
 
-        this.orderService
-            .createOrder$(this.products, this.paymentMethod, this.lessonId)
-            .subscribe(({ orderNumber }) => {
-                this.resetProductCodeControl();
-                this.focusProductCodeControl();
-                this.resetProducts();
-                this.resetSums();
+        this.orderService.createOrder$(this.products, this.paymentMethod, this.lessonId).subscribe((orderNumber) => {
+            this.resetProductCodeControl();
+            this.focusProductCodeControl();
+            this.resetProducts();
+            this.resetSums();
 
-                this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
-            });
+            this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
+        });
     }
 
     calculateProductsSum() {
@@ -117,8 +118,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
                     this.isProductDiscount(product!)
                         ? forkJoin([
                               of(product),
-                              this.hoursSettlementService.getUsedDiscount(product!.code!),
-                              this.hoursSettlementService.getOwedDiscount(product!.code!),
+                              this.discountService.getUsedDiscountByWorkerCode$(product!.code!),
+                              this.discountService.getOwedDiscountByWorkerCode$(product!.code!),
                           ])
                         : of([product, null, null])
                 )

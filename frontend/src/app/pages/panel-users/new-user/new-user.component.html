@@ -1,4 +1,4 @@
-<form #form="ngForm" *ngFor="let record of records; let i = index; let isLast = last">
+<form #form="ngForm" *ngFor="let record of records$ | async; let idx = index; let isLast = last">
     <tr [class.last]="isLast">
         <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
         <td><input [(ngModel)]="record.name" name="name" type="text" class="form-control" required /></td>
@@ -14,10 +14,8 @@
             ></app-multiple-select-field>
         </td>
         <td class="buttons-container">
-            <button (click)="onAddConfirmRecord(record, i)" class="btn btn-primary" [disabled]="form.invalid">
-                Dodaj
-            </button>
-            <button (click)="onDeleteRecord(i)" class="btn btn-warning">Anuluj</button>
+            <button (click)="submitRecord(idx)" class="btn btn-primary" [disabled]="form.invalid">Dodaj</button>
+            <button (click)="deleteRecord(idx)" class="btn btn-warning">Anuluj</button>
         </td>
     </tr>
 </form>

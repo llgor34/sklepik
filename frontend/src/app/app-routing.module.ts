@@ -10,10 +10,8 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
-import { SellCoffeeSubscribersComponent } from './pages/sell-coffee-subscribers/sell-coffee-subscribers.component';
 import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
-import { HoursSettlementComponent } from './pages/hours-settlement/hours-settlement.component';
-import { AddHoursComponent } from './pages/hours-settlement/add-hours/add-hours.component';
+import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { RoleGuard } from './guards/role.guard';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
 import { NotAuthenticatedLayoutComponent } from './component/not-authenticated-layout/not-authenticated-layout.component';
@@ -64,10 +62,6 @@ const routes: TypedRoutes = [
                         path: 'products',
                         component: SellProductsComponent,
                     },
-                    {
-                        path: 'coffee-subscribers',
-                        component: SellCoffeeSubscribersComponent,
-                    },
                 ],
             },
             {
@@ -95,23 +89,6 @@ const routes: TypedRoutes = [
                 component: ArchiveComponent,
             },
             {
-                path: 'hours-settlement',
-                canActivateChild: [RoleGuard],
-                children: [
-                    {
-                        path: '',
-                        component: HoursSettlementComponent,
-                    },
-                    {
-                        path: 'add',
-                        component: AddHoursComponent,
-                    },
-                ],
-                data: {
-                    roles: ['superAdmin'],
-                },
-            },
-            {
                 path: 'panel',
                 canActivateChild: [RoleGuard],
                 children: [
@@ -126,6 +103,14 @@ const routes: TypedRoutes = [
                     {
                         path: 'users',
                         component: PanelUsersComponent,
+                    },
+                    {
+                        path: 'hours-settlement',
+                        component: PanelHoursSettlementComponent,
+                        canActivate: [RoleGuard],
+                        data: {
+                            roles: ['superAdmin'],
+                        },
                     },
                 ],
                 data: {

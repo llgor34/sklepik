@@ -1,0 +1,35 @@
+<form #form="ngForm" *ngFor="let record of records$ | async; let idx = index; let isLast = last">
+    <tr [class.last]="isLast">
+        <td><input [(ngModel)]="record.id" name="id" type="text" class="form-control" disabled /></td>
+        <td><input [(ngModel)]="record.work_date" name="work_date" type="date" class="form-control" required /></td>
+        <td>
+            <select [(ngModel)]="record.worker_id" class="form-select" name="worker_id">
+                <option *ngFor="let option of usersEditable$ | async" [ngValue]="option.id">{{ option.label }}</option>
+            </select>
+        </td>
+        <td>
+            <select [(ngModel)]="record.activity_id" class="form-select" name="activity_id">
+                <option *ngFor="let option of activitiesEditable$ | async" [ngValue]="option.id">
+                    {{ option.label }}
+                </option>
+            </select>
+        </td>
+        <td>
+            <input
+                [(ngModel)]="record.description"
+                [disabled]="isActivityDescriptionDisabled(record.activity_id!)"
+                name="description"
+                type="text"
+                class="form-control"
+                required
+            />
+        </td>
+        <td><input [(ngModel)]="record.amount" name="amount" type="number" class="form-control" required /></td>
+        <td class="buttons-container">
+            <button class="btn btn-primary" (click)="submitRecord(idx)" [disabled]="isFormInvalid(form, record)">
+                Dodaj
+            </button>
+            <button (click)="deleteRecord(idx)" class="btn btn-warning">Anuluj</button>
+        </td>
+    </tr>
+</form>

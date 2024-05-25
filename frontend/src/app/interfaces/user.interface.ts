@@ -1,4 +1,3 @@
-import { Response } from './response.interface';
 import { Role } from './role.interface';
 
 export class User {
@@ -9,8 +8,4 @@ export class User {
         public password: string | null = null,
         public roles: Role[] = []
     ) {}
-}
-
-export interface UsersResponse extends Response {
-    users: User[];
 }

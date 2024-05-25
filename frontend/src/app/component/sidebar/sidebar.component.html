@@ -24,22 +24,13 @@
             <span>Zamówienia</span>
         </li>
         <li
-            routerLink="/hours-settlement"
-            routerLinkActive="active"
-            title="Rozliczanie godzin pracy"
-            *allowedRoles="['superAdmin']"
-        >
-            <i class="bi bi-clock"></i>
-            <span>Rozliczanie godzin</span>
-        </li>
-        <li
             routerLink="/panel"
             routerLinkActive="active"
             title="Panel do zarządzania"
             *allowedRoles="['admin', 'superAdmin']"
         >
             <i class="bi bi-sliders2"></i>
-            <span>Panel do zarządzania</span>
+            <span>Zarządzanie</span>
         </li>
     </ul>
     <button (click)="toggleIsOpen()" class="btn btn-dark" [ngClass]="{ open: isOpen }">

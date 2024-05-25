@@ -6,14 +6,14 @@ import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.
 import { getRaport } from '../db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from '../db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from '../db/raport/sellment-close/generate-raport-pdf.mjs';
-import { sendErrorMessage } from '../general/messages.mjs';
+import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 import { createLog } from '../db/logs.mjs';
 
 const router = express.Router();
 
 router.get('/sellment-close/latest-raport-preview', verifyAccessToken, async (req, res) => {
     const data = await getRaport();
-    res.send({ ok: true, message: 'SUCCESS', data });
+    sendSuccessMessage(res, data);
 });
 
 router.get(

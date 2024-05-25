@@ -1,0 +1,61 @@
+<app-list-table
+    title="Rozliczanie godzin"
+    [observable$]="observable$"
+    [tableBodyTemplate]="tableBodyTemplate"
+    [tableHeadTemplate]="tableHeadTemplate"
+    (addNew)="onAddNewEmptyRecord()"
+>
+    <ng-template #tableHeadTemplate>
+        <th>Id</th>
+        <th>Data</th>
+        <th>Imie i nazwisko</th>
+        <th>Nazwa aktywności</th>
+        <th>Opis</th>
+        <th colspan="2">Liczba godzin</th>
+    </ng-template>
+    <ng-template #tableBodyTemplate [typedTemplate]="observableContext" let-records>
+        <app-new-hours-settlement></app-new-hours-settlement>
+        <tr *ngFor="let hourSettlement of records">
+            <td>{{ hourSettlement.id }}</td>
+            <td>
+                <app-editable-value-field
+                    [value]="hourSettlement.work_date | date : 'yyyy-MM-dd'"
+                    (valueChange)="onFieldChange(hourSettlement, { work_date: $event })"
+                ></app-editable-value-field>
+            </td>
+            <td>
+                <app-editable-list-field
+                    [value]="hourSettlement.worker_id"
+                    (valueChange)="onFieldChange(hourSettlement, { worker_id: $event })"
+                    [list]="users$ | async"
+                ></app-editable-list-field>
+            </td>
+            <td>
+                <app-editable-list-field
+                    [value]="hourSettlement.activity_id"
+                    (valueChange)="onFieldChange(hourSettlement, { activity_id: $event })"
+                    [list]="activities$ | async"
+                ></app-editable-list-field>
+            </td>
+            <td>
+                <app-editable-value-field
+                    [value]="hourSettlement.description"
+                    (valueChange)="onFieldChange(hourSettlement, { description: $event })"
+                ></app-editable-value-field>
+            </td>
+            <td>
+                <app-editable-value-field
+                    [value]="hourSettlement.amount"
+                    (valueChange)="onFieldChange(hourSettlement, { amount: $event })"
+                ></app-editable-value-field>
+            </td>
+            <td class="d-flex justify-content-end">
+                <app-confirm-button
+                    label="Usuń"
+                    confirmBtnClass="btn-danger"
+                    (confirm)="onDeleteItem(hourSettlement.id!)"
+                ></app-confirm-button>
+            </td>
+        </tr>
+    </ng-template>
+</app-list-table>

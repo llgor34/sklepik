@@ -1,0 +1,8 @@
+<ng-container *ngIf="!isInEditMode">
+    <span (click)="toggleEditMode()">{{ getItemLabelById(originalValue) | defaultValue }}</span>
+</ng-container>
+<ng-container *ngIf="isInEditMode">
+    <select (blur)="onNewValueConfirm()" [(ngModel)]="newValue" appFocusWhenDisplayed class="form-select" name="value">
+        <option *ngFor="let item of list" [ngValue]="item.id">{{ item.label }}</option>
+    </select>
+</ng-container>

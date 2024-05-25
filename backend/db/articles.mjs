@@ -1,4 +1,4 @@
-import { query, updateFieldQuery } from './db-functions.mjs';
+import { query, updateFieldQuery } from '../general/db-functions.mjs';
 
 export async function getLatestArticleId() {
     const res = await query(`SELECT id FROM articles ORDER BY id DESC LIMIT 1`);

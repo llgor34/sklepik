@@ -1,4 +1,3 @@
-import { Response } from './response.interface';
 import { Company } from './company.interferface';
 import { ProductType } from './product-type.interface';
 import { ProductCategoryOption } from './product-category-option.interface';
@@ -24,12 +23,4 @@ export type NumeratedByIdxProduct = Product & NumeratedIdx;
 export interface NumeratedProduct extends Product {
     amount: number;
     selectedOptions: ProductCategorySelectedOption[];
-}
-
-export interface ProductResponse extends Response {
-    product: Product | null;
-}
-
-export interface ProductsResponse extends Response {
-    products: Product[];
 }

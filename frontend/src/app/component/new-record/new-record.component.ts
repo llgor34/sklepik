@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { NewRecordService } from 'src/app/services/new-record.service';
 
 @Component({
     selector: 'app-new-record',
@@ -6,20 +7,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
     styleUrls: ['./new-record.component.css'],
 })
 export class NewRecordComponent<T> {
-    records: T[] = [];
+    newRecordService: NewRecordService<T> = inject(NewRecordService);
+    records$ = this.newRecordService.records$;
 
-    @Output() recordCreate = new EventEmitter<T>();
-
-    addRecord(element: T) {
-        this.records.push(element);
+    submitRecord(idx: number) {
+        this.newRecordService.submitRecord(idx);
     }
 
-    protected onAddConfirmRecord(record: T, idx: number) {
-        this.recordCreate.emit(record);
-        this.onDeleteRecord(idx);
-    }
-
-    protected onDeleteRecord(idx: number) {
-        this.records.splice(idx, 1);
+    deleteRecord(idx: number) {
+        this.newRecordService.deleteRecord(idx);
     }
 }

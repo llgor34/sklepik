@@ -1,4 +1,4 @@
-import { query } from './db-functions.mjs';
+import { query } from '../general/db-functions.mjs';
 import { getLatestArticlesSellmentId } from './articles-sellment.mjs';
 import { Order } from './schema/order.mjs';
 import { OrderProduct } from './schema/order-product.mjs';
@@ -128,7 +128,7 @@ export function getOrderNumber(id) {
     return +id.toString().slice(-2);
 }
 
-async function getPaymentMethodIdByName(name) {
+export async function getPaymentMethodIdByName(name) {
     const res = await query(`SELECT id FROM payment_methods WHERE name = ?`, [name]);
 
     const record = res[0];
@@ -138,7 +138,7 @@ async function getPaymentMethodIdByName(name) {
     return record.id;
 }
 
-async function getLatestOrderId() {
+export async function getLatestOrderId() {
     const result = await query('SELECT id FROM orders ORDER BY id DESC LIMIT 1');
     const record = result[0];
     return record.id;

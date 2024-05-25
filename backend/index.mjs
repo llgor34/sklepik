@@ -4,12 +4,10 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import { createServer } from 'http';
-import { getHttpServerPort, getWsServerPort } from './general/server-port.mjs';
 import { Server } from 'socket.io';
 import { emitOrdersFor } from './ws-events/orders.mjs';
 
 import authRoutes from './routes/auth-routes.mjs';
-import coffeeSubscribersRouter from './routes/coffee-subscribers-routes.mjs';
 import productRoutes from './routes/product-routes.mjs';
 import orderRoutes from './routes/order-routes.mjs';
 import raportsRoutes from './routes/raports-routes.mjs';
@@ -25,8 +23,6 @@ import rolesRoutes from './routes/roles-routes.mjs';
 dotenv.config();
 
 // server config
-const websocketPort = getWsServerPort();
-const serverPort = getHttpServerPort();
 const app = express();
 app.use(cors({ origin: ['http://localhost:4200'] }));
 app.use(express.json());
@@ -52,7 +48,6 @@ const router = express.Router();
 app.use('/api', router);
 
 router.use('/', authRoutes);
-router.use('/coffee-subscribers', coffeeSubscribersRouter);
 router.use('/product', productRoutes);
 router.use('/order', orderRoutes);
 router.use('/raports', raportsRoutes);
@@ -73,6 +68,7 @@ app.get('*', function (req, res) {
 });
 
 // start server
+const serverPort = process.env.PORT;
 server.listen(serverPort, () => {
     console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
 });
