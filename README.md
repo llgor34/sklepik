@@ -46,4 +46,4 @@ Dziękujemy wszystkim, którzy przyczynili się do tego projektu.
 
 ## Aktualna Wersja
 
-- Wersja: v1.0.0
+- Wersja: v0.0.3
