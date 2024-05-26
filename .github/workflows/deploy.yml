@@ -45,12 +45,9 @@ jobs:
               run: cp -r ./frontend/dist ./backend/dist
 
             - name: Push to production repository
-              uses: cpina/github-action-push-to-another-repository@main
-              env:
-                  API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  source-directory: './backend'
-                  destination-github-username: 'llgor34'
-                  destination-repository-name: 'test'
-                  user-email: imanoryk6@gmail.com
-                  target-branch: main
+              run: |
+                  git clone https://github.com/llgor34/test
+                  rm -rf ./test/*
+                  cp -r ./backend ./test
+                  cd ./test
+                  git push
