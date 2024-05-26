@@ -1,0 +1,20 @@
+﻿name: Deploy to sklepik-production
+run-name: 🚀 Deploying code to sklepik-production...
+on: [push]
+jobs:
+    Test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup node
+              uses: actions/setup-node@v4
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install dependencies
+              working-directory: ./frontend
+              run: npm install
+
+            - name: Test code
+              working-directory: ./frontend
+              run: npm run test
