@@ -44,5 +44,9 @@ describe('ActivitiesService', () => {
             const testRequest = httpController.expectOne(url);
             testRequest.flush(mockData);
         });
+
+        it('FAKE TEST', () => {
+            expect(0).toEqual(1);
+        });
     });
 });
