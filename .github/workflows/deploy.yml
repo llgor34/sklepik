@@ -19,7 +19,7 @@ jobs:
               working-directory: ./frontend
               run: npm run test
 
-    Build-frontend:
+    Build-and-deploy:
         needs: Test-frontend
         runs-on: ubuntu-latest
         steps:
@@ -29,47 +29,27 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Install dependencies
+            - name: Install backend dependecies
+              working-directory: ./backend
+              run: npm install
+
+            - name: Install frontend dependencies
               working-directory: ./frontend
               run: npm install
 
-            - name: Build
+            - name: Build frontend
               working-directory: ./frontend
               run: npm run build
 
-            - name: Archive generated outcome
-              uses: actions/upload-artifact@v4
-              with:
-                  name: dist
-                  path: ./frontend/dist
-
-    Deploy:
-        needs: Build-frontend
-        runs-on: ubuntu-latest
-        steps:
-            - name: Setup node
-              uses: actions/setup-node@v4
-
-            - name: Checkout backend code
-              uses: actions/checkout@v4
-              with:
-                  sparse-checkout: './backend'
-                  sparse-checkout-cone-mode: false
-
-            - name: Install dependencies
-              run: npm install
-
-            - name: Copy frontend build artifact
-              uses: actions/download-artifact@v4
-              with:
-                  name: dist
+            - name: Copy frontend build to backend
+              run: cp -r ./frontend/dist ./backend/dist
 
             - name: Push to production repository
               uses: cpina/github-action-push-to-another-repository@main
               env:
                   API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  source-directory: ''
+                  source-directory: './backend'
                   destination-github-username: 'llgor34'
                   destination-repository-name: 'test'
                   user-email: imanoryk6@gmail.com
