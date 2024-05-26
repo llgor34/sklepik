@@ -48,8 +48,10 @@ jobs:
               run: |
                   git config --global user.name "Github Actions"
                   git config --global user.email "imanoryk6@gmail.com"
-                  git clone ${{vars.PRODUCTION_REPOSITORY}}
+                  git clone ${{secrets.PRODUCTION_REPOSITORY}}
                   rm -rf ./test/*
                   cp -r ./backend ./test
                   cd ./test
+                  git add .
+                  git commit -m "production build"
                   git push
