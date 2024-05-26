@@ -48,7 +48,7 @@ jobs:
               run: |
                   git config --global user.name "Github Actions"
                   git config --global user.email "imanoryk6@gmail.com"
-                  git clone https://github.com/llgor34/test
+                  git clone ${{vars.PRODUCTION_REPOSITORY}}
                   rm -rf ./test/*
                   cp -r ./backend ./test
                   cd ./test
