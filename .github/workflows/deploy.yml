@@ -2,7 +2,7 @@
 run-name: 🚀 Deploying code to sklepik-production...
 on: [push]
 jobs:
-    Test:
+    Test-frontend:
         runs-on: ubuntu-latest
         steps:
             - name: Setup node
@@ -18,3 +18,57 @@ jobs:
             - name: Test code
               working-directory: ./frontend
               run: npm run test
+
+    Build-frontend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup node
+              uses: actions/setup-node@v4
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install dependencies
+              working-directory: ./frontend
+              run: npm install
+
+            - name: Build
+              working-directory: ./frontend
+              run: npm run build
+
+            - name: Archive generated outcome
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: ./frontend/dist
+
+    Deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup node
+              uses: actions/setup-node@v4
+
+            - name: Checkout backend code
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: './backend'
+                  sparse-checkout-cone-mode: false
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Copy frontend build artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: dist
+
+            - name: Push to production repository
+              uses: cpina/github-action-push-to-another-repository@main
+              env:
+                  API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  source-directory: ''
+                  destination-github-username: 'llgor34'
+                  destination-repository-name: 'test'
+                  user-email: imanoryk6@gmail.com
+                  target-branch: main
