@@ -1,5 +1,5 @@
 ﻿name: Deploy to sklepik-production
-run-name: 🚀 Deploying code to sklepik-production...
+run-name: Deploying code to sklepik-production...
 on: [push]
 jobs:
     Test-frontend:
@@ -20,6 +20,7 @@ jobs:
               run: npm run test
 
     Build-frontend:
+        needs: Test-frontend
         runs-on: ubuntu-latest
         steps:
             - name: Setup node
@@ -43,6 +44,7 @@ jobs:
                   path: ./frontend/dist
 
     Deploy:
+        needs: Build-frontend
         runs-on: ubuntu-latest
         steps:
             - name: Setup node
