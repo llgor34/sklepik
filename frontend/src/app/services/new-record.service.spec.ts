@@ -36,19 +36,22 @@ describe('NewRecordService', () => {
 
     describe('onRecordCreate$', () => {
         it('should emit event when record is submitted', () => {
-            service.onRecordCreate$.subscribe((obj) => expect(obj).toEqual(testData));
-            service.submitRecord(testData);
+            service.addRecord(testData);
+
+            subscription.add(service.onRecordCreate$.subscribe((obj) => expect(obj).toEqual(testData)));
+
+            service.submitRecord(0);
         });
     });
 
     describe('addRecord()', () => {
         it('should add item to the records$', () => {
             service.addRecord(testData);
-            service.records$.subscribe((records) => expect(records).toEqual([testData]));
+            subscription.add(service.records$.subscribe((records) => expect(records).toEqual([testData])));
         });
 
         it('should not cause onRecordCreate$ emit', () => {
-            service.onRecordCreate$.subscribe(() => fail());
+            subscription.add(service.onRecordCreate$.subscribe(() => fail()));
 
             service.addRecord(testData);
         });
@@ -58,15 +61,15 @@ describe('NewRecordService', () => {
         it('should delete item from the records$', () => {
             service.addRecord(testData);
             service.addRecord(testData);
-            service.deleteRecordAtIdx(0);
+            service.deleteRecord(0);
 
-            service.records$.subscribe((records) => expect(records.length).toEqual(1));
+            subscription.add(service.records$.subscribe((records) => expect(records.length).toEqual(1)));
         });
 
         it('should not cause onRecordCreate$ emit', () => {
-            service.onRecordCreate$.subscribe(() => fail());
+            subscription.add(service.onRecordCreate$.subscribe(() => fail()));
 
-            service.deleteRecordAtIdx(0);
+            service.deleteRecord(0);
         });
     });
 });
