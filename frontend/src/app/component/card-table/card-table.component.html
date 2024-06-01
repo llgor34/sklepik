@@ -1,6 +1,7 @@
+<h1>{{ label }}</h1>
 <div class="row gy-4">
     <div *ngFor="let card of cards" class="col col-lg-3">
-        <div class="card" [routerLink]="card.url">
+        <div *appRequiredRoles="card.requiredRoles" class="card" [routerLink]="card.url">
             <img [src]="card.imageUrl" class="card-img-top" alt="image" />
             <div class="card-body">
                 <label class="card-title h3">{{ card.title }}</label>

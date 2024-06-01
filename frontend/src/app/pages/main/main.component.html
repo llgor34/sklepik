@@ -1,5 +1,5 @@
 <div class="row my-3">
-    <div class="col">
+    <div appAnimateOnEnter class="col">
         <div class="card shadow-lg" *ngIf="version$ | async as version">
             <div class="flex-container">
                 <div class="card-body">
@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="row my-3 row-gap-3">
-    <div class="col-xl-6">
+    <div appAnimateOnEnter [delay]="200" class="col-xl-6">
         <div class="card shadow-lg">
             <div class="card-body">
                 <h2 class="card-title mb-3">Informacje o godzinach pracy</h2>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="col-xl-6">
-        <div class="card shadow-lg">
+        <div appAnimateOnEnter [delay]="200" class="card shadow-lg">
             <div class="card-body">
                 <h2 class="card-title mb-3">Informacje o zniżkach</h2>
                 <table class="table table-secondary">

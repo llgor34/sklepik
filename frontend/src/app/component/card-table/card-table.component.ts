@@ -8,4 +8,5 @@ import { Card } from 'src/app/interfaces/raport.interface';
 })
 export class CardTableComponent {
     @Input() cards!: Card[];
+    @Input() label!: string;
 }

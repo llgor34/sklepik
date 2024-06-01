@@ -16,7 +16,7 @@
     </ng-template>
     <ng-template #tableBody [typedTemplate]="observableContext" let-products>
         <app-new-product></app-new-product>
-        <tr *ngFor="let product of products">
+        <tr *ngFor="let product of products; trackBy: trackByFn">
             <td>{{ product.id }}</td>
             <td>
                 <app-editable-value-field

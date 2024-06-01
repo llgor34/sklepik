@@ -13,18 +13,21 @@ export class PanelDefaultComponent {
             description: 'Panel do zarządzania produktami',
             imageUrl: 'assets/products-panel.png',
             url: 'products',
+            requiredRoles: [],
         },
         {
             title: 'Użytkownicy',
             description: 'Panel do zarządzania użytkownikami',
             imageUrl: 'assets/users-panel.svg',
             url: 'users',
+            requiredRoles: [],
         },
         {
             title: 'Godziny pracy',
             description: 'Panel do zarządzania godzinami pracy',
             imageUrl: 'assets/hours-settlement-panel.svg',
             url: 'hours-settlement',
+            requiredRoles: ['superAdmin'],
         },
     ];
 }

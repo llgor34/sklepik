@@ -15,7 +15,7 @@ import { SellProductsComponent } from './pages/sell-products/sell-products.compo
 import { RaportComponent } from './pages/raport/raport.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { AllowedRolesDirective } from './directives/allowed-roles.directive';
+import { RequiredRolesDirective } from './directives/required-roles.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
@@ -55,6 +55,7 @@ import { DefaultValuePipe } from './pipes/default-value.pipe';
 import { EditableListFieldComponent } from './component/editable-list-field/editable-list-field.component';
 import { EditableFieldComponent } from './component/editable-field/editable-field.component';
 import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
+import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,7 @@ import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.d
         RaportComponent,
         ArchiveComponent,
         OrdersComponent,
-        AllowedRolesDirective,
+        RequiredRolesDirective,
         ClosementProtocolComponent,
         SellDefaultComponent,
         CardTableComponent,
@@ -104,6 +105,7 @@ import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.d
         EditableListFieldComponent,
         EditableFieldComponent,
         FocusWhenDisplayedDirective,
+        AnimateOnEnterDirective,
     ],
     imports: [
         BrowserModule,

@@ -9,12 +9,7 @@ import { ErrorResponse } from 'src/app/interfaces/errorResponse.interface';
     templateUrl: './login.component.html',
 })
 export class LoginComponent {
-    userNotExists = false;
-
-    constructor(
-        private authService: AuthService,
-        private router: Router
-    ) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     formSubmit(form: NgForm) {
         const { password } = form.value;
@@ -31,15 +26,7 @@ export class LoginComponent {
     }
 
     login(password: string) {
-        this.userNotExists = false;
-        this.authService.login(password).subscribe({
-            next: () => {
-                this.router.navigate(['/main']);
-            },
-            error: (error: ErrorResponse) => {
-                this.userNotExists = true;
-            },
-        });
+        this.authService.login(password).subscribe(() => this.router.navigate(['/main']));
     }
 
     isEmpty(text: string) {

@@ -15,6 +15,7 @@ export class SellDefaultComponent {
             title: 'Towary i produkty',
             description: 'Sprzedaż towarów, produktów, usług.',
             url: 'products',
+            requiredRoles: [],
         },
     ];
 }
