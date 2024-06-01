@@ -1,27 +1,29 @@
-<h1>Zamówienia</h1>
-<app-filters class="d-block pb-3 bg-white sticky-top" [(activeFilterIdx)]="activeFilterIdx" [filters]="filters">
-  <h2>Filtry</h2>
-</app-filters>
-<div class="row">
-  <app-order
-    *ngFor="let order of orders$ | async | filterByFn : getCurrentFilterFn(); trackBy: trackByOrderId"
-    [order]="order"
-  >
-    <ng-container [ngSwitch]="order.order_status">
-      <app-confirm-button
-        *ngSwitchCase="'new'"
-        (confirm)="updateOrderStatus(order.order_id, 'done')"
-        label="Oznacz jako wykonane"
-        confirmBtnClass="btn-success w-100"
-        cancelBtnClass="w-100"
-      ></app-confirm-button>
-      <app-confirm-button
-        *ngSwitchCase="'done'"
-        (confirm)="updateOrderStatus(order.order_id, 'new')"
-        label="Oznacz jako niewykonane"
-        confirmBtnClass="btn-danger w-100"
-        cancelBtnClass="w-100"
-      ></app-confirm-button>
-    </ng-container>
-  </app-order>
+<div appAnimateOnEnter animationName="fadeIn">
+    <h1>Zamówienia</h1>
+    <app-filters class="d-block pb-3 bg-white sticky-top" [(activeFilterIdx)]="activeFilterIdx" [filters]="filters">
+        <h2>Filtry</h2>
+    </app-filters>
+    <div class="row">
+        <app-order
+            *ngFor="let order of orders$ | async | filterByFn : getCurrentFilterFn(); trackBy: trackByOrderId"
+            [order]="order"
+        >
+            <ng-container [ngSwitch]="order.order_status">
+                <app-confirm-button
+                    *ngSwitchCase="'new'"
+                    (confirm)="updateOrderStatus(order.order_id, 'done')"
+                    label="Oznacz jako wykonane"
+                    confirmBtnClass="btn-success w-100"
+                    cancelBtnClass="w-100"
+                ></app-confirm-button>
+                <app-confirm-button
+                    *ngSwitchCase="'done'"
+                    (confirm)="updateOrderStatus(order.order_id, 'new')"
+                    label="Oznacz jako niewykonane"
+                    confirmBtnClass="btn-danger w-100"
+                    cancelBtnClass="w-100"
+                ></app-confirm-button>
+            </ng-container>
+        </app-order>
+    </div>
 </div>

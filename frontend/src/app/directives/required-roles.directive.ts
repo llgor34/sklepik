@@ -3,10 +3,10 @@ import { AuthService } from '../services/auth.service';
 import { Role, RoleLabel } from '../interfaces/role.interface';
 
 @Directive({
-    selector: '[allowedRoles]',
+    selector: '[appRequiredRoles]',
 })
-export class AllowedRolesDirective implements OnInit {
-    @Input() allowedRoles!: RoleLabel[];
+export class RequiredRolesDirective implements OnInit {
+    @Input('appRequiredRoles') requiredRoles!: RoleLabel[];
     userRoles: Role[] = this.authService.getRoles();
 
     constructor(
@@ -25,8 +25,12 @@ export class AllowedRolesDirective implements OnInit {
     }
 
     hasPermission() {
-        return this.allowedRoles.some((allowedRole) =>
-            this.userRoles.some((userRole) => userRole.label === allowedRole)
+        if (this.requiredRoles.length === 0) {
+            return true;
+        }
+
+        return this.requiredRoles.some((requiredRole) =>
+            this.userRoles.some((userRole) => userRole.label === requiredRole)
         );
     }
 }

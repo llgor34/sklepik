@@ -75,6 +75,10 @@ export class PanelComponent<T extends Id> {
         this.toastService.showSuccess(`Pomyślnie dodano nowy element o id ${id}`);
     }
 
+    trackByFn(index: number, item: T) {
+        return item.id;
+    }
+
     protected initializeComponent(
         observable$: Observable<T[]>,
         updateFn$: UpdateFn,

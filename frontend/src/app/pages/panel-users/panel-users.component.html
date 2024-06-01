@@ -15,7 +15,7 @@
     </ng-template>
     <ng-template #tableBody [typedTemplate]="userType" let-users>
         <app-new-user></app-new-user>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users; trackBy: trackByFn">
             <td>{{ user.id }}</td>
             <td>
                 <app-editable-value-field

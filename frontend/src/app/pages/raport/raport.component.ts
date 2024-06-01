@@ -12,6 +12,7 @@ export class RaportComponent {
             title: 'Protokół zamknięcia',
             description: 'Wygeneruj dzienny raport zamknięcia sklepiku.',
             url: 'closement-protocol',
+            requiredRoles: [],
         },
     ];
 }

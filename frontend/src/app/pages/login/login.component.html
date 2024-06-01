@@ -1,6 +1,6 @@
 <div class="col d-flex flex-column align-items-center">
-    <h1 class="mb-5">Witamy na stronie "Zegowskiej Szamy"</h1>
-    <form #form="ngForm" (ngSubmit)="formSubmit(form)" class="w-50 d-flex flex-column">
+    <h1 appAnimateOnEnter class="mb-5">Witamy na stronie "Zegowskiej Szamy"</h1>
+    <form appAnimateOnEnter [delay]="200" #form="ngForm" (ngSubmit)="formSubmit(form)" class="w-50 d-flex flex-column">
         <div class="form-group">
             <label for="password">Identyfikator:</label>
             <input
@@ -13,7 +13,6 @@
                 (paste)="onPaste($event)"
             />
         </div>
-        <span *ngIf="userNotExists" class="text-danger">Użytkownik o takim identyfikatorze, nie istnieje!</span>
         <button [disabled]="password.invalid" class="btn btn-primary mt-3">Zaloguj się</button>
     </form>
 </div>
