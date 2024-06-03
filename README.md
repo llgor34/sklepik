@@ -8,6 +8,10 @@ Projekt Sklepik został stworzony w celu efektywnego zarządzania operacjami w s
 - Wyświetlanie cen produktów.
 - Wybór rodzaju płatności.
 - System logowania poprzez skanowanie kodów kreskowych loginów.
+- Zarządzanie użytkownikami.
+- Zarządzanie produktami.
+- Zarządzanie zamówieniami.
+- Zarządzanie wypracowanymi godzinami i zniżkami.
 
 ## Dzienny Raport:
 
