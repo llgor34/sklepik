@@ -54,13 +54,13 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         this.calculateProductsSum();
     }
 
-    listenForReadyOrders() {
-        this.orderService.orderReady$().subscribe((orderNumber) => {
+    listenForReadyOrders(): Subscription {
+        return this.orderService.orderReady$().subscribe((orderNumber) => {
             this.toastService.showSuccess(`Zamówienie o numerze: ${orderNumber}, jest gotowe do wydania`);
         });
     }
 
-    submitSell() {
+    submitSell(): void {
         if (!this.paymentMethod) return;
         if (!this.isProductOptionsSelected()) {
             this.toastService.showWarning('Należy wybrać opcje dla produktów');
@@ -81,7 +81,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         });
     }
 
-    calculateProductsSum() {
+    calculateProductsSum(): void {
         let newProductsSum = 0;
         for (const product of this.products) {
             newProductsSum += product.price! * product.amount;
@@ -91,26 +91,26 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         this.sum = newProductsSum;
     }
 
-    resetSums() {
+    resetSums(): void {
         this.sum = 0;
         this.amountPayed = 0;
         this.exchange = 0;
     }
 
-    resetProducts() {
+    resetProducts(): void {
         this.products = [];
     }
 
-    resetProductCodeControl() {
+    resetProductCodeControl(): void {
         this.productCode = null;
     }
 
-    onGetProduct() {
+    onGetProduct(): void {
         if (!this.productCode) return;
         this.getProduct(this.productCode);
     }
 
-    getProduct(productCode: number) {
+    getProduct(productCode: number): void {
         this.productsService
             .getProductByCode$(productCode)
             .pipe(
@@ -140,19 +140,19 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
             });
     }
 
-    focusProductCodeControl() {
+    focusProductCodeControl(): void {
         this.productCodeControl.nativeElement.focus();
     }
 
-    isProductDiscount(product: NumeratedProduct) {
+    isProductDiscount(product: NumeratedProduct): boolean {
         return this.productsService.isProductDisabled(product);
     }
 
-    productHasAmountDisabled(productId: number) {
+    productHasAmountDisabled(productId: number): boolean {
         return this.productsService.productHasDisabledAmount(productId);
     }
 
-    isProductOptionsSelected() {
+    isProductOptionsSelected(): boolean {
         let valid = true;
         mainLoop: for (const product of this.products) {
             for (const option of product.selectedOptions) {
@@ -165,19 +165,19 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         return valid;
     }
 
-    isOrder() {
+    isOrder(): boolean {
         return this.productsService.isSellOrder(this.products);
     }
 
-    hasProductOptions(product: NumeratedProduct) {
+    hasProductOptions(product: NumeratedProduct): boolean {
         return this.productsService.hasProductOptions(product);
     }
 
-    addProduct(product: NumeratedProduct) {
+    addProduct(product: NumeratedProduct): void {
         this.products.push(product);
     }
 
-    removeProduct(idx: number) {
+    removeProduct(idx: number): void {
         this.products.splice(idx, 1);
     }
 }
