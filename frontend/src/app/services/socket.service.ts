@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Socket, io } from 'socket.io-client';
+import { Injectable, inject } from '@angular/core';
+import { Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
+import { SOCKET_IO } from '../constants/socket-io.constant';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SocketService {
+    private io = inject(SOCKET_IO);
+
     createConnection(path: string): Socket {
-        return io(path, environment.wsConfig);
+        return this.io(path, environment.wsConfig);
     }
 
     closeConnection(socket: Socket): void {
