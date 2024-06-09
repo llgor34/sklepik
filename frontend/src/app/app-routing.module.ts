@@ -10,7 +10,6 @@ import { ClosementProtocolComponent } from './pages/raport/closement-protocol/cl
 import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
-import { ClosementProtocolResolver } from './pages/raport/closement-protocol/closement-protocol.resolver';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { RoleGuard } from './guards/role.guard';
 import { OrdersPublicComponent } from './pages/orders-public/orders-public.component';
@@ -78,9 +77,6 @@ const routes: TypedRoutes = [
                     {
                         path: 'closement-protocol',
                         component: ClosementProtocolComponent,
-                        resolve: {
-                            products: ClosementProtocolResolver,
-                        },
                     },
                 ],
             },
