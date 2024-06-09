@@ -56,6 +56,7 @@ import { EditableListFieldComponent } from './component/editable-list-field/edit
 import { EditableFieldComponent } from './component/editable-field/editable-field.component';
 import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
 import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive';
+import { SellmentCloseRaportComponent } from './component/sellment-close-raport/sellment-close-raport.component';
 
 @NgModule({
     declarations: [
@@ -106,6 +107,7 @@ import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive
         EditableFieldComponent,
         FocusWhenDisplayedDirective,
         AnimateOnEnterDirective,
+        SellmentCloseRaportComponent,
     ],
     imports: [
         BrowserModule,
