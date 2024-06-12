@@ -59,6 +59,7 @@ import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive
 import { SellmentCloseRaportComponent } from './component/sellment-close-raport/sellment-close-raport.component';
 import { SellProductsHeaderComponent } from './component/sell-products-header/sell-products-header.component';
 import { ProductsTableComponent } from './component/products-table/products-table.component';
+import { MaxIfDirective } from './directives/max-if.directive';
 
 @NgModule({
     declarations: [
@@ -112,6 +113,7 @@ import { ProductsTableComponent } from './component/products-table/products-tabl
         SellmentCloseRaportComponent,
         SellProductsHeaderComponent,
         ProductsTableComponent,
+        MaxIfDirective,
     ],
     imports: [
         BrowserModule,
