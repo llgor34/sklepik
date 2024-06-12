@@ -1,12 +1,10 @@
-import { Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NumeratedProduct } from 'src/app/interfaces/product.interface';
 import { ProductsService } from 'src/app/services/products.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentMethod } from 'src/app/interfaces/payment-method.interface';
 import { ToastService } from 'src/app/services/toast.service';
 import { Observable, Subscription, forkJoin, of, switchMap } from 'rxjs';
-import { LessonService } from 'src/app/services/lesson.service';
-import { Lesson } from 'src/app/interfaces/lesson.interface';
 import { DiscountService } from 'src/app/services/discount.service';
 
 @Component({
@@ -14,23 +12,10 @@ import { DiscountService } from 'src/app/services/discount.service';
     templateUrl: './sell-products.component.html',
     styleUrls: ['./sell-products.component.css'],
 })
-export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
+export class SellProductsComponent implements OnInit, OnDestroy {
     products: NumeratedProduct[] = [];
-    productCode: number | null = null;
     paymentMethod: PaymentMethod | null = null;
-    productIdsWithDisabledAmount: number[] = this.productsService.getProductsIdWithDisabledAmount();
-
-    lessons$: Observable<Lesson[]> = this.lessonService.getLessons$();
-    lessonId = null;
-
-    currentOrderNumber$: Observable<number> = this.orderService.getCurrentOrderNumber$();
-
-    sum = 0;
-    amountPayed = 0;
-    exchange = 0;
-
-    // @ViewChild('productCodeControl', { static: true })
-    // productCodeControl!: ElementRef;
+    lessonId: number | null = null;
 
     subscription = new Subscription();
 
@@ -38,7 +23,6 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         private productsService: ProductsService,
         private orderService: OrderService,
         private discountService: DiscountService,
-        private lessonService: LessonService,
         private toastService: ToastService
     ) {}
 
@@ -50,96 +34,96 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    ngDoCheck(): void {
-        this.calculateProductsSum();
+    listenForReadyOrders(): Subscription {
+        return this.orderService.orderReady$().subscribe((orderNumber) => this.showOrderReadyNotification(orderNumber));
     }
 
-    listenForReadyOrders() {
-        this.orderService.orderReady$().subscribe((orderNumber) => {
-            this.toastService.showSuccess(`Zamówienie o numerze: ${orderNumber}, jest gotowe do wydania`);
-        });
-    }
-
-    submitSell() {
-        if (!this.paymentMethod) return;
-        if (!this.isProductOptionsSelected()) {
-            this.toastService.showWarning('Należy wybrać opcje dla produktów');
+    submitSell(): void {
+        if (this.noPaymentMethod()) {
+            this.showNoPaymentMethodSelectedNotification();
             return;
         }
 
-        if (this.lessonId === 'null') {
-            this.lessonId = null;
+        if (this.notAllProductOptionsAreSelected()) {
+            this.showRequiredOptionsNotification();
+            return;
         }
 
-        this.orderService.createOrder$(this.products, this.paymentMethod, this.lessonId).subscribe((orderNumber) => {
-            // this.resetProductCodeControl();
-            // this.focusProductCodeControl();
+        this.orderService.createOrder$(this.products, this.paymentMethod!, this.lessonId).subscribe((orderNumber) => {
             this.resetProducts();
-            this.resetSums();
-
-            this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
+            this.showOrderCreationSuccessNotification(orderNumber);
         });
     }
 
-    calculateProductsSum() {
-        let newProductsSum = 0;
-        for (const product of this.products) {
-            newProductsSum += product.price! * product.amount;
-        }
-
-        if (this.sum === newProductsSum) return;
-        this.sum = newProductsSum;
+    showOrderReadyNotification(orderNumber: number): void {
+        this.toastService.showSuccess(`Zamówienie o numerze: ${orderNumber}, jest gotowe do wydania`);
     }
 
-    resetSums() {
-        this.sum = 0;
-        this.amountPayed = 0;
-        this.exchange = 0;
+    showOrderCreationSuccessNotification(orderNumber: number): void {
+        this.toastService.showSuccess(`Utworzono zamówienie o numerze: ${orderNumber}`);
     }
 
-    resetProducts() {
-        this.products = [];
+    showRequiredOptionsNotification(): void {
+        this.toastService.showWarning('Należy wybrać opcje dla produktów');
     }
 
-    getProduct(productCode: number) {
+    showNoPaymentMethodSelectedNotification(): void {
+        this.toastService.showWarning('Należy wybrać metodę płatności');
+    }
+
+    fetchProduct(productCode: number): void {
         this.productsService
             .getProductByCode$(productCode)
-            .pipe(
-                switchMap((product) =>
-                    this.isProductDiscount(product!)
-                        ? forkJoin([
-                              of(product),
-                              this.discountService.getUsedDiscountByWorkerCode$(product!.code!),
-                              this.discountService.getOwedDiscountByWorkerCode$(product!.code!),
-                          ])
-                        : of([product, null, null])
-                )
-            )
+            .pipe(switchMap((product) => this.mapToProductWithDiscounts(product!)))
             .subscribe((data) => {
                 const [product, usedDiscount, owedDiscount] = data;
-
-                // this.focusProductCodeControl();
-                if (!product) return;
-
+                if (!product) {
+                    return;
+                }
                 if (this.isProductDiscount(product)) {
-                    const discountLeft = <number>owedDiscount + <number>usedDiscount;
-                    product.maxDiscountAmount = discountLeft * 2;
+                    product.maxDiscountAmount = this.calculateMaxDiscountAmount(owedDiscount!, usedDiscount!);
                 }
 
                 this.addProduct(product);
-                // this.resetProductCodeControl();
             });
     }
 
-    isProductDiscount(product: NumeratedProduct) {
+    mapToProductWithDiscounts(product: NumeratedProduct): Observable<[NumeratedProduct, number | null, number | null]> {
+        if (this.isProductDiscount(product)) {
+            return forkJoin([
+                of(product),
+                this.discountService.getOwedDiscountByWorkerCode$(product.code!),
+                this.discountService.getOwedDiscountByWorkerCode$(product.code!),
+            ]);
+        }
+        return of([product, null, null]);
+    }
+
+    calculateMaxDiscountAmount(owedDiscount: number, usedDiscount: number): number {
+        return (owedDiscount + usedDiscount) * 2;
+    }
+
+    addProduct(product: NumeratedProduct): void {
+        this.products.push(product);
+    }
+
+    removeProduct(idx: number): void {
+        this.products.splice(idx, 1);
+    }
+
+    resetProducts(): void {
+        this.products = [];
+    }
+
+    isProductDiscount(product: NumeratedProduct): boolean {
         return this.productsService.isProductDisabled(product);
     }
 
-    productHasAmountDisabled(productId: number) {
-        return this.productsService.productHasDisabledAmount(productId);
+    noPaymentMethod(): boolean {
+        return !this.paymentMethod;
     }
 
-    isProductOptionsSelected() {
+    notAllProductOptionsAreSelected(): boolean {
         let valid = true;
         mainLoop: for (const product of this.products) {
             for (const option of product.selectedOptions) {
@@ -149,22 +133,6 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
                 }
             }
         }
-        return valid;
-    }
-
-    isOrder() {
-        return this.productsService.isSellOrder(this.products);
-    }
-
-    hasProductOptions(product: NumeratedProduct) {
-        return this.productsService.hasProductOptions(product);
-    }
-
-    addProduct(product: NumeratedProduct) {
-        this.products.push(product);
-    }
-
-    removeProduct(idx: number) {
-        this.products.splice(idx, 1);
+        return !valid;
     }
 }

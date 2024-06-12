@@ -8,11 +8,11 @@
         ></app-search-filter>
         <button (click)="onAddNew()" class="d-block btn btn-primary">+</button>
     </div>
-    <app-table-sticky class="mt-3" [tableHeadTemplate]="tableHeadTemplate">
+    <app-sticky-table class="mt-3" [tableHeadTemplate]="tableHeadTemplate">
         <ng-container
             [ngTemplateOutlet]="tableBodyTemplate"
             [ngTemplateOutletContext]="{ $implicit: records }"
         ></ng-container>
-    </app-table-sticky>
+    </app-sticky-table>
     <app-paginator [items$]="records$" (pageChange)="onPageChange($event)"></app-paginator>
 </div>

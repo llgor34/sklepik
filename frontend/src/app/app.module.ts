@@ -25,7 +25,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
-import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
+import { StickyTableComponent } from './component/sticky-table/sticky-table.component';
 import { FiltersComponent } from './component/filters/filters.component';
 import { FilterByFnPipe } from './pipes/filter-by-fn.pipe';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
@@ -58,6 +58,7 @@ import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.d
 import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive';
 import { SellmentCloseRaportComponent } from './component/sellment-close-raport/sellment-close-raport.component';
 import { SellProductsHeaderComponent } from './component/sell-products-header/sell-products-header.component';
+import { ProductsTableComponent } from './component/products-table/products-table.component';
 
 @NgModule({
     declarations: [
@@ -77,7 +78,7 @@ import { SellProductsHeaderComponent } from './component/sell-products-header/se
         FilterPipe,
         PanelHoursSettlementComponent,
         ConfirmButtonComponent,
-        TableStickyComponent,
+        StickyTableComponent,
         FiltersComponent,
         FilterByFnPipe,
         OrderStatusPipe,
@@ -110,6 +111,7 @@ import { SellProductsHeaderComponent } from './component/sell-products-header/se
         AnimateOnEnterDirective,
         SellmentCloseRaportComponent,
         SellProductsHeaderComponent,
+        ProductsTableComponent,
     ],
     imports: [
         BrowserModule,
