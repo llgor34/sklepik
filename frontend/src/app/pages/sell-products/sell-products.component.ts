@@ -29,8 +29,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
     amountPayed = 0;
     exchange = 0;
 
-    @ViewChild('productCodeControl', { static: true })
-    productCodeControl!: ElementRef;
+    // @ViewChild('productCodeControl', { static: true })
+    // productCodeControl!: ElementRef;
 
     subscription = new Subscription();
 
@@ -72,8 +72,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         }
 
         this.orderService.createOrder$(this.products, this.paymentMethod, this.lessonId).subscribe((orderNumber) => {
-            this.resetProductCodeControl();
-            this.focusProductCodeControl();
+            // this.resetProductCodeControl();
+            // this.focusProductCodeControl();
             this.resetProducts();
             this.resetSums();
 
@@ -101,15 +101,6 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
         this.products = [];
     }
 
-    resetProductCodeControl() {
-        this.productCode = null;
-    }
-
-    onGetProduct() {
-        if (!this.productCode) return;
-        this.getProduct(this.productCode);
-    }
-
     getProduct(productCode: number) {
         this.productsService
             .getProductByCode$(productCode)
@@ -127,7 +118,7 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
             .subscribe((data) => {
                 const [product, usedDiscount, owedDiscount] = data;
 
-                this.focusProductCodeControl();
+                // this.focusProductCodeControl();
                 if (!product) return;
 
                 if (this.isProductDiscount(product)) {
@@ -136,12 +127,8 @@ export class SellProductsComponent implements DoCheck, OnInit, OnDestroy {
                 }
 
                 this.addProduct(product);
-                this.resetProductCodeControl();
+                // this.resetProductCodeControl();
             });
-    }
-
-    focusProductCodeControl() {
-        this.productCodeControl.nativeElement.focus();
     }
 
     isProductDiscount(product: NumeratedProduct) {
