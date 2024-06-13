@@ -9,16 +9,24 @@ describe('SellmentCloseRaportService', () => {
     let service: SellmentCloseRaportService;
     let httpController: HttpTestingController;
     const mockRaportData: SellmentCloseRaport = {
-        products: {
-            article: { products: [], totalPrice: 100, totalPriceLabel: 'kwota' },
-            discount: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
-            product: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
-            promotion: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+        raport: {
+            products: {
+                article: { products: [], totalPrice: 100, totalPriceLabel: 'kwota' },
+                discount: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+                product: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+                promotion: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+            },
+            totalCashPrice: 100,
+            totalNonCashPrice: 100,
+            totalPrice: 200,
+            totalPriceWithDiscounts: 200,
         },
-        totalCashPrice: 100,
-        totalNonCashPrice: 100,
-        totalPrice: 200,
-        totalPriceWithDiscounts: 200,
+        raportInfo: {
+            date: '',
+            id: 1,
+            number: 123,
+            year_number: '23/24',
+        },
     };
 
     beforeEach(() => {
