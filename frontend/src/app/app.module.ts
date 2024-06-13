@@ -25,7 +25,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
 import { ConfirmButtonComponent } from './component/confirm-button/confirm-button.component';
-import { TableStickyComponent } from './component/table-sticky/table-sticky.component';
+import { StickyTableComponent } from './component/sticky-table/sticky-table.component';
 import { FiltersComponent } from './component/filters/filters.component';
 import { FilterByFnPipe } from './pipes/filter-by-fn.pipe';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
@@ -57,6 +57,9 @@ import { EditableFieldComponent } from './component/editable-field/editable-fiel
 import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
 import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive';
 import { SellmentCloseRaportComponent } from './component/sellment-close-raport/sellment-close-raport.component';
+import { SellProductsHeaderComponent } from './component/sell-products-header/sell-products-header.component';
+import { ProductsTableComponent } from './component/products-table/products-table.component';
+import { MaxIfDirective } from './directives/max-if.directive';
 
 @NgModule({
     declarations: [
@@ -76,7 +79,7 @@ import { SellmentCloseRaportComponent } from './component/sellment-close-raport/
         FilterPipe,
         PanelHoursSettlementComponent,
         ConfirmButtonComponent,
-        TableStickyComponent,
+        StickyTableComponent,
         FiltersComponent,
         FilterByFnPipe,
         OrderStatusPipe,
@@ -108,6 +111,9 @@ import { SellmentCloseRaportComponent } from './component/sellment-close-raport/
         FocusWhenDisplayedDirective,
         AnimateOnEnterDirective,
         SellmentCloseRaportComponent,
+        SellProductsHeaderComponent,
+        ProductsTableComponent,
+        MaxIfDirective,
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,137 @@
+<div class="overflow-auto mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Lp.</td>
+                <td>Kod</td>
+                <td>Nazwa</td>
+                <td>Cena/szt</td>
+                <td>Ilość</td>
+                <td>Suma</td>
+                <td>Opcje</td>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let product of products; let i = index">
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ product.code }}</td>
+                    <td>{{ product.short_name }}</td>
+                    <td class="currency-addon">{{ product.price }}</td>
+                    <td>
+                        <input
+                            class="form-control"
+                            name="productAmount"
+                            type="number"
+                            min="1"
+                            [appMaxIf]="isProductDiscount(product)"
+                            [appMaxIfValue]="product.maxDiscountAmount"
+                            [(ngModel)]="product.amount"
+                            [disabled]="hasProductAmountDisabled(+product.code!)"
+                        />
+                    </td>
+                    <td class="currency-addon">
+                        {{ product.price! * product.amount | currency : ' ' }}
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" (click)="onRemoveProductAtIdx(i)">usuń</button>
+                    </td>
+                </tr>
+                <tr *ngIf="hasProductOptions(product)">
+                    <td class="product-options" colspan="8">
+                        <label>Opcje produktu</label>
+                        <div class="product-options-container">
+                            <div *ngFor="let optionCategory of product.product_category_options; let j = index">
+                                <label>{{ optionCategory.category_name }}</label>
+                                <select class="form-select" [(ngModel)]="product.selectedOptions[j].option_id">
+                                    <option *ngFor="let option of optionCategory.options" [value]="option.id">
+                                        {{ option.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="isProductDiscount(product)">
+                    <td class="form-text" colspan="8">
+                        Pozostało {{ product.maxDiscountAmount! / 2 }} PLN rabatu pracowniczego
+                    </td>
+                </tr>
+            </ng-container>
+            <tr>
+                <td colspan="5">SUMA</td>
+                <td class="currency-addon">{{ productsSum | currency : ' ' }}</td>
+            </tr>
+            <tr>
+                <td colspan="5">Zapłata</td>
+                <td class="position-relative">
+                    <input class="form-control" type="number" name="amountPayed" [(ngModel)]="amountPayed" min="0" />
+                    <span class="currency-field-addon">PLN</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">Reszta</td>
+                <td class="currency-addon" id="change" [ngClass]="{ 'text-danger': amountPayed - productsSum > 0 }">
+                    {{ amountPayed - productsSum < 0 ? 0 : (amountPayed - productsSum | currency : ' ') }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">Metoda płatności</td>
+                <td class="payment-methods">
+                    <div class="d-flex align-items-center">
+                        <input
+                            [ngModel]="paymentMethod"
+                            (ngModelChange)="paymentMethodChange.emit($event)"
+                            value="CASH"
+                            class="form-check-input"
+                            type="radio"
+                            name="paymentMethod"
+                            id="cash"
+                        />
+                        <label class="form-check-label" for="cash">
+                            <img src="assets/money.png" width="50px" height="50px" alt="obrazek z pieniędzmi" />
+                            Gotówka
+                        </label>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <input
+                            [ngModel]="paymentMethod"
+                            (ngModelChange)="paymentMethodChange.emit($event)"
+                            value="BLIK"
+                            class="form-check-input"
+                            type="radio"
+                            name="paymentMethod"
+                            id="blik"
+                        />
+                        <label class="form-check-label" for="blik">
+                            <img src="assets/blik.svg" width="50px" height="50px" alt="obrazek z pieniędzmi" />
+                            BLIK
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <ng-container *ngIf="isOrder()">
+                <tr>
+                    <td colspan="5">Zamówienie na przerwę:</td>
+                    <td>
+                        <select
+                            [ngModel]="lessonId"
+                            (ngModelChange)="lessonIdChange.next($event)"
+                            name="lessonId"
+                            class="form-select"
+                        >
+                            <option [ngValue]="null">Obecna</option>
+                            <option *ngFor="let lesson of lessons$ | async" [ngValue]="lesson.id">
+                                {{ lesson | lessonTime }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fs-3 order-number" colspan="5">Zamówienie o numerze:</td>
+                    <td class="fs-3">{{ currentOrderNumber$ | async }}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
