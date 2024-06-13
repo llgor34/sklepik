@@ -1,12 +1,12 @@
 import { jsPDF } from 'jspdf';
-import moment from 'moment';
 import * as autoTable from 'jspdf-autotable';
 import * as robotoNormalFont from '../../../public/Roboto/Roboto-Regular-normal.mjs';
 import * as robotoBoldFont from '../../../public/Roboto/Roboto-Regular-bold.mjs';
 import * as robotoItalicFont from '../../../public/Roboto/Roboto-Regular-italic.mjs';
+import { dateToRaportPDFFormat } from '../../../general/date.mjs';
 
 export async function generateRaportPDF(raportRaw, dateRaw, number, yearNumber) {
-    const date = moment(dateRaw).format('DD.MM.YY');
+    const date = dateToRaportPDFFormat(dateRaw);
 
     const RAPORT_PATH = 'test.pdf';
     const CURRENCY = 'PLN';

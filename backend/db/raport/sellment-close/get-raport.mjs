@@ -1,5 +1,13 @@
+import { dateToRaportPDFFormat } from '../../../general/date.mjs';
 import { query } from '../../../general/db-functions.mjs';
 import Decimal from 'decimal.js';
+
+export async function getRaportPreview(raportId) {
+    const raportPreview = await getRaport(raportId);
+    raportPreview.raportInfo.date = dateToRaportPDFFormat(raportPreview.raportInfo.date);
+
+    return raportPreview;
+}
 
 export async function getRaport(raportId) {
     let products = null;

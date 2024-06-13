@@ -2,18 +2,24 @@ import express from 'express';
 import fs from 'fs';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
-import { getRaport } from '../db/raport/sellment-close/get-raport.mjs';
+import { getRaport, getRaportPreview } from '../db/raport/sellment-close/get-raport.mjs';
 import { generateRaport } from '../db/raport/sellment-close/generate-raport.mjs';
 import { generateRaportPDF } from '../db/raport/sellment-close/generate-raport-pdf.mjs';
 import { sendErrorMessage, sendSuccessMessage } from '../general/messages.mjs';
 import { createLog } from '../db/logs.mjs';
+import { getAllRaportsPreview } from '../db/raport/sellment-close/get-all-raports-preview.mjs';
 
 const router = express.Router();
+
+router.get('/sellment-close/raport-preview/all', verifyAccessToken, async (req, res) => {
+    const allRaportsPreview = await getAllRaportsPreview();
+    sendSuccessMessage(res, allRaportsPreview);
+});
 
 router.get('/sellment-close/raport-preview/:id', verifyAccessToken, async (req, res) => {
     const { id } = req.params;
     try {
-        const data = await getRaport(id);
+        const data = await getRaportPreview(id);
         sendSuccessMessage(res, data);
     } catch (error) {
         sendErrorMessage(res, 404, 'Raport with provided id does not exist!');
@@ -21,7 +27,7 @@ router.get('/sellment-close/raport-preview/:id', verifyAccessToken, async (req, 
 });
 
 router.get('/sellment-close/raport-preview', verifyAccessToken, async (req, res) => {
-    const data = await getRaport();
+    const data = await getRaportPreview();
     sendSuccessMessage(res, data);
 });
 
