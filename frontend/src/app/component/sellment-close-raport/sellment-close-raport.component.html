@@ -14,7 +14,7 @@
             <th>Ilość</th>
             <th>Suma</th>
         </tr>
-        <ng-container *ngFor="let raportProduct of raport.products | keyvalue">
+        <ng-container *ngFor="let raportProduct of raportPreview.products | keyvalue">
             <tr *ngFor="let product of raportProduct.value.products; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ product.code }}</td>
@@ -33,21 +33,21 @@
         <tr>
             <th colspan="5">Łącznie na kasie</th>
             <th class="currency">
-                {{ raport.totalPriceWithDiscounts | currency : ' ' }}
+                {{ raportPreview.totalPriceWithDiscounts | currency : ' ' }}
             </th>
         </tr>
         <tr>
             <th colspan="5">Suma obrotu</th>
-            <th class="currency">{{ raport.totalPrice | currency : ' ' }}</th>
+            <th class="currency">{{ raportPreview.totalPrice | currency : ' ' }}</th>
         </tr>
         <tr class="signature">
             <td colspan="3">
                 <h2>Saldo kasowe (pomniejszone o wkład 30zł)</h2>
-                <p class="currency">{{ raport.totalCashPrice | currency : ' ' }}</p>
+                <p class="currency">{{ raportPreview.totalCashPrice | currency : ' ' }}</p>
             </td>
             <td colspan="3">
                 <h2>Saldo terminala (wypełniane następnego dnia)</h2>
-                <p class="currency">{{ raport.totalNonCashPrice | currency : ' ' }}</p>
+                <p class="currency">{{ raportPreview.totalNonCashPrice | currency : ' ' }}</p>
             </td>
         </tr>
         <tr class="signature">
@@ -59,7 +59,7 @@
     <div class="d-flex flex-wrap justify-content-center mi">
         <button
             *appRequiredRoles="['admin']"
-            [disabled]="isLoading || isRaportGenerated || !raport.totalPrice"
+            [disabled]="isLoading || isRaportGenerated || !raportPreview.totalPrice"
             (click)="generateRaport()"
             class="btn btn-danger"
         >

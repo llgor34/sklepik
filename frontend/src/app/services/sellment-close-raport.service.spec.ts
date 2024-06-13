@@ -8,6 +8,18 @@ import { Response } from '../interfaces/response.interface';
 describe('SellmentCloseRaportService', () => {
     let service: SellmentCloseRaportService;
     let httpController: HttpTestingController;
+    const mockRaportData: SellmentCloseRaport = {
+        products: {
+            article: { products: [], totalPrice: 100, totalPriceLabel: 'kwota' },
+            discount: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+            product: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+            promotion: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
+        },
+        totalCashPrice: 100,
+        totalNonCashPrice: 100,
+        totalPrice: 200,
+        totalPriceWithDiscounts: 200,
+    };
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -23,32 +35,21 @@ describe('SellmentCloseRaportService', () => {
         httpController.verify();
     });
 
-    describe('getProducts()', () => {
-        const url = 'api/raports/sellment-close/latest-raport-preview';
+    describe('getRaportPreviewLatest$()', () => {
+        const url = 'api/raports/sellment-close/raport-preview';
 
-        it(`should GET request "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getProducts$(), httpController);
+        it(`should GET request on ${url}`, () => {
+            testRequestType(url, 'GET', () => service.getRaportPreviewLatest$(), httpController);
         });
 
         it('should return SellmentCloseRaport', () => {
             const mockResponse: Response<SellmentCloseRaport> = {
                 ok: true,
                 message: 'SUCCESS',
-                data: {
-                    products: {
-                        article: { products: [], totalPrice: 100, totalPriceLabel: 'kwota' },
-                        discount: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
-                        product: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
-                        promotion: { products: [], totalPrice: 100, totalPriceLabel: 'test' },
-                    },
-                    totalCashPrice: 100,
-                    totalNonCashPrice: 100,
-                    totalPrice: 200,
-                    totalPriceWithDiscounts: 200,
-                },
+                data: mockRaportData,
             };
 
-            service.getProducts$().subscribe((raport) => {
+            service.getRaportPreviewLatest$().subscribe((raport) => {
                 expect(raport).toEqual(mockResponse.data);
             });
 
@@ -57,17 +58,61 @@ describe('SellmentCloseRaportService', () => {
         });
     });
 
-    describe('generateRaport$()', () => {
+    describe('getRaportPreviewById$()', () => {
+        const id = 1;
+        const url = `api/raports/sellment-close/raport-preview/${id}`;
+
+        it(`should GET request on ${url}`, () => {
+            testRequestType(url, 'GET', () => service.getRaportPreviewById$(id), httpController);
+        });
+
+        it('should return SellmentCloseRaport', () => {
+            const mockResponse: Response<SellmentCloseRaport> = {
+                ok: true,
+                message: 'SUCCESS',
+                data: mockRaportData,
+            };
+
+            service.getRaportPreviewById$(id).subscribe((raport) => {
+                expect(raport).toEqual(mockResponse.data);
+            });
+
+            const testRequest = httpController.expectOne(url);
+            testRequest.flush(mockResponse);
+        });
+    });
+
+    describe('generateRaportLatest$()', () => {
         const url = 'api/raports/sellment-close/generate-raport';
 
-        it(`should GET request "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.generateRaport$(), httpController);
+        it(`should GET request on ${url}`, () => {
+            testRequestType(url, 'GET', () => service.generateRaportLatest$(), httpController);
         });
 
         it('should return Blob', () => {
             const mockResponse: Blob = new Blob();
 
-            service.generateRaport$().subscribe((blob) => {
+            service.generateRaportLatest$().subscribe((blob) => {
+                expect(blob).toEqual(mockResponse);
+            });
+
+            const testRequest = httpController.expectOne(url);
+            testRequest.flush(mockResponse);
+        });
+    });
+
+    describe('generateRaportById$()', () => {
+        const id = 1;
+        const url = `api/raports/sellment-close/generate-raport/${id}`;
+
+        it(`should GET request ${url}`, () => {
+            testRequestType(url, 'GET', () => service.generateRaportById$(id), httpController);
+        });
+
+        it('should return Blob', () => {
+            const mockResponse: Blob = new Blob();
+
+            service.generateRaportById$(id).subscribe((blob) => {
                 expect(blob).toEqual(mockResponse);
             });
 

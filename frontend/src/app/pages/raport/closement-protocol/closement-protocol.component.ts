@@ -9,7 +9,7 @@ import { SellmentCloseRaportService } from 'src/app/services/sellment-close-rapo
     templateUrl: './closement-protocol.component.html',
 })
 export class ClosementProtocolComponent {
-    raport$: Observable<SellmentCloseRaport> = this.sellmentCloseRaportService.getProducts$();
+    raportPreview$: Observable<SellmentCloseRaport> = this.sellmentCloseRaportService.getRaportPreviewLatest$();
     todayDate = this.dateService.getDate();
 
     constructor(private sellmentCloseRaportService: SellmentCloseRaportService, private dateService: DateService) {}

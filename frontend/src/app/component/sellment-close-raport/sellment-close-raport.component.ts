@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SellmentCloseRaport } from 'src/app/interfaces/sellment-close-product.interface';
 import { FileService } from 'src/app/services/file.service';
 import { SellmentCloseRaportService } from 'src/app/services/sellment-close-raport.service';
@@ -10,7 +11,8 @@ import { ToastService } from 'src/app/services/toast.service';
     styleUrls: ['./sellment-close-raport.component.css'],
 })
 export class SellmentCloseRaportComponent {
-    @Input() raport!: SellmentCloseRaport;
+    @Input() raportPreview!: SellmentCloseRaport;
+    @Input() raportId: number | null = null;
     @Input() date!: string;
 
     isLoading = false;
@@ -26,7 +28,10 @@ export class SellmentCloseRaportComponent {
 
     generateRaport(): void {
         this.startLoading();
-        this.sellmentCloseRaportService.generateRaport$().subscribe({
+
+        const generateRaport$: Observable<Blob> = this.generateRaportFnFactory();
+
+        generateRaport$.subscribe({
             next: (file: Blob) => {
                 this.finishLoading();
                 this.setRaportGeneratedToTrue();
@@ -39,6 +44,18 @@ export class SellmentCloseRaportComponent {
                 this.showRaportGenerationErrorMessage();
             },
         });
+    }
+
+    private generateRaportFnFactory(): Observable<Blob> {
+        return this.raportId ? this.generateRaportById(this.raportId) : this.generateRaportLatest();
+    }
+
+    private generateRaportLatest(): Observable<Blob> {
+        return this.sellmentCloseRaportService.generateRaportLatest$();
+    }
+
+    private generateRaportById(id: number): Observable<Blob> {
+        return this.sellmentCloseRaportService.generateRaportById$(id);
     }
 
     private startLoading(): void {

@@ -10,15 +10,23 @@ import { Response } from '../interfaces/response.interface';
 export class SellmentCloseRaportService {
     constructor(private http: HttpClient) {}
 
-    getProducts$(): Observable<SellmentCloseRaport> {
+    getRaportPreviewLatest$(): Observable<SellmentCloseRaport> {
         return this.http
-            .get<Response<SellmentCloseRaport>>('api/raports/sellment-close/latest-raport-preview')
+            .get<Response<SellmentCloseRaport>>('api/raports/sellment-close/raport-preview')
             .pipe(map((res) => res.data));
     }
 
-    generateRaport$(): Observable<Blob> {
-        return this.http.get('api/raports/sellment-close/generate-raport', {
-            responseType: 'blob',
-        });
+    getRaportPreviewById$(id: number): Observable<SellmentCloseRaport> {
+        return this.http
+            .get<Response<SellmentCloseRaport>>(`api/raports/sellment-close/raport-preview/${id}`)
+            .pipe(map((res) => res.data));
+    }
+
+    generateRaportLatest$(): Observable<Blob> {
+        return this.http.get('api/raports/sellment-close/generate-raport', { responseType: 'blob' });
+    }
+
+    generateRaportById$(id: number): Observable<Blob> {
+        return this.http.get(`api/raports/sellment-close/generate-raport/${id}`, { responseType: 'blob' });
     }
 }
