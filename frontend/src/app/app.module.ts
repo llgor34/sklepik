@@ -12,12 +12,11 @@ import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { initializeApp } from './app.initializer';
 import { AuthService } from './services/auth.service';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
-import { RaportComponent } from './pages/raport/raport.component';
-import { ArchiveComponent } from './pages/archive/archive.component';
+import { RaportComponent } from './pages/raport-default/raport.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { RequiredRolesDirective } from './directives/required-roles.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
+import { RaportClosementComponent } from './pages/raport-closement/raport-closement.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
@@ -56,7 +55,6 @@ import { EditableListFieldComponent } from './component/editable-list-field/edit
 import { EditableFieldComponent } from './component/editable-field/editable-field.component';
 import { FocusWhenDisplayedDirective } from './directives/focus-when-displayed.directive';
 import { AnimateOnEnterDirective } from './directives/animate-on-enter.directive';
-import { SellmentCloseRaportComponent } from './component/sellment-close-raport/sellment-close-raport.component';
 import { SellProductsHeaderComponent } from './component/sell-products-header/sell-products-header.component';
 import { ProductsTableComponent } from './component/products-table/products-table.component';
 import { MaxIfDirective } from './directives/max-if.directive';
@@ -69,10 +67,9 @@ import { MaxIfDirective } from './directives/max-if.directive';
         SidebarComponent,
         SellProductsComponent,
         RaportComponent,
-        ArchiveComponent,
         OrdersComponent,
         RequiredRolesDirective,
-        ClosementProtocolComponent,
+        RaportClosementComponent,
         SellDefaultComponent,
         CardTableComponent,
         firstElementOfArray,
@@ -110,7 +107,6 @@ import { MaxIfDirective } from './directives/max-if.directive';
         EditableFieldComponent,
         FocusWhenDisplayedDirective,
         AnimateOnEnterDirective,
-        SellmentCloseRaportComponent,
         SellProductsHeaderComponent,
         ProductsTableComponent,
         MaxIfDirective,

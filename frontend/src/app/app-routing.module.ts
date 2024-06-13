@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
-import { ArchiveComponent } from './pages/archive/archive.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
-import { RaportComponent } from './pages/raport/raport.component';
+import { RaportClosementComponent } from './pages/raport-closement/raport-closement.component';
+import { RaportComponent } from './pages/raport-default/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
@@ -76,13 +75,9 @@ const routes: TypedRoutes = [
                     },
                     {
                         path: 'closement-protocol',
-                        component: ClosementProtocolComponent,
+                        component: RaportClosementComponent,
                     },
                 ],
-            },
-            {
-                path: 'archive',
-                component: ArchiveComponent,
             },
             {
                 path: 'panel',
