@@ -17,7 +17,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { RequiredRolesDirective } from './directives/required-roles.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
+import { LatestClosementProtocolComponent } from './pages/raport/latest-closement-protocol/latest-closement-protocol.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { firstElementOfArray } from './pipes/first-element-of-array.pipe';
@@ -72,7 +72,7 @@ import { MaxIfDirective } from './directives/max-if.directive';
         ArchiveComponent,
         OrdersComponent,
         RequiredRolesDirective,
-        ClosementProtocolComponent,
+        LatestClosementProtocolComponent,
         SellDefaultComponent,
         CardTableComponent,
         firstElementOfArray,

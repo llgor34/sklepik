@@ -6,7 +6,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { ClosementProtocolComponent } from './pages/raport/closement-protocol/closement-protocol.component';
+import { LatestClosementProtocolComponent } from './pages/raport/latest-closement-protocol/latest-closement-protocol.component';
 import { RaportComponent } from './pages/raport/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
@@ -76,7 +76,7 @@ const routes: TypedRoutes = [
                     },
                     {
                         path: 'closement-protocol',
-                        component: ClosementProtocolComponent,
+                        component: LatestClosementProtocolComponent,
                     },
                 ],
             },

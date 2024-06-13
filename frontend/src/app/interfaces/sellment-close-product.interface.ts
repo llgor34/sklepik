@@ -1,6 +1,11 @@
 import { ProductType } from './product-type.interface';
 
 export interface SellmentCloseRaport {
+    raport: SellmentCloseRaportData;
+    raportInfo: SellmentCloseRaportInfo;
+}
+
+export interface SellmentCloseRaportData {
     totalPrice: number;
     totalPriceWithDiscounts: number;
     totalCashPrice: number;
@@ -11,6 +16,13 @@ export interface SellmentCloseRaport {
         discount: SellmentCloseRaportProductData;
         promotion: SellmentCloseRaportProductData;
     };
+}
+
+export interface SellmentCloseRaportInfo {
+    date: string;
+    number: number;
+    year_number: string;
+    id: number;
 }
 
 export interface SellmentCloseRaportProductData {

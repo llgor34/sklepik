@@ -14,7 +14,7 @@ router.get('/sellment-close/raport-preview/:id', verifyAccessToken, async (req, 
     const { id } = req.params;
     try {
         const data = await getRaport(id);
-        sendSuccessMessage(res, data.raport);
+        sendSuccessMessage(res, data);
     } catch (error) {
         sendErrorMessage(res, 404, 'Raport with provided id does not exist!');
     }
@@ -22,7 +22,7 @@ router.get('/sellment-close/raport-preview/:id', verifyAccessToken, async (req, 
 
 router.get('/sellment-close/raport-preview', verifyAccessToken, async (req, res) => {
     const data = await getRaport();
-    sendSuccessMessage(res, data.raport);
+    sendSuccessMessage(res, data);
 });
 
 router.get(
