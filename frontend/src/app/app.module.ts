@@ -13,7 +13,6 @@ import { initializeApp } from './app.initializer';
 import { AuthService } from './services/auth.service';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { RaportComponent } from './pages/raport/raport.component';
-import { ArchiveComponent } from './pages/archive/archive.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { RequiredRolesDirective } from './directives/required-roles.directive';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -69,7 +68,6 @@ import { MaxIfDirective } from './directives/max-if.directive';
         SidebarComponent,
         SellProductsComponent,
         RaportComponent,
-        ArchiveComponent,
         OrdersComponent,
         RequiredRolesDirective,
         LatestClosementProtocolComponent,

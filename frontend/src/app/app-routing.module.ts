@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
-import { ArchiveComponent } from './pages/archive/archive.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
@@ -79,10 +78,6 @@ const routes: TypedRoutes = [
                         component: LatestClosementProtocolComponent,
                     },
                 ],
-            },
-            {
-                path: 'archive',
-                component: ArchiveComponent,
             },
             {
                 path: 'panel',
