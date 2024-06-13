@@ -8,11 +8,11 @@ import { SellmentCloseRaportService } from 'src/app/services/sellment-close-rapo
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-    selector: 'app-sellment-close-raport',
-    templateUrl: './sellment-close-raport.component.html',
-    styleUrls: ['./sellment-close-raport.component.css'],
+    selector: 'app-raport-closement',
+    templateUrl: './raport-closement.component.html',
+    styleUrls: ['./raport-closement.component.css'],
 })
-export class SellmentCloseRaportComponent implements OnInit, OnDestroy {
+export class RaportClosementComponent implements OnInit, OnDestroy {
     raportIdControl = new FormControl<number | null>(null);
 
     raportsPreviewData$: Observable<SellmentClosePreviewData[]> =

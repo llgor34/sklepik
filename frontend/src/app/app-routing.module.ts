@@ -5,8 +5,8 @@ import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { LatestClosementProtocolComponent } from './pages/raport/latest-closement-protocol/latest-closement-protocol.component';
-import { RaportComponent } from './pages/raport/raport.component';
+import { RaportClosementComponent } from './pages/raport-closement/raport-closement.component';
+import { RaportComponent } from './pages/raport-default/raport.component';
 import { SellProductsComponent } from './pages/sell-products/sell-products.component';
 import { SellDefaultComponent } from './pages/sell-default/sell-default.component';
 import { PanelHoursSettlementComponent } from './pages/panel-hours-settlement/panel-hours-settlement.component';
@@ -75,7 +75,7 @@ const routes: TypedRoutes = [
                     },
                     {
                         path: 'closement-protocol',
-                        component: LatestClosementProtocolComponent,
+                        component: RaportClosementComponent,
                     },
                 ],
             },
