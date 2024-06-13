@@ -1,5 +1,4 @@
 import express from 'express';
-import moment from 'moment';
 import fs from 'fs';
 
 import { verifyAccessToken, hasRoleMiddleware } from '../general/auth-functions.mjs';
@@ -63,9 +62,13 @@ router.get(
         }
 
         const raport = await getRaport(raportInfo.id);
-        const date = moment(raportInfo.date).format('DD.MM.YY');
 
-        const raportPath = await generateRaportPDF(raport.raport, date, raportInfo.number, raportInfo.year_number);
+        const raportPath = await generateRaportPDF(
+            raport.raport,
+            raportInfo.date,
+            raportInfo.number,
+            raportInfo.year_number
+        );
         const pdfFile = fs.readFileSync(raportPath);
         fs.rmSync(raportPath);
 
