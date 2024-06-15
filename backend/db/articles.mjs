@@ -136,15 +136,22 @@ export async function deleteArticle(id) {
 }
 
 export async function updateArticlesStockAmount(articles) {
-    const articlesId = articles.filter(toNotBePromotion).filter(toNotBeDiscount).map(toId);
-    await query(`UPDATE articles SET stock_amount = stock_amount - 1 WHERE articles.id IN (${articlesId.join(',')})`);
+    const articlesFiltered = articles.filter(notToBeDiscount).filter(notToBePromotion);
+    await Promise.all(
+        articlesFiltered.map((article) =>
+            query(`UPDATE articles SET stock_amount = stock_amount - ? WHERE articles.id = ?;`, [
+                article.amount,
+                article.id,
+            ])
+        )
+    );
 }
 
-function toNotBePromotion(article) {
+function notToBePromotion(article) {
     return article.type !== 'promotion';
 }
 
-function toNotBeDiscount(article) {
+function notToBeDiscount(article) {
     return article.typ !== 'discount';
 }
 
