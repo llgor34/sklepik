@@ -1,14 +1,27 @@
+import { dateToRaportPDFFormat } from '../../../general/date.mjs';
 import { query } from '../../../general/db-functions.mjs';
 import Decimal from 'decimal.js';
+
+export async function getRaportPreview(raportId) {
+    const raportPreview = await getRaport(raportId);
+    raportPreview.raportInfo.date = dateToRaportPDFFormat(raportPreview.raportInfo.date);
+
+    return raportPreview;
+}
 
 export async function getRaport(raportId) {
     let products = null;
     let paymentMethodsTotal = null;
+    let raport = null;
 
     // TODO: remove duplication
     if (raportId) {
         const result = await query(`SELECT * FROM sellment_close WHERE id = ${raportId}`);
-        const raport = result[0];
+        raport = result[0];
+
+        if (!raport) {
+            throw new Error('RAPORT_DOESNT_EXIST');
+        }
 
         products = await query(
             `
@@ -35,7 +48,7 @@ export async function getRaport(raportId) {
         );
     } else {
         const result = await query('SELECT * FROM sellment_close ORDER BY id DESC LIMIT 1');
-        const raport = result[0];
+        raport = result[0];
 
         products = await query(
             `
@@ -74,7 +87,21 @@ export async function getRaport(raportId) {
         paymentMethodsTotal.filter((el) => el.payment_method_id == 2)[0]?.sum || 0
     ).toNumber();
 
-    return { totalPrice, totalPriceWithDiscounts, totalCashPrice, totalNonCashPrice, products: sortedProducts };
+    return {
+        raport: {
+            totalPrice,
+            totalPriceWithDiscounts,
+            totalCashPrice,
+            totalNonCashPrice,
+            products: sortedProducts,
+        },
+        raportInfo: {
+            date: raport.date,
+            number: raport.number,
+            year_number: raport.year_number,
+            id: raport.id,
+        },
+    };
 }
 
 function alterDataStructure(products) {

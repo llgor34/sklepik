@@ -1,0 +1,22 @@
+<h1>Towary i produkty</h1>
+<form>
+    <div class="row">
+        <div class="col">
+            <input
+                class="form-control"
+                type="number"
+                name="productCode"
+                #productCodeControl
+                [(ngModel)]="productCode"
+            />
+        </div>
+        <div class="col">
+            <button (click)="onSearch()" class="btn btn-primary" type="submit">Wyszukaj</button>
+        </div>
+        <div class="col">
+            <button (click)="onEndSell()" [disabled]="isEndSellDisabled" class="btn btn-warning w-100">
+                Zakończ sprzedaż
+            </button>
+        </div>
+    </div>
+</form>
