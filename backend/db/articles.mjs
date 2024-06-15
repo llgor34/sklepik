@@ -46,6 +46,7 @@ export async function getArticles() {
         articles.full_name, 
         articles.price, 
         articles.code, 
+        articles.stock_amount,
         companies.id as company_id, 
         companies.name as company_name
     FROM 
@@ -61,7 +62,7 @@ export async function getArticles() {
 }
 
 async function getArticleObj(article) {
-    const { id, type, short_name, full_name, price, code, company_id, company_name } = article;
+    const { id, type, short_name, full_name, price, code, stock_amount, company_id, company_name } = article;
 
     const articleOptionsRAW = await query(
         `
@@ -110,6 +111,7 @@ async function getArticleObj(article) {
         full_name,
         price: price,
         code,
+        stock_amount,
         company: {
             id: company_id,
             name: company_name,

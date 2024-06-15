@@ -12,6 +12,7 @@
         <th>Krótka nazwa</th>
         <th>Pełna nazwa</th>
         <th>Cena</th>
+        <th>Ilość na stanie</th>
         <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="observableContext" let-products>
@@ -47,6 +48,15 @@
                 <app-editable-value-field
                     [value]="product.price"
                     (valueChange)="onFieldChange(product, { price: $event })"
+                ></app-editable-value-field>
+            </td>
+            <td
+                [class.bg-warning-subtle]="product.stock_amount <= 5"
+                [class.bg-danger-subtle]="product.stock_amount <= 0"
+            >
+                <app-editable-value-field
+                    [value]="product.stock_amount"
+                    (valueChange)="onFieldChange(product, { stock_amount: $event })"
                 ></app-editable-value-field>
             </td>
             <td>
