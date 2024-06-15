@@ -1,46 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { Socket, io } from 'socket.io-client';
-import { environment } from 'src/environments/environment';
+import { Observable, map } from 'rxjs';
+import { Socket } from 'socket.io-client';
 
 import { NumeratedProduct } from '../interfaces/product.interface';
 import { PaymentMethod } from '../interfaces/payment-method.interface';
 import { Order, OrderStatus } from '../interfaces/order.interface';
 import { Response } from '../interfaces/response.interface';
+import { SocketService } from './socket.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class OrderService {
-    private socket: Socket | null = null;
-    private listenersCount$ = new BehaviorSubject(0);
-
-    constructor(private http: HttpClient) {
-        this.listenersCount$.subscribe((count) => {
-            if (count === 0) {
-                this.closeConnection();
-            }
-        });
-    }
-
-    private createConnection() {
-        if (this.socket) return;
-
-        this.socket = io(`/orders`, environment.wsConfig);
-        this.listenersCount$.next(this.listenersCount$.value + 1);
-    }
-
-    private closeConnection() {
-        if (!this.socket) return;
-
-        this.socket.close();
-        this.socket = null;
-    }
-
-    private onObservableDestroy() {
-        this.listenersCount$.next(this.listenersCount$.value - 1);
-    }
+    constructor(private http: HttpClient, private socketService: SocketService) {}
 
     createOrder$(
         products: NumeratedProduct[],
@@ -58,13 +31,12 @@ export class OrderService {
 
     getOrders$(): Observable<Order[]> {
         const observable = new Observable<Order[]>((observer) => {
-            this.createConnection();
-            this.socket!.on('connect', () => {
-                this.socket!.on('ordersChange', (orders: Order[]) => observer.next(orders));
-                this.socket!.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
+            const socket = this.createSocketConnection();
+            socket.on('connect', () => {
+                socket.on('ordersChange', (orders: Order[]) => observer.next(orders));
+                socket.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
             });
-
-            return () => this.onObservableDestroy();
+            return () => this.closeSocketConnection(socket);
         });
 
         return observable;
@@ -72,15 +44,12 @@ export class OrderService {
 
     orderReady$(): Observable<number> {
         const observable = new Observable<number>((observer) => {
-            this.createConnection();
-            this.socket!.on('connect', () => {
-                this.socket!.on('orderReady', (orderNumber: number) => {
-                    observer.next(orderNumber);
-                });
-                this.socket!.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
+            const socket = this.createSocketConnection();
+            socket.on('connect', () => {
+                socket.on('orderReady', (orderNumber: number) => observer.next(orderNumber));
+                socket.on('reconnect_error', () => observer.error('Unexpected problem with socket connection'));
             });
-
-            return () => this.onObservableDestroy();
+            return () => this.closeSocketConnection(socket);
         });
 
         return observable;
@@ -92,5 +61,13 @@ export class OrderService {
 
     getCurrentOrderNumber$(): Observable<number> {
         return this.http.get<Response<number>>('api/order/current-order-number').pipe(map((res) => res.data));
+    }
+
+    private createSocketConnection(): Socket {
+        return this.socketService.createConnection('/orders');
+    }
+
+    private closeSocketConnection(socket: Socket): void {
+        this.socketService.closeConnection(socket);
     }
 }
