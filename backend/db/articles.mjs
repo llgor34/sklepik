@@ -119,14 +119,10 @@ async function getArticleObj(article) {
 }
 
 export async function createArticle(price, code, type, short_name, full_name, comapanyId = null) {
-    return await query(`INSERT INTO articles VALUES (null, ?, ?, ?, ?, ?, ?)`, [
-        price,
-        code,
-        type,
-        short_name,
-        full_name,
-        comapanyId,
-    ]);
+    return await query(
+        `INSERT INTO articles(id, price, code, type, short_name, full_name, company_id, stock_amount) VALUES (null, ?, ?, ?, ?, ?, ?, 0)`,
+        [price, code, type, short_name, full_name, comapanyId]
+    );
 }
 
 export async function updateArticle(articleId, fieldData) {
@@ -135,4 +131,21 @@ export async function updateArticle(articleId, fieldData) {
 
 export async function deleteArticle(id) {
     return await query(`DELETE FROM articles WHERE id = ?`, [id]);
+}
+
+export async function updateArticlesStockAmount(articles) {
+    const articlesId = articles.filter(toNotBePromotion).filter(toNotBeDiscount).map(toId);
+    await query(`UPDATE articles SET stock_amount = stock_amount - 1 WHERE articles.id IN (${articlesId.join(',')})`);
+}
+
+function toNotBePromotion(article) {
+    return article.type !== 'promotion';
+}
+
+function toNotBeDiscount(article) {
+    return article.typ !== 'discount';
+}
+
+function toId(article) {
+    return article.id;
 }
