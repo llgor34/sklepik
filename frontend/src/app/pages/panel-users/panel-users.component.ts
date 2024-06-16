@@ -8,32 +8,30 @@ import { UserService } from 'src/app/services/user.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { Role } from 'src/app/interfaces/role.interface';
 import { NewRecordService } from 'src/app/services/new-record.service';
+import { providePanelServiceEndpoint } from 'src/app/constants/endpoint.constant';
+import { PanelService } from 'src/app/services/panel.service';
 
 @Component({
     selector: 'app-panel-users',
     templateUrl: './panel-users.component.html',
     styleUrls: ['./panel-users.component.css'],
-    providers: [NewRecordService],
+    providers: [
+        NewRecordService,
+        { provide: PanelService, useClass: UserService },
+        providePanelServiceEndpoint('api/users'),
+    ],
 })
 export class PanelUsersComponent extends PanelComponent<User> implements OnInit {
-    userService: UserService = inject(UserService);
     rolesService: RolesService = inject(RolesService);
 
     roles$: Observable<Role[]> = this.rolesService.getRoles$();
-    users$: Observable<User[]> = this.userService.getUsers$();
+    users$: Observable<User[]> = this.panelService.getRecords$();
     userType!: TableBodyContext<(User & NumeratedIdx)[]>;
 
-    ngOnInit(): void {
-        super.initializeComponent(
-            this.userService.getUsers$,
-            this.userService.updateUserData$,
-            this.userService.deleteUser$,
-            this.userService.createUser$
-        );
-    }
-
     onUserRolesChange(user: User, roles: Role[]) {
-        this.userService.updateUserRoles$(user.id!, roles).subscribe(() => this.showUpdateSuccess(user.id!));
+        (this.panelService as UserService)
+            .updateUserRoles$(user.id!, roles)
+            .subscribe(() => this.showUpdateSuccess(user.id!));
     }
 
     override getEmptyRecord(): User {

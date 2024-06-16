@@ -187,154 +187,50 @@ describe('ProductsService', () => {
         });
     });
 
-    describe('getProducts$()', () => {
-        const url = 'api/product';
+    function getProducts(): Product[] {
+        const products: Product[] = [];
+        products.length = 6;
+        products.fill(getProduct(), 0, 5);
+        return products;
+    }
 
-        it(`should GET request "${url}"`, () => {
-            testRequestType(url, 'GET', () => service.getProducts$(), httpController);
-        });
+    function getProduct(): Product {
+        return {
+            code: '',
+            company: { id: 0, name: '' },
+            full_name: '',
+            id: 0,
+            maxDiscountAmount: 0,
+            price: 0,
+            product_category_options: [],
+            short_name: '',
+            stock_amount: 0,
+            type: 'article',
+        };
+    }
 
-        it('should return Product[]', () => {
-            const mockResponse: Response<Product[]> = {
-                ok: true,
-                message: 'SUCCESS',
-                data: getProducts(),
-            };
+    function getProductData(): Partial<Product> {
+        return { code: '123' };
+    }
 
-            service.getProducts$().subscribe((products) => {
-                expect(products).toEqual(mockResponse.data);
-            });
+    function setOptionForProductAtIdx(products: Product[], idx: number) {
+        setOptionForProduct(products[idx]);
+    }
 
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
+    function setOptionForProduct(product: Product) {
+        product.product_category_options = [{ category_id: 1, category_name: '', options: [{ id: 1, name: '' }] }];
+    }
 
-    describe('updateProduct$()', () => {
-        const id = 0;
-        const url = `api/product/${id}`;
+    function convertProductToNumeratedProduct(product: Product): NumeratedProduct {
+        const numeratedProduct = {
+            ...product,
+            amount: 1,
+            selectedOptions: product.product_category_options!.map((category) => ({
+                category_id: category.category_id,
+                option_id: category.options[0].id,
+            })),
+        };
 
-        let productData: Partial<Product>;
-
-        beforeEach(() => {
-            productData = getProductData();
-        });
-
-        it(`should PUT request "${url}"`, () => {
-            testRequestType(url, 'PUT', () => service.updateProduct$(id, productData), httpController);
-        });
-
-        it('should return Response', () => {
-            const mockResponse: Response = {
-                ok: true,
-                message: 'SUCCESS',
-                data: null,
-            };
-
-            service.updateProduct$(id, productData).subscribe((response) => {
-                expect(response).toEqual(mockResponse);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
-
-    describe('deleteProduct$()', () => {
-        const id = 0;
-        const url = `api/product/${id}`;
-
-        it(`should DELETE request "${url}"`, () => {
-            testRequestType(url, 'DELETE', () => service.deleteProduct$(id), httpController);
-        });
-
-        it('should return Response', () => {
-            const mockResponse: Response = {
-                ok: true,
-                message: 'SUCCESS',
-                data: null,
-            };
-
-            service.deleteProduct$(id).subscribe((response) => {
-                expect(response).toEqual(mockResponse);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
-
-    describe('createProduct()', () => {
-        const url = `api/product`;
-        let product: Product;
-
-        beforeEach(() => {
-            product = getProduct();
-        });
-
-        it(`should POST request "${url}"`, () => {
-            testRequestType(url, 'POST', () => service.createProduct$(product), httpController);
-        });
-
-        it('should return IdResponse', () => {
-            const mockResponse: Response<number> = {
-                ok: true,
-                message: 'SUCCESS',
-                data: 0,
-            };
-
-            service.createProduct$(product).subscribe((id) => {
-                expect(id).toEqual(mockResponse.data);
-            });
-
-            const testRequest = httpController.expectOne(url);
-            testRequest.flush(mockResponse);
-        });
-    });
+        return numeratedProduct;
+    }
 });
-
-function getProducts(): Product[] {
-    const products: Product[] = [];
-    products.length = 6;
-    products.fill(getProduct(), 0, 5);
-    return products;
-}
-
-function getProduct(): Product {
-    return {
-        code: '',
-        company: { id: 0, name: '' },
-        full_name: '',
-        id: 0,
-        maxDiscountAmount: 0,
-        price: 0,
-        product_category_options: [],
-        short_name: '',
-        type: 'article',
-    };
-}
-
-function getProductData(): Partial<Product> {
-    return { code: '123' };
-}
-
-function setOptionForProductAtIdx(products: Product[], idx: number) {
-    setOptionForProduct(products[idx]);
-}
-
-function setOptionForProduct(product: Product) {
-    product.product_category_options = [{ category_id: 1, category_name: '', options: [{ id: 1, name: '' }] }];
-}
-
-function convertProductToNumeratedProduct(product: Product): NumeratedProduct {
-    const numeratedProduct = {
-        ...product,
-        amount: 1,
-        selectedOptions: product.product_category_options!.map((category) => ({
-            category_id: category.category_id,
-            option_id: category.options[0].id,
-        })),
-    };
-
-    return numeratedProduct;
-}

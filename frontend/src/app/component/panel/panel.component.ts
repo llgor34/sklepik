@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, shareReplay, switchMap } from 'rxjs';
 import { CreateFn } from 'src/app/interfaces/create-fn.interface';
 import { DeleteFn } from 'src/app/interfaces/delete-fn.interface';
@@ -8,6 +8,7 @@ import { NumeratedIdx } from 'src/app/interfaces/numerated.interface';
 import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
 import { UpdateFn } from 'src/app/interfaces/update-fn.interface';
 import { NewRecordService } from 'src/app/services/new-record.service';
+import { PanelService } from 'src/app/services/panel.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -15,20 +16,31 @@ import { ToastService } from 'src/app/services/toast.service';
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.css'],
 })
-export class PanelComponent<T extends Id> {
+export class PanelComponent<T extends Id> implements OnInit {
     private subscription = new Subscription();
     private refreshItems$ = new BehaviorSubject(null);
 
+    private getFn$!: GetFn<T>;
     private updateFn$!: UpdateFn;
     private deleteFn$!: DeleteFn;
-    private getFn$!: GetFn<T>;
-    private createFn$!: CreateFn<T>;
+    private createFn$!: CreateFn;
 
     toastService: ToastService = inject(ToastService);
     newRecordService: NewRecordService<T> = inject(NewRecordService);
+    panelService: PanelService<T> = inject(PanelService);
 
     observable$!: Observable<T[]>;
     observableContext!: TableBodyContext<(T & NumeratedIdx)[]>;
+
+    ngOnInit(): void {
+        console.log('RUNNED');
+        this.initializeComponent(
+            this.panelService.getRecords$,
+            this.panelService.updateRecord$,
+            this.panelService.deleteRecord$,
+            this.panelService.createRecord$
+        );
+    }
 
     onCreateItem(item: T) {
         this.createFn$(item).subscribe((id) => {
@@ -85,7 +97,7 @@ export class PanelComponent<T extends Id> {
         getFn$: GetFn<T>,
         updateFn$: UpdateFn,
         deleteFn$: DeleteFn,
-        createFn$: CreateFn<T>
+        createFn$: CreateFn
     ): void {
         this.bindHttpFunctions(updateFn$, deleteFn$, getFn$, createFn$);
         this.createRefreshObservable();
@@ -99,12 +111,7 @@ export class PanelComponent<T extends Id> {
         );
     }
 
-    private bindHttpFunctions(
-        updateFn$: UpdateFn,
-        deleteFn$: DeleteFn,
-        getFn$: GetFn<T>,
-        createFn$: CreateFn<T>
-    ): void {
+    private bindHttpFunctions(updateFn$: UpdateFn, deleteFn$: DeleteFn, getFn$: GetFn<T>, createFn$: CreateFn): void {
         this.bindUpdateFn(updateFn$);
         this.bindDeleteFn(deleteFn$);
         this.bindGetFn(getFn$);
@@ -123,7 +130,7 @@ export class PanelComponent<T extends Id> {
         this.getFn$ = getFn$;
     }
 
-    private bindCreateFn(createFn$: CreateFn<T>) {
+    private bindCreateFn(createFn$: CreateFn) {
         this.createFn$ = createFn$;
     }
 
