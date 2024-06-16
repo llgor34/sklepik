@@ -154,7 +154,3 @@ function notToBePromotion(article) {
 function notToBeDiscount(article) {
     return article.typ !== 'discount';
 }
-
-function toId(article) {
-    return article.id;
-}
