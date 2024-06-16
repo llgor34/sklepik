@@ -36,9 +36,8 @@ export async function getArticleByCode(productCode) {
     return article;
 }
 
-export async function getArticles() {
-    let articles = await query(
-        `
+export async function getArticles(orderBy, orderType) {
+    let queryStr = `
     SELECT
         articles.id, 
         articles.type, 
@@ -53,9 +52,16 @@ export async function getArticles() {
         articles
     LEFT JOIN 
         companies ON articles.company_id = companies.id
-    `,
-        []
-    );
+    `;
+
+    if (orderBy) {
+        queryStr += `ORDER BY articles.${orderBy} `;
+    }
+    if (orderType) {
+        queryStr += orderType;
+    }
+
+    let articles = await query(queryStr, []);
 
     articles = articles.map(getArticleObj);
     return await Promise.all(articles);

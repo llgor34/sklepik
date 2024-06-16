@@ -15,8 +15,14 @@ import { createLog } from '../db/logs.mjs';
 const router = express.Router();
 
 router.get('/', verifyAccessToken, async (req, res) => {
-    const articles = await getArticles();
+    const { orderBy, orderType } = req.query;
+
+    // try {
+    const articles = await getArticles(orderBy?.trim()?.toLowerCase(), orderType?.trim()?.toUpperCase());
     sendSuccessMessage(res, articles);
+    // } catch (error) {
+    // return sendErrorMessage(res, 400, 'INVALID_PARAMETERS');
+    // }
 });
 
 router.post(
