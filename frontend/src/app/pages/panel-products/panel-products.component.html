@@ -6,13 +6,13 @@
     (addNew)="onAddNewEmptyRecord()"
 >
     <ng-template #tableHead>
-        <th>Id</th>
-        <th>Kod produktu</th>
-        <th>Typ produktu</th>
-        <th>Krótka nazwa</th>
-        <th>Pełna nazwa</th>
-        <th>Cena</th>
-        <th>Ilość na stanie</th>
+        <th (click)="onTableHeaderSort('id')">Id</th>
+        <th (click)="onTableHeaderSort('code')">Kod produktu</th>
+        <th (click)="onTableHeaderSort('type')">Typ produktu</th>
+        <th (click)="onTableHeaderSort('short_name')">Krótka nazwa</th>
+        <th (click)="onTableHeaderSort('full_name')">Pełna nazwa</th>
+        <th (click)="onTableHeaderSort('price')">Cena</th>
+        <th (click)="onTableHeaderSort('stock_amount')">Ilość na stanie</th>
         <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="observableContext" let-products>
