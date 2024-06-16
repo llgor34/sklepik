@@ -6,12 +6,13 @@
     (addNew)="onAddNewEmptyRecord()"
 >
     <ng-template #tableHead>
-        <th>Id</th>
-        <th>Kod produktu</th>
-        <th>Typ produktu</th>
-        <th>Krótka nazwa</th>
-        <th>Pełna nazwa</th>
-        <th>Cena</th>
+        <th (click)="onTableHeaderSort('id')">Id</th>
+        <th (click)="onTableHeaderSort('code')">Kod produktu</th>
+        <th (click)="onTableHeaderSort('type')">Typ produktu</th>
+        <th (click)="onTableHeaderSort('short_name')">Krótka nazwa</th>
+        <th (click)="onTableHeaderSort('full_name')">Pełna nazwa</th>
+        <th (click)="onTableHeaderSort('price')">Cena</th>
+        <th (click)="onTableHeaderSort('stock_amount')">Ilość na stanie</th>
         <th>Opcje</th>
     </ng-template>
     <ng-template #tableBody [typedTemplate]="observableContext" let-products>
@@ -49,6 +50,19 @@
                     (valueChange)="onFieldChange(product, { price: $event })"
                 ></app-editable-value-field>
             </td>
+            <td
+                *ngIf="isNotDiscount(product) && isNotPromotion(product); else nd"
+                [class.bg-warning-subtle]="product.stock_amount <= 5"
+                [class.bg-danger-subtle]="product.stock_amount <= 0"
+            >
+                <app-editable-value-field
+                    [value]="product.stock_amount"
+                    (valueChange)="onFieldChange(product, { stock_amount: $event })"
+                ></app-editable-value-field>
+            </td>
+            <ng-template #nd>
+                <td>Nie dotyczy</td>
+            </ng-template>
             <td>
                 <app-confirm-button
                     label="Usuń"
