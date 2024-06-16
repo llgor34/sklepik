@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, shareReplay, switchMap } from 'rxjs';
 import { CreateFn } from 'src/app/interfaces/create-fn.interface';
 import { DeleteFn } from 'src/app/interfaces/delete-fn.interface';
+import { GetFn } from 'src/app/interfaces/get-fn.interface';
 import { Id } from 'src/app/interfaces/id.interface';
 import { NumeratedIdx } from 'src/app/interfaces/numerated.interface';
 import { TableBodyContext } from 'src/app/interfaces/table-body-context.interface';
@@ -20,6 +21,7 @@ export class PanelComponent<T extends Id> {
 
     private updateFn$!: UpdateFn;
     private deleteFn$!: DeleteFn;
+    private getFn$!: GetFn<T>;
     private createFn$!: CreateFn<T>;
 
     toastService: ToastService = inject(ToastService);
@@ -80,26 +82,32 @@ export class PanelComponent<T extends Id> {
     }
 
     protected initializeComponent(
-        observable$: Observable<T[]>,
+        getFn$: GetFn<T>,
         updateFn$: UpdateFn,
         deleteFn$: DeleteFn,
         createFn$: CreateFn<T>
     ): void {
-        this.createRefreshObservable(observable$);
-        this.bindHttpFunctions(updateFn$, deleteFn$, createFn$);
+        this.bindHttpFunctions(updateFn$, deleteFn$, getFn$, createFn$);
+        this.createRefreshObservable();
         this.listenForRecordSubmitEvent();
     }
 
-    private createRefreshObservable(observable$: Observable<T[]>): void {
+    private createRefreshObservable(): void {
         this.observable$ = this.refreshItems$.pipe(
-            switchMap(() => observable$),
+            switchMap(() => this.getFn$()),
             shareReplay(1)
         );
     }
 
-    private bindHttpFunctions(updateFn$: UpdateFn, deleteFn$: DeleteFn, createFn$: CreateFn<T>): void {
+    private bindHttpFunctions(
+        updateFn$: UpdateFn,
+        deleteFn$: DeleteFn,
+        getFn$: GetFn<T>,
+        createFn$: CreateFn<T>
+    ): void {
         this.bindUpdateFn(updateFn$);
         this.bindDeleteFn(deleteFn$);
+        this.bindGetFn(getFn$);
         this.bindCreateFn(createFn$);
     }
 
@@ -109,6 +117,10 @@ export class PanelComponent<T extends Id> {
 
     private bindDeleteFn(deleteFn$: DeleteFn) {
         this.deleteFn$ = deleteFn$;
+    }
+
+    private bindGetFn(getFn$: GetFn<T>) {
+        this.getFn$ = getFn$;
     }
 
     private bindCreateFn(createFn$: CreateFn<T>) {

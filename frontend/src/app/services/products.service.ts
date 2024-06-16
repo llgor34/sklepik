@@ -53,9 +53,9 @@ export class ProductsService {
         );
     }
 
-    getProducts$(): Observable<Product[]> {
+    getProducts$ = (): Observable<Product[]> => {
         return this.http.get<Response<Product[]>>('api/product').pipe(map((res) => res.data));
-    }
+    };
 
     updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
         return this.http.put<Response>(`api/product/${id}`, productData);

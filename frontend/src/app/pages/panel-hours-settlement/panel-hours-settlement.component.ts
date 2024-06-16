@@ -26,7 +26,7 @@ export class PanelHoursSettlementComponent extends PanelComponent<HoursSettlemen
 
     ngOnInit(): void {
         super.initializeComponent(
-            this.hoursSettlementService.getHoursSettlement$(),
+            this.hoursSettlementService.getHoursSettlement$,
             this.hoursSettlementService.updateHoursSettlement$,
             this.hoursSettlementService.deleteHoursSettlement$,
             this.hoursSettlementService.createHoursSettlement$

@@ -25,7 +25,7 @@ export class PanelProductsComponent extends PanelComponent<Product> implements O
 
     ngOnInit(): void {
         super.initializeComponent(
-            this.productsService.getProducts$(),
+            this.productsService.getProducts$,
             this.productsService.updateProduct$,
             this.productsService.deleteProduct$,
             this.productsService.createProduct$

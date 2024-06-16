@@ -25,7 +25,7 @@ export class PanelUsersComponent extends PanelComponent<User> implements OnInit 
 
     ngOnInit(): void {
         super.initializeComponent(
-            this.userService.getUsers$(),
+            this.userService.getUsers$,
             this.userService.updateUserData$,
             this.userService.deleteUser$,
             this.userService.createUser$
