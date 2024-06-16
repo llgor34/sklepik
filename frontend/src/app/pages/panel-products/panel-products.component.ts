@@ -30,6 +30,14 @@ export class PanelProductsComponent extends PanelComponent<Product> {
         return this.productEditableService.getProductEditableTypeByProductType(type);
     }
 
+    isNotDiscount(product: Product): boolean {
+        return product.type !== 'discount';
+    }
+
+    isNotPromotion(product: Product): boolean {
+        return product.type !== 'promotion';
+    }
+
     override getEmptyRecord(): Product {
         return new Product();
     }

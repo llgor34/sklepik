@@ -51,6 +51,7 @@
                 ></app-editable-value-field>
             </td>
             <td
+                *ngIf="isNotDiscount(product) && isNotPromotion(product); else nd"
                 [class.bg-warning-subtle]="product.stock_amount <= 5"
                 [class.bg-danger-subtle]="product.stock_amount <= 0"
             >
@@ -59,6 +60,9 @@
                     (valueChange)="onFieldChange(product, { stock_amount: $event })"
                 ></app-editable-value-field>
             </td>
+            <ng-template #nd>
+                <td>Nie dotyczy</td>
+            </ng-template>
             <td>
                 <app-confirm-button
                     label="Usuń"
