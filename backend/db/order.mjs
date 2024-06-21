@@ -4,6 +4,7 @@ import { Order } from './schema/order.mjs';
 import { OrderProduct } from './schema/order-product.mjs';
 import { OrderProductOption } from './schema/order-product-option.mjs';
 import { getLessonById } from './lesson.mjs';
+import { getUsedDiscountByWorkerCode, getOwedDiscountByWorkerCode } from '../db/worked-hours.mjs';
 
 export async function createOrder(products, paymentMethod, lessonId, workerId, clientId = null) {
     const paymentMethodId = await getPaymentMethodIdByName(paymentMethod);
@@ -142,4 +143,20 @@ export async function getLatestOrderId() {
     const result = await query('SELECT id FROM orders ORDER BY id DESC LIMIT 1');
     const record = result[0];
     return record.id;
+}
+
+export function calculateTotalPrice(products) {
+    return products.reduce((totalSum, product) => (totalSum += +product.price * +product.amount));
+}
+
+export function getProductsByType(products, type) {
+    return products.filter((product) => product.type === type);
+}
+
+export async function getDiscountLeft(discountCode, discountAmount, discountPrice) {
+    const usedDiscount = await getUsedDiscountByWorkerCode(discountCode);
+    const owedDiscount = await getOwedDiscountByWorkerCode(discountCode);
+    const discountLeft = owedDiscount + usedDiscount + discountAmount * discountPrice;
+
+    return discountLeft;
 }

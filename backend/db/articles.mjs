@@ -36,9 +36,8 @@ export async function getArticleByCode(productCode) {
     return article;
 }
 
-export async function getArticles() {
-    let articles = await query(
-        `
+export async function getArticles(orderBy, orderType) {
+    let queryStr = `
     SELECT
         articles.id, 
         articles.type, 
@@ -46,22 +45,30 @@ export async function getArticles() {
         articles.full_name, 
         articles.price, 
         articles.code, 
+        articles.stock_amount,
         companies.id as company_id, 
         companies.name as company_name
     FROM 
         articles
     LEFT JOIN 
         companies ON articles.company_id = companies.id
-    `,
-        []
-    );
+    `;
+
+    if (orderBy) {
+        queryStr += `ORDER BY articles.${orderBy} `;
+    }
+    if (orderType) {
+        queryStr += orderType;
+    }
+
+    let articles = await query(queryStr, []);
 
     articles = articles.map(getArticleObj);
     return await Promise.all(articles);
 }
 
 async function getArticleObj(article) {
-    const { id, type, short_name, full_name, price, code, company_id, company_name } = article;
+    const { id, type, short_name, full_name, price, code, stock_amount, company_id, company_name } = article;
 
     const articleOptionsRAW = await query(
         `
@@ -110,6 +117,7 @@ async function getArticleObj(article) {
         full_name,
         price: price,
         code,
+        stock_amount,
         company: {
             id: company_id,
             name: company_name,
@@ -119,14 +127,10 @@ async function getArticleObj(article) {
 }
 
 export async function createArticle(price, code, type, short_name, full_name, comapanyId = null) {
-    return await query(`INSERT INTO articles VALUES (null, ?, ?, ?, ?, ?, ?)`, [
-        price,
-        code,
-        type,
-        short_name,
-        full_name,
-        comapanyId,
-    ]);
+    return await query(
+        `INSERT INTO articles(id, price, code, type, short_name, full_name, company_id, stock_amount) VALUES (null, ?, ?, ?, ?, ?, ?, 0)`,
+        [price, code, type, short_name, full_name, comapanyId]
+    );
 }
 
 export async function updateArticle(articleId, fieldData) {
@@ -135,4 +139,24 @@ export async function updateArticle(articleId, fieldData) {
 
 export async function deleteArticle(id) {
     return await query(`DELETE FROM articles WHERE id = ?`, [id]);
+}
+
+export async function updateArticlesStockAmount(articles) {
+    const articlesFiltered = articles.filter(notToBeDiscount).filter(notToBePromotion);
+    await Promise.all(
+        articlesFiltered.map((article) =>
+            query(`UPDATE articles SET stock_amount = stock_amount - ? WHERE articles.id = ?;`, [
+                article.amount,
+                article.id,
+            ])
+        )
+    );
+}
+
+function notToBePromotion(article) {
+    return article.type !== 'promotion';
+}
+
+function notToBeDiscount(article) {
+    return article.typ !== 'discount';
 }

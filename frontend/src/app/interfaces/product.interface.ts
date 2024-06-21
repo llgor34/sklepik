@@ -12,6 +12,7 @@ export class Product {
         public full_name: string | null = null,
         public price: number | null = null,
         public code: string | null = null,
+        public stock_amount: number = 0,
         public company: Company | null = null,
         public product_category_options: ProductCategoryOption[] | null = null,
         public maxDiscountAmount: number | null = null

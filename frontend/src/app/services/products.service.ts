@@ -52,20 +52,4 @@ export class ProductsService {
             )
         );
     }
-
-    getProducts$(): Observable<Product[]> {
-        return this.http.get<Response<Product[]>>('api/product').pipe(map((res) => res.data));
-    }
-
-    updateProduct$ = (id: number, productData: Partial<Product>): Observable<Response> => {
-        return this.http.put<Response>(`api/product/${id}`, productData);
-    };
-
-    deleteProduct$ = (id: number): Observable<Response> => {
-        return this.http.delete<Response>(`api/product/${id}`);
-    };
-
-    createProduct$ = (fieldData: Product): Observable<number> => {
-        return this.http.post<Response<number>>('api/product', fieldData).pipe(map((res) => res.data));
-    };
 }

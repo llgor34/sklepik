@@ -1,44 +1,40 @@
 import { TestBed } from '@angular/core/testing';
 import { UserEditableService } from './user-editable.service';
-import { UserService } from './user.service';
 import { User } from '../interfaces/user.interface';
-import { of } from 'rxjs';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { testRequestType, testReturnValueShouldEqual } from '../testing/generic.spec';
+import { EditableItem } from '../interfaces/editable-item.interface';
 
 describe('UserEditableService', () => {
     let service: UserEditableService;
-    let userServiceMock: jasmine.SpyObj<UserService>;
+    let httpController: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                UserEditableService,
-                {
-                    provide: UserService,
-                    useValue: jasmine.createSpyObj('UserService', ['getUsers$']),
-                },
-            ],
+            imports: [HttpClientTestingModule],
+            providers: [UserEditableService],
         });
         service = TestBed.inject(UserEditableService);
-        userServiceMock = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
+        httpController = TestBed.inject(HttpTestingController);
     });
 
     describe('getUsersEditable$()', () => {
         const mockData: User[] = [{ id: 1, name: 'Adam', surname: 'Smasher', password: '123321', roles: [] }];
+        const expectedResult: EditableItem[] = [{ id: 1, label: 'Adam Smasher' }];
+        const url = 'api/users';
 
-        it('should call userService.getUsers$()', () => {
-            userServiceMock.getUsers$.and.returnValue(of(mockData));
-
-            service.getUsersEditable$().subscribe();
-
-            expect(userServiceMock.getUsers$).toHaveBeenCalled();
+        it(`should GET request on ${url}`, () => {
+            testRequestType(url, 'GET', () => service.getUsersEditable$(), httpController);
         });
 
         it('should return EditableItem[]', () => {
-            userServiceMock.getUsers$.and.returnValue(of(mockData));
-
-            service
-                .getUsersEditable$()
-                .subscribe((editableItem) => expect(editableItem).toEqual([{ id: 1, label: 'Adam Smasher' }]));
+            testReturnValueShouldEqual(
+                url,
+                mockData,
+                expectedResult,
+                () => service.getUsersEditable$(),
+                httpController
+            );
         });
     });
 });
