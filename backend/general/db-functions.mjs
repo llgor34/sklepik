@@ -42,7 +42,7 @@ function removeTrailingCommaFromQuery(queryStr) {
 }
 
 export async function openDatabaseConnection() {
-    await createConnection(config);
+    connection = await createConnection(config);
 }
 
 export async function closeDatabaseConnection() {
