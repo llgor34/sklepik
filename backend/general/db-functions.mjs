@@ -1,11 +1,15 @@
 import { config } from './config.mjs';
 import { createConnection } from 'mysql2/promise';
+import { openConnection } from './db-connection.mjs';
+
+let connection = null;
 
 export async function query(sql, params) {
-    const connection = await createConnection(config);
-    const [results] = await connection.execute(sql, params);
-    connection.end();
+    if (connection === null) {
+        await openConnection();
+    }
 
+    const [results] = await connection.execute(sql, params);
     return results;
 }
 
@@ -36,4 +40,12 @@ function removeTrailingCommaFromQuery(queryStr) {
     }
     newQuery = newQuery.join(',');
     return newQuery;
+}
+
+export async function openDatabaseConnection() {
+    await createConnection(config);
+}
+
+export async function closeDatabaseConnection() {
+    await connection.end();
 }

@@ -19,6 +19,7 @@ import versionRoutes from './routes/version-routes.mjs';
 import movieRoutes from './routes/movie-routes.mjs';
 import userRoutes from './routes/user-routes.mjs';
 import rolesRoutes from './routes/roles-routes.mjs';
+import { closeDatabaseConnection } from './general/db-functions.mjs';
 
 dotenv.config();
 
@@ -72,3 +73,5 @@ const serverPort = process.env.PORT;
 server.listen(serverPort, () => {
     console.log(`⚡ WebServer running at: http://localhost:${serverPort}`);
 });
+
+server.on('close', async () => await closeDatabaseConnection());
