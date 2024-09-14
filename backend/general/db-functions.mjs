@@ -1,6 +1,5 @@
 import { config } from './config.mjs';
 import { createConnection } from 'mysql2/promise';
-import { openConnection } from './db-connection.mjs';
 
 let connection = null;
 
