@@ -5,7 +5,7 @@ let connection = null;
 
 export async function query(sql, params) {
     if (connection === null) {
-        await openConnection();
+        await openDatabaseConnection();
     }
 
     const [results] = await connection.execute(sql, params);
